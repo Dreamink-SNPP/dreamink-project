@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :sequences, except: [ :show ] do
       member do
         patch :move
+        get :new_modal
       end
     end
 
