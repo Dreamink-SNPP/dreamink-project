@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get "sequences/index"
+  get "sequences/new"
+  get "sequences/create"
+  get "sequences/edit"
+  get "sequences/update"
+  get "sequences/destroy"
   get "acts/index"
   get "acts/new"
   get "acts/create"
