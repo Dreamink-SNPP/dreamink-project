@@ -1,4 +1,4 @@
-<%= form_with(model: [ location.project, location ], class: "space-y-6") do |form| %>
+<%= form_with(model: [idea.project, idea], class: "space-y-6", data: { controller: "tag-input" }) do |form| %>
   <%= render "shared/form_errors", object: location %>
 
   <div class="bg-white shadow rounded-lg p-6 space-y-6">
