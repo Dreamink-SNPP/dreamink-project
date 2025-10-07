@@ -11,4 +11,10 @@ class Act < ApplicationRecord
   before_validation :set_position, on: :create
 
   scope :ordered, -> { order(position: :asc) }
+
+  private
+
+  def set_position
+    self.position ||= project.acts.maximum(:position).to_i + 1
+  end
 end
