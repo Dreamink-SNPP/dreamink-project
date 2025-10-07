@@ -77,7 +77,7 @@ class ScenesController < ApplicationController
   end
 
   def set_sequence
-    @sequence = @project.sequences.find(params[:sequence_id])
+    @sequence = @project.sequences.find(params[:sequence_id]) if params[:sequence_id]
   end
 
   def scene_params
