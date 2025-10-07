@@ -48,4 +48,14 @@ class IdeasController < ApplicationController include ProjectAuthorization
 
     render :index
   end
+
+  private
+
+  def set_idea
+    @idea = @project.ideas.find(params[:id])
+  end
+
+  def idea_params
+    params.require(:idea).permit(:title, :description, :tags)
+  end
 end
