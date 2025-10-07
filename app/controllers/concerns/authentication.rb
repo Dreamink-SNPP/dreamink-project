@@ -3,7 +3,7 @@ module Authentication
 
   included do
     before_action :require_authentication
-    helper_method :authenticated?
+    helper_method :current_user, :user_signed_in?, :authenticated?
   end
 
   class_methods do
@@ -15,10 +15,6 @@ module Authentication
   private
     def authenticated?
       resume_session
-    end
-
-    def require_authentication
-      resume_session || request_authentication
     end
 
     def resume_session
@@ -48,5 +44,19 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
+    end
+
+    def current_user
+      @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+    end
+
+    def user_signed_in?
+      current_user.present?
+    end
+
+    def require_authentication
+      unless user_signed_in?
+        redirect_to sign_in_path, alert: "Debes iniciar sesión para continuar"
+      end
     end
 end
