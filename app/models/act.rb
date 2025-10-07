@@ -9,4 +9,6 @@ class Act < ApplicationRecord
 
   # Callbacks for auto-positioning:
   before_validation :set_position, on: :create
+
+  scope :ordered, -> { order(position: :asc) }
 end
