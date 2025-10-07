@@ -1,3 +1,5 @@
+include UserScoped
+
 class Project < ApplicationRecord
   belongs_to :user
   # Validations:

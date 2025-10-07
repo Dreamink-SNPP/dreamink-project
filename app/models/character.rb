@@ -1,3 +1,5 @@
+include UserScoped
+
 class Character < ApplicationRecord
   belongs_to :project
 

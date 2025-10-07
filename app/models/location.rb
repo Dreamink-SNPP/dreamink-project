@@ -1,3 +1,5 @@
+include UserScoped
+
 class Location < ApplicationRecord
   belongs_to :project
 

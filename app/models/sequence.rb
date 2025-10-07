@@ -1,3 +1,5 @@
+include UserScoped
+
 class Sequence < ApplicationRecord
   belongs_to :act
 
