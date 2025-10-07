@@ -44,6 +44,11 @@ class SequencesController < ApplicationController
     head :ok
   end
 
+  def new_modal
+    @sequence = @act.sequences.build
+    render partial: "sequences/form", locals: { sequence: @sequence }, layout: false
+  end
+
   private
 
   def set_sequence
@@ -51,7 +56,7 @@ class SequencesController < ApplicationController
   end
 
   def set_act
-    @act = @project.acts.find(params[:act_id])
+    @act = @project.acts.find(params[:act_id]) if params[:act_id]
   end
 
   def sequence_params
