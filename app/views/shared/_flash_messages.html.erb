@@ -1,0 +1,33 @@
+<% if flash.any? %>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+    <% flash.each do |type, message| %>
+      <%
+        css_class = case type.to_sym
+        when :notice
+          "bg-green-50 border-green-200 text-green-800"
+        when :alert, :error
+          "bg-red-50 border-red-200 text-red-800"
+        when :warning
+          "bg-yellow-50 border-yellow-200 text-yellow-800"
+        else
+          "bg-blue-50 border-blue-200 text-blue-800"
+        end
+      %>
+      <div class="<%= css_class %> border rounded-md p-4 mb-4" data-controller="flash" data-flash-delay-value="5000">
+        <div class="flex">
+          <div class="flex-1">
+            <p class="text-sm font-medium"><%= message %></p>
+          </div>
+          <button type="button"
+                  data-action="click->flash#close"
+                  class="ml-3 inline-flex text-gray-400 hover:text-gray-500">
+            <span class="sr-only">Cerrar</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
