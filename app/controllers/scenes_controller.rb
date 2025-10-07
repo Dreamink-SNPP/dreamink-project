@@ -63,4 +63,18 @@ class ScenesController < ApplicationController include ProjectAuthorization
     @location = @project.locations.find(params[:location_id])
     @scenes = @location.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
   end
+
+  private
+
+  def set_scene
+    @scene = @project.scenes.find(params[:id])
+  end
+
+  def set_sequence
+    @sequence = @project.sequences.find(params[:sequence_id])
+  end
+
+  def scene_params
+    params.require(:scene).permit(:title, :description, :color, :position, :sequence_id)
+  end
 end
