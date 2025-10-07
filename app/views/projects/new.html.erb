@@ -1,2 +1,14 @@
-<h1>Projects#new</h1>
-<p>Find me in app/views/projects/new.html.erb</p>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">
+      Nuevo Proyecto
+    </h1>
+    <p class="mt-2 text-sm text-gray-600">
+      Completa la información del tratamiento de tu obra audiovisual
+    </p>
+  </div>
+
+  <!-- Formulario -->
+  <%= render "form", project: @project %>
+</div>
