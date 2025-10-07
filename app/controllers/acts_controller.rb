@@ -40,4 +40,14 @@ class ActsController < ApplicationController include ProjectAuthorization
     @act.insert_at(new_position)
     head :ok
   end
+
+  private
+
+  def set_act
+    @act = @project.acts.find(params[:id])
+  end
+
+  def act_params
+    params.require(:act).permit(:title, :description, :position)
+  end
 end
