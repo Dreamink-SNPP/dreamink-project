@@ -22,9 +22,14 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="bg-gray-50">
+  <% if user_signed_in? %>
+    <%= render "shared/navbar" %>
+  <% end %>
+
+  <main class="<%= user_signed_in? ? 'pt-16' : '' %>">
+    <%= render "shared/flash_messages" %>
+    <%= yield %>
+  </main>
   </body>
 </html>
