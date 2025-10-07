@@ -42,4 +42,14 @@ class LocationsController < ApplicationController include ProjectAuthorization
     @location.destroy
     redirect_to project_locations_path(@project), notice: "Locación eliminada exitosamente"
   end
+
+  private
+
+  def set_location
+    @location = @project.locations.find(params[:id])
+  end
+
+  def location_params
+    params.require(:location).permit(:name, :description, :location_type)
+  end
 end
