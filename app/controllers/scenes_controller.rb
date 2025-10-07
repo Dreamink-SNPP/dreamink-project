@@ -52,4 +52,15 @@ class ScenesController < ApplicationController include ProjectAuthorization
     @scene.destroy
     redirect_to project_structure_path(@project), notice: "Escena eliminada exitosamente"
   end
+
+  def move
+    new_position = params[:position].to_i
+    @scene.insert_at(new_position)
+    head :ok
+  end
+
+  def by_location
+    @location = @project.locations.find(params[:location_id])
+    @scenes = @location.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
+  end
 end
