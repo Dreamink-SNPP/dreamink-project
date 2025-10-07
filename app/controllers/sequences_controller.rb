@@ -35,4 +35,10 @@ class SequencesController < ApplicationController include ProjectAuthorization
     @sequence.destroy
     redirect_to project_structure_path(@project), notice: "Secuencia eliminada exitosamente"
   end
+
+  def move
+    new_position = params[:position].to_i
+    @sequence.insert_at(new_position)
+    head :ok
+  end
 end
