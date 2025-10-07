@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "scenes/index"
+  get "scenes/show"
+  get "scenes/new"
+  get "scenes/create"
+  get "scenes/edit"
+  get "scenes/update"
+  get "scenes/destroy"
   get "sequences/index"
   get "sequences/new"
   get "sequences/create"
