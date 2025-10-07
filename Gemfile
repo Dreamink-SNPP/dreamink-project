@@ -71,3 +71,5 @@ gem "dotenv-rails", "~> 3.1", group: :development
 gem "test", "~> 1.0", group: :development
 
 gem "tailwindcss-ruby", "~> 4.1"
+
+gem "rails-erd", "~> 1.7", group: :development
