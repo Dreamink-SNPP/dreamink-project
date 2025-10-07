@@ -1,2 +1,81 @@
-<h1>Structures#show</h1>
-<p>Find me in app/views/structures/show.html.erb</p>
+<div class="min-h-screen bg-gray-100">
+  <!-- Header fijo -->
+  <div class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <!-- Título y breadcrumb -->
+        <div class="flex items-center space-x-3">
+          <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500" do %>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          <% end %>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">
+              Estructura Dramática
+            </h1>
+            <p class="text-sm text-gray-600">
+              <%= @project.title %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Botón para agregar acto -->
+        <button type="button"
+                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Nuevo Acto
+        </button>
+      </div>
+
+      <!-- Estadísticas rápidas -->
+      <div class="mt-4 flex space-x-6 text-sm text-gray-600">
+        <div class="flex items-center">
+          <span class="font-semibold mr-1"><%= @acts.count %></span>
+          <%= @acts.count == 1 ? "Acto" : "Actos" %>
+        </div>
+        <div class="flex items-center">
+          <span class="font-semibold mr-1"><%= @project.sequences.count %></span>
+          <%= @project.sequences.count == 1 ? "Secuencia" : "Secuencias" %>
+        </div>
+        <div class="flex items-center">
+          <span class="font-semibold mr-1"><%= @project.scenes.count %></span>
+          <%= @project.scenes.count == 1 ? "Escena" : "Escenas" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tablero Kanban -->
+  <div class="px-4 sm:px-6 lg:px-8 py-6">
+    <% if @acts.any? %>
+      <!-- Contenedor horizontal con scroll -->
+      <div class="flex space-x-4 overflow-x-auto pb-4">
+        <% @acts.each do |act| %>
+          <%= render "structures/act_column", act: act, project: @project %>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- Estado vacío -->
+      <div class="text-center py-20 bg-white rounded-lg shadow">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">Sin estructura</h3>
+        <p class="mt-1 text-sm text-gray-500">Comienza creando el primer acto de
+          tu historia.</p>
+        <div class="mt-6">
+          <button type="button"
+                  class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Crear Primer Acto
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

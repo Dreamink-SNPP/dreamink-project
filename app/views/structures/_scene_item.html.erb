@@ -1,0 +1,54 @@
+<!-- Item de Escena -->
+<div class="bg-white rounded border border-gray-200 p-2 hover:border-indigo-300 transition"
+     style="<%= "border-left: 3px solid #{scene.color};" if scene.color.present? %>">
+  <div class="flex items-start justify-between">
+    <div class="flex-1 min-w-0">
+      <p class="text-xs font-medium text-gray-900 truncate">
+        <%= scene.title %>
+      </p>
+      <% if scene.description.present? %>
+        <p class="mt-0.5 text-xs text-gray-500 line-clamp-1">
+          <%= scene.description %>
+        </p>
+      <% end %>
+
+      <!-- Locaciones -->
+      <% if scene.locations.any? %>
+        <div class="mt-1 flex flex-wrap gap-1">
+          <% scene.locations.first(2).each do |location| %>
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-gray-100 text-gray-600">
+              <%= location.interior? ? "🏠" : "🌳" %>
+              <%= location.name.truncate(15) %>
+            </span>
+          <% end %>
+          <% if scene.locations.count > 2 %>
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-gray-100 text-gray-600">
+              +<%= scene.locations.count - 2 %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Acciones -->
+    <div class="ml-2 flex space-x-1">
+      <%= link_to edit_project_scene_path(project, scene),
+                  class: "text-gray-400 hover:text-indigo-600",
+                  title: "Editar escena" do %>
+        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+        </svg>
+      <% end %>
+
+      <%= button_to project_scene_path(project, scene),
+                    method: :delete,
+                    data: { turbo_confirm: "¿Eliminar esta escena?" },
+                    class: "text-gray-400 hover:text-red-600",
+                    title: "Eliminar escena" do %>
+        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      <% end %>
+    </div>
+  </div>
+</div>
