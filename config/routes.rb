@@ -12,5 +12,42 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "projects#index"
+
+  # Projects and nested resources
+  resources :projects do
+    # Nested resources inside a project
+    resources :acts, except: [:show] do
+      member do
+        patch :move # Drag & drop
+      end
+    end
+
+    resources :sequences, except: [:show] do
+      member do
+        patch :move
+      end
+    end
+
+    resources :scenes do
+      member do
+        patch :move
+      end
+      collection do
+        get :by_location # Filter scenes by locations
+      end
+    end
+
+    resources :characters
+    resources :locations
+    resources :ideas do
+      collection do
+        get :search
+      end
+    end
+
+    # Special route for kanban
+    get 'structure', to: 'structures#show', as: :structure
+    post 'structure/reorder', to: 'structures#reorder', as: :reorder_structure
+  end
 end
