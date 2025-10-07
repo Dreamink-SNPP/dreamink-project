@@ -1,0 +1,57 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  character: one
+  skills: MyText
+  religion: MyString
+  spirituality: MyText
+  identity: MyText
+  beliefs: MyText
+  mental_programs: MyText
+  ethics: MyText
+  sexuality: MyString
+  main_motivation: MyText
+  friendship_relations: MyText
+  conversation_focus: MyText
+  self_awareness_level: MyString
+  values_priorities: MyText
+  time_management: MyString
+  artistic_inclinations: MyText
+  heroes_models: MyText
+  political_ideas: MyText
+  authority_relationship: MyString
+  vices: MyText
+  temporal_location: MyString
+  food_preferences: MyString
+  habits: MyText
+  peculiarities: MyText
+  hobbies: MyText
+  charitable_activities: MyString
+
+two:
+  character: two
+  skills: MyText
+  religion: MyString
+  spirituality: MyText
+  identity: MyText
+  beliefs: MyText
+  mental_programs: MyText
+  ethics: MyText
+  sexuality: MyString
+  main_motivation: MyText
+  friendship_relations: MyText
+  conversation_focus: MyText
+  self_awareness_level: MyString
+  values_priorities: MyText
+  time_management: MyString
+  artistic_inclinations: MyText
+  heroes_models: MyText
+  political_ideas: MyText
+  authority_relationship: MyString
+  vices: MyText
+  temporal_location: MyString
+  food_preferences: MyString
+  habits: MyText
+  peculiarities: MyText
+  hobbies: MyText
+  charitable_activities: MyString
