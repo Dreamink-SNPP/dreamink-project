@@ -1,2 +1,146 @@
-<h1>Characters#show</h1>
-<p>Find me in app/views/characters/show.html.erb</p>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between">
+      <div class="flex-1">
+        <div class="flex items-center space-x-3 mb-2">
+          <%= link_to project_characters_path(@project), class: "text-gray-400 hover:text-gray-500" do %>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          <% end %>
+          <div class="flex-shrink-0 h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center">
+            <span class="text-4xl">👤</span>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+              <%= @character.name %>
+            </h1>
+            <p class="text-sm text-gray-600">
+              <%= @project.title %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="flex space-x-3">
+        <%= link_to edit_project_character_path(@project, @character), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          Editar
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="bg-white shadow rounded-lg overflow-hidden" data-controller="tabs">
+    <!-- Tab headers -->
+    <div class="border-b border-gray-200 bg-gray-50">
+      <nav class="-mb-px flex" aria-label="Tabs">
+        <button type="button"
+                data-action="click->tabs#switch"
+                data-tabs-target="button"
+                data-tab-id="internal"
+                class="tab-button active w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
+          Características Internas
+        </button>
+        <button type="button"
+                data-action="click->tabs#switch"
+                data-tabs-target="button"
+                data-tab-id="external"
+                class="tab-button w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
+          Características Externas
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab content -->
+    <div class="p-6">
+      <!-- Características Internas -->
+      <div data-tabs-target="panel" data-tab-id="internal" class="space-y-6">
+        <% internal = @character.internal_trait %>
+        <% if internal.present? %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <%= render partial: "characters/trait_field", locals: { label: "🎯 Motivación Principal", value: internal.main_motivation } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💪 Habilidades", value: internal.skills } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🧠 Identidad", value: internal.identity } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💫 Sexualidad", value: internal.sexuality } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🙏 Religión", value: internal.religion } %>
+            <%= render partial: "characters/trait_field", locals: { label: "✨ Espiritualidad", value: internal.spirituality } %>
+            <%= render partial: "characters/trait_field", locals: { label: "⚖️ Ética", value: internal.ethics } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🧩 Programas Mentales", value: internal.mental_programs } %>
+          </div>
+
+          <div class="pt-6 border-t border-gray-200 space-y-6">
+            <%= render partial: "characters/trait_field", locals: { label: "💭 Creencias", value: internal.beliefs, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💎 Valores y Prioridades", value: internal.values_priorities, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "👥 Relaciones de Amistad", value: internal.friendship_relations, full_width: true } %>
+          </div>
+
+          <div class="pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <%= render partial: "characters/trait_field", locals: { label: "💬 Focos de Conversación", value: internal.conversation_focus } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎭 Nivel de Autoconciencia", value: internal.self_awareness_level } %>
+            <%= render partial: "characters/trait_field", locals: { label: "⏰ Administración del Tiempo", value: internal.time_management } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎨 Inclinaciones Artísticas", value: internal.artistic_inclinations } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🌟 Héroes y Modelos", value: internal.heroes_models } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🏛️ Ideas Políticas", value: internal.political_ideas } %>
+            <%= render partial: "characters/trait_field", locals: { label: "👮 Relación con Autoridad", value: internal.authority_relationship } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🚬 Vicios", value: internal.vices } %>
+            <%= render partial: "characters/trait_field", locals: { label: "📅 Ubicación Temporal", value: internal.temporal_location } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🍽️ Preferencias Alimenticias", value: internal.food_preferences } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🔄 Hábitos", value: internal.habits } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎪 Peculiaridades", value: internal.peculiarities } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎮 Pasatiempos", value: internal.hobbies } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💝 Actividades Caritativas", value: internal.charitable_activities } %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 italic">No hay características internas
+            definidas</p>
+        <% end %>
+      </div>
+
+      <!-- Características Externas -->
+      <div data-tabs-target="panel" data-tab-id="external" class="space-y-6 hidden">
+        <% external = @character.external_trait %>
+        <% if external.present? %>
+          <div class="space-y-6">
+            <%= render partial: "characters/trait_field", locals: { label: "👁️ Apariencia General", value: external.general_appearance, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎭 Apariencia Detallada", value: external.detailed_appearance, full_width: true } %>
+          </div>
+
+          <div class="pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <%= render partial: "characters/trait_field", locals: { label: "🏥 Historial Médico", value: external.medical_history } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎓 Educación", value: external.education } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💼 Profesión", value: external.profession } %>
+            <%= render partial: "characters/trait_field", locals: { label: "⚖️ Situación Legal", value: external.legal_situation } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💰 Situación Económica", value: external.economic_situation } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💎 Posesiones Importantes", value: external.important_possessions } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🏠 Tipo de Residencia", value: external.residence_type } %>
+            <%= render partial: "characters/trait_field", locals: { label: "📍 Locación Habitual", value: external.usual_location } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🐾 Mascotas", value: external.pets } %>
+          </div>
+
+          <div class="pt-6 border-t border-gray-200">
+            <%= render partial: "characters/trait_field", locals: { label: "👨‍👩‍👧‍👦 Estructura Familiar", value: external.family_structure, full_width: true } %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 italic">No hay características externas
+            definidas</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    .tab-button {
+        @apply border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300;
+    }
+
+    .tab-button.active {
+        @apply border-indigo-500 text-indigo-600;
+    }
+</style>
