@@ -34,4 +34,10 @@ class ActsController < ApplicationController include ProjectAuthorization
     @act.destroy
     redirect_to project_structure_path(@project), notice: "Acto eliminado exitosamente"
   end
+
+  def move
+    new_position = params[:position].to_i
+    @act.insert_at(new_position)
+    head :ok
+  end
 end
