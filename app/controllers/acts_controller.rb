@@ -1,5 +1,7 @@
-class ActsController < ApplicationController include ProjectAuthorization
-  before_action :set_act, only: [:edit, :update, :destroy, :move]
+class ActsController < ApplicationController
+  include ProjectAuthorization
+
+  before_action :set_act, only: [ :edit, :update, :destroy, :move ]
 
   def index
     @acts = @project.acts.ordered

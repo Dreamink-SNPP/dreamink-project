@@ -7,6 +7,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    # Vista detallada del tratamiento
   end
 
   def new

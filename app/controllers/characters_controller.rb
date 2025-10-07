@@ -1,5 +1,7 @@
-class CharactersController < ApplicationController include ProjectAuthorization
-  before_action :set_character, only: [:show, :edit, :update, :destroy]
+class CharactersController < ApplicationController
+  include ProjectAuthorization
+
+  before_action :set_character, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @characters = @project.characters.order(:name)

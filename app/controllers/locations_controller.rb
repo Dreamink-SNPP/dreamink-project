@@ -1,5 +1,7 @@
-class LocationsController < ApplicationController include ProjectAuthorization
-  before_action :set_location, only: [:show, :edit, :update, :destroy]
+class LocationsController < ApplicationController
+  include ProjectAuthorization
+
+  before_action :set_location, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @locations = @project.locations.order(:name)

@@ -1,6 +1,8 @@
-class ScenesController < ApplicationController include ProjectAuthorization
-  before_action :set_scene, only: [:show, :edit, :update, :destroy, :move]
-  before_action :set_sequence, only: [:new, :create]
+class ScenesController < ApplicationController
+  include ProjectAuthorization
+
+  before_action :set_scene, only: [ :show, :edit, :update, :destroy, :move ]
+  before_action :set_sequence, only: [ :new, :create ]
 
   def index
     @scenes = @project.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
@@ -18,7 +20,6 @@ class ScenesController < ApplicationController include ProjectAuthorization
     @scene = @sequence.scenes.build(scene_params)
 
     if @scene.save
-      # Asociar locaciones si fueron seleccionadas
       if params[:scene][:location_ids].present?
         @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
       end

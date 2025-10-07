@@ -1,5 +1,7 @@
-class IdeasController < ApplicationController include ProjectAuthorization
-  before_action :set_idea, only: [:edit, :update, :destroy]
+class IdeasController < ApplicationController
+  include ProjectAuthorization
+
+  before_action :set_idea, only: [ :edit, :update, :destroy ]
 
   def index
     @ideas = @project.ideas.recent
