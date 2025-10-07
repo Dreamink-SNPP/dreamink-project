@@ -9,4 +9,12 @@ class Project < ApplicationRecord
   has_many :ideas, -> { order(created_at: :desc) }, dependent: :destroy
   # Privacy scope:
   scope :for_user, ->(user) { where(user: user) }
+
+  def acts_summary
+    acts.map { |act| "#{act.title}: #{act.description&.truncate(100)}" }.join("\n\n")
+  end
+
+  def sequences_summary
+    sequences.map { |seq| "#{seq.title}: #{seq.description&.truncate(80)}" }.join("\n\n")
+  end
 end
