@@ -41,4 +41,18 @@ class SequencesController < ApplicationController include ProjectAuthorization
     @sequence.insert_at(new_position)
     head :ok
   end
+
+  private
+
+  def set_sequence
+    @sequence = @project.sequences.find(params[:id])
+  end
+
+  def set_act
+    @act = @project.acts.find(params[:act_id])
+  end
+
+  def sequence_params
+    params.require(:sequence).permit(:title, :description, :position, :act_id)
+  end
 end
