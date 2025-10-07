@@ -167,7 +167,6 @@
   <script>
       // Función para abrir modal de nuevo acto
       window.openNewActModal = function () {
-          document.getElementById('new-act-modal').querySelector('[data-controller="modal"]').dispatchEvent(new CustomEvent('modal:open'))
           const modal = document.getElementById('new-act-modal')
           modal.classList.remove('hidden')
           document.body.style.overflow = 'hidden'
