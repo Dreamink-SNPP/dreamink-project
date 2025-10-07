@@ -65,6 +65,11 @@ class ScenesController < ApplicationController
     @scenes = @location.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
   end
 
+  def new_modal
+    @scene = @sequence.scenes.build
+    render partial: "scenes/form", locals: { scene: @scene }, layout: false
+  end
+
   private
 
   def set_scene
