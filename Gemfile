@@ -19,6 +19,9 @@ gem "cssbundling-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+# Now Tailwind:
+gem "tailwindcss-rails"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
@@ -66,3 +69,5 @@ end
 
 gem "dotenv-rails", "~> 3.1", group: :development
 gem "test", "~> 1.0", group: :development
+
+gem "tailwindcss-ruby", "~> 4.1"
