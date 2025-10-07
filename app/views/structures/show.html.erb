@@ -78,4 +78,142 @@
       </div>
     <% end %>
   </div>
+
+  <!-- Modales -->
+  <!-- Modal para Nuevo Acto -->
+  <div data-controller="modal"
+       id="new-act-modal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+           data-action="click->modal#close"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Nuevo Acto</h3>
+            <button type="button"
+                    data-action="click->modal#close"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <%= render "acts/form", act: @project.acts.build %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para Nueva Secuencia -->
+  <div data-controller="modal"
+       id="new-sequence-modal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+           data-action="click->modal#close"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Nueva Secuencia</h3>
+            <button type="button"
+                    data-action="click->modal#close"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div id="new-sequence-form-container">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para Nueva Escena -->
+  <div data-controller="modal"
+       id="new-scene-modal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+           data-action="click->modal#close"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Nueva Escena</h3>
+            <button type="button"
+                    data-action="click->modal#close"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div id="new-scene-form-container">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      // Función para abrir modal de nuevo acto
+      window.openNewActModal = function () {
+          document.getElementById('new-act-modal').querySelector('[data-controller="modal"]').dispatchEvent(new CustomEvent('modal:open'))
+          const modal = document.getElementById('new-act-modal')
+          modal.classList.remove('hidden')
+          document.body.style.overflow = 'hidden'
+      }
+
+      // Función para abrir modal de nueva secuencia
+      window.openNewSequenceModal = function (actId) {
+          fetch(`/projects/<%= @project.id %>/acts/${actId}/sequences/new_modal`)
+              .then(response => response.text())
+              .then(html => {
+                  document.getElementById('new-sequence-form-container').innerHTML = html
+                  const modal = document.getElementById('new-sequence-modal')
+                  modal.classList.remove('hidden')
+                  document.body.style.overflow = 'hidden'
+              })
+      }
+
+      // Función para abrir modal de nueva escena
+      window.openNewSceneModal = function (sequenceId) {
+          fetch(`/projects/<%= @project.id %>/sequences/${sequenceId}/scenes/new_modal`)
+              .then(response => response.text())
+              .then(html => {
+                  document.getElementById('new-scene-form-container').innerHTML = html
+                  const modal = document.getElementById('new-scene-modal')
+                  modal.classList.remove('hidden')
+                  document.body.style.overflow = 'hidden'
+              })
+      }
+
+      // Cerrar modales al presionar ESC
+      document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') {
+              document.querySelectorAll('[data-controller="modal"]').forEach(modal => {
+                  modal.classList.add('hidden')
+              })
+              document.body.style.overflow = 'auto'
+          }
+      })
+
+      // Listener para cerrar modal después de crear
+      document.addEventListener('turbo:submit-end', function (e) {
+          if (e.detail.success) {
+              document.querySelectorAll('[data-controller="modal"]').forEach(modal => {
+                  modal.classList.add('hidden')
+              })
+              document.body.style.overflow = 'auto'
+          }
+      })
+  </script>
+
 </div>
