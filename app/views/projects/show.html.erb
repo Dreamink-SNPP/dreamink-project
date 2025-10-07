@@ -1,2 +1,199 @@
-<h1>Projects#show</h1>
-<p>Find me in app/views/projects/show.html.erb</p>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header con acciones -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex-1">
+        <div class="flex items-center space-x-3">
+          <%= link_to projects_path, class: "text-gray-400 hover:text-gray-500" do %>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          <% end %>
+          <h1 class="text-3xl font-bold text-gray-900">
+            <%= @project.title %>
+          </h1>
+          <% if @project.genre.present? %>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+              <%= @project.genre %>
+            </span>
+          <% end %>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">
+          Última actualización: <%= time_ago_in_words(@project.updated_at) %>
+        </p>
+      </div>
+
+      <!-- Menú de acciones -->
+      <div class="flex space-x-3">
+        <%= link_to edit_project_path(@project), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          Editar
+        <% end %>
+
+        <%= link_to project_structure_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+          </svg>
+          Estructura
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Navegación de tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8">
+        <a href="#tratamiento" class="border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+          Tratamiento
+        </a>
+        <%= link_to project_characters_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" do %>
+          Personajes
+          <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs"><%= @project.characters.count %></span>
+        <% end %>
+        <%= link_to project_locations_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" do %>
+          Locaciones
+          <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs"><%= @project.locations.count %></span>
+        <% end %>
+        <%= link_to project_ideas_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" do %>
+          Ideas
+          <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs"><%= @project.ideas.count %></span>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Contenido del Tratamiento -->
+  <div class="space-y-8">
+    <!-- Información Básica -->
+    <% if @project.tone.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Tono</h2>
+        <p class="text-gray-700"><%= @project.tone %></p>
+      </div>
+    <% end %>
+
+    <!-- Logline -->
+    <% if @project.logline.present? %>
+      <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border-l-4 border-indigo-500 p-6 rounded-r-lg">
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">Logline</h2>
+        <p class="text-lg text-gray-800 italic"><%= @project.logline %></p>
+      </div>
+    <% end %>
+
+    <!-- Idea -->
+    <% if @project.idea.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Idea</h2>
+        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.idea %></p>
+      </div>
+    <% end %>
+
+    <!-- Storyline -->
+    <% if @project.storyline.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Storyline</h2>
+        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.storyline %></p>
+      </div>
+    <% end %>
+
+    <!-- Motor de la Historia -->
+    <% if @project.story_engine.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Motor de la
+          Historia</h2>
+        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.story_engine %></p>
+      </div>
+    <% end %>
+
+    <!-- Sinopsis -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <% if @project.short_synopsis.present? %>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Sinopsis
+            Corta</h2>
+          <p class="text-gray-700 whitespace-pre-wrap"><%= @project.short_synopsis %></p>
+        </div>
+      <% end %>
+
+      <% if @project.long_synopsis.present? %>
+        <div class="bg-white shadow rounded-lg p-6 lg:col-span-2">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Sinopsis
+            Larga</h2>
+          <p class="text-gray-700 whitespace-pre-wrap"><%= @project.long_synopsis %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Mundo -->
+    <% if @project.world.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Mundo / Universo
+          Narrativo</h2>
+        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.world %></p>
+      </div>
+    <% end %>
+
+    <!-- Temas -->
+    <% if @project.themes.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Temas</h2>
+        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.themes %></p>
+      </div>
+    <% end %>
+
+    <!-- Personajes (Resumen) -->
+    <% if @project.characters_summary.present? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Resumen de
+          Personajes</h2>
+        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.characters_summary %></p>
+      </div>
+    <% end %>
+
+    <!-- Resumen de Estructura -->
+    <% if @project.acts.any? %>
+      <div class="bg-white shadow rounded-lg p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold text-gray-900">Estructura</h2>
+          <%= link_to project_structure_path(@project), class: "text-indigo-600 hover:text-indigo-900 text-sm font-medium" do %>
+            Ver tablero completo →
+          <% end %>
+        </div>
+
+        <div class="space-y-4">
+          <% @project.acts.ordered.each do |act| %>
+            <div class="border-l-4 border-indigo-500 pl-4">
+              <h3 class="font-semibold text-gray-900"><%= act.title %></h3>
+              <% if act.description.present? %>
+                <p class="text-sm text-gray-600 mt-1"><%= act.description.truncate(150) %></p>
+              <% end %>
+              <% if act.sequences.any? %>
+                <div class="mt-2 text-xs text-gray-500">
+                  <%= pluralize(act.sequences.count, "secuencia") %> •
+                  <%= pluralize(act.scenes.count, "escena") %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Estado vacío si no hay información -->
+    <% if @project.logline.blank? && @project.idea.blank? && @project.storyline.blank? %>
+      <div class="text-center py-12 bg-white shadow rounded-lg">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">Sin información de
+          tratamiento</h3>
+        <p class="mt-1 text-sm text-gray-500">Comienza agregando información
+          sobre tu proyecto.</p>
+        <div class="mt-6">
+          <%= link_to "Editar Proyecto", edit_project_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
