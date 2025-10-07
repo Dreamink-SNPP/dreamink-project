@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "structures/show"
+  get "structures/reorder"
   get "ideas/index"
   get "ideas/new"
   get "ideas/create"
