@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     resources :scenes do
       member do
         patch :move
+        get :new_modal
       end
       collection do
         get :by_location # Filter scenes by locations
