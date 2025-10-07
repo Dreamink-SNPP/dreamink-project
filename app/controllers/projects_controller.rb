@@ -38,4 +38,26 @@ class ProjectsController < ApplicationController
     @project.destroy
     redirect_to projects_path, notice: "Proyecto eliminado exitosamente"
   end
+
+  private
+
+  def set_project
+    @project = current_user.projects.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to projects_path, alert: "Proyecto no encontrado"
+  end
+
+  def authorize_project!
+    unless @project.user_id == current_user.id
+      redirect_to projects_path, alert: "No tienes permiso para acceder a este proyecto"
+    end
+  end
+
+  def project_params
+    params.require(:project).permit(
+      :title, :genre, :idea, :logline, :storyline,
+      :short_synopsis, :long_synopsis, :world,
+      :characters_summary, :story_engine, :themes, :tone
+    )
+  end
 end
