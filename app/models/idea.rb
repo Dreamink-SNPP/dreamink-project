@@ -9,4 +9,11 @@ class Idea < ApplicationRecord
   scope :search, ->(query) { where("title ILIKE ? OR description ILIKE ?", "%#{query}%", "%#{query}%") }
   scope :tagged_with, ->(tag) { where("tags ILIKE ?", "%#{tag}%") }
 
+  def tag_list
+    tags&.split(',')&.map(&:strip) || []
+  end
+
+  def tag_list=(new_tags)
+    self.tags = Array(new_tags).join(', ')
+  end
 end
