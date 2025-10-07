@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "locations/index"
+  get "locations/show"
+  get "locations/new"
+  get "locations/create"
+  get "locations/edit"
+  get "locations/update"
+  get "locations/destroy"
   get "characters/index"
   get "characters/show"
   get "characters/new"
