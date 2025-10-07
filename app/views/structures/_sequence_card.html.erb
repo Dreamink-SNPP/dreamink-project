@@ -1,0 +1,71 @@
+<!-- Tarjeta de Secuencia -->
+<div class="bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition">
+  <!-- Header de la Secuencia -->
+  <div class="p-3 border-b border-gray-200">
+    <div class="flex items-start justify-between">
+      <div class="flex-1">
+        <h4 class="text-sm font-semibold text-gray-900">
+          <%= sequence.title %>
+        </h4>
+        <% if sequence.description.present? %>
+          <p class="mt-1 text-xs text-gray-600 line-clamp-2">
+            <%= sequence.description %>
+          </p>
+        <% end %>
+      </div>
+
+      <!-- Acciones de la secuencia -->
+      <div class="ml-2 flex space-x-1">
+        <%= link_to edit_project_sequence_path(project, sequence),
+                    class: "text-gray-400 hover:text-indigo-600 p-1",
+                    title: "Editar secuencia" do %>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+        <% end %>
+
+        <%= button_to project_sequence_path(project, sequence),
+                      method: :delete,
+                      data: { turbo_confirm: "¿Eliminar esta secuencia y sus escenas?" },
+                      class: "text-gray-400 hover:text-red-600 p-1",
+                      title: "Eliminar secuencia" do %>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Toggle para mostrar/ocultar escenas -->
+    <button type="button"
+            data-action="click->collapsible#toggle"
+            data-target-id="scenes-<%= sequence.id %>"
+            class="mt-2 text-xs text-gray-500 hover:text-gray-700 flex items-center">
+      <svg class="h-4 w-4 mr-1 transform transition-transform" data-collapsible-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+      <%= pluralize(sequence.scenes.count, "escena") %>
+    </button>
+  </div>
+
+  <!-- Lista de Escenas (colapsable) -->
+  <div id="scenes-<%= sequence.id %>"
+       class="hidden"
+       data-collapsible-target="content">
+    <div class="p-2 space-y-2">
+      <% if sequence.scenes.any? %>
+        <% sequence.scenes.each do |scene| %>
+          <%= render "structures/scene_item", scene: scene, project: project %>
+        <% end %>
+      <% else %>
+        <p class="text-xs text-gray-400 text-center py-2">Sin escenas</p>
+      <% end %>
+
+      <!-- Botón para agregar escena -->
+      <button type="button"
+              class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition">
+        + Agregar Escena
+      </button>
+    </div>
+  </div>
+</div>
