@@ -39,3 +39,4 @@
 /node_modules
 
 ./.env
+/result_schema.txt
