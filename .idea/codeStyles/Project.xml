@@ -1,0 +1,12 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <Ruby version="1">
+      <option name="SPACE_WITHIN_ARRAY_LITERALS" value="true" />
+    </Ruby>
+    <codeStyleSettings language="ruby">
+      <indentOptions>
+        <option name="USE_RELATIVE_INDENTS" value="false" />
+      </indentOptions>
+    </codeStyleSettings>
+  </code_scheme>
+</component>
