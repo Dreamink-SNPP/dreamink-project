@@ -136,6 +136,8 @@
     <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.24.0, rbenv: 3.4.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stimulus-rails (v1.3.4, rbenv: 3.4.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.1.7, rbenv: 3.4.6) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tailwindcss-rails (v4.3.0, rbenv: 3.4.6) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tailwindcss-ruby (v4.1.13, rbenv: 3.4.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="test (v1.0.0, rbenv: 3.4.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.4.0, rbenv: 3.4.6) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thruster (v0.1.15, rbenv: 3.4.6) [gem]" level="application" />
