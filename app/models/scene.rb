@@ -8,6 +8,8 @@ class Scene < ApplicationRecord
   has_many :scene_locations, dependent: :destroy
   has_many :locations, through: :scene_locations
 
+  acts_as_list scope: :sequence
+
   # Validations:
   validates :title, presence: true, length: { maximum: 200 }
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
