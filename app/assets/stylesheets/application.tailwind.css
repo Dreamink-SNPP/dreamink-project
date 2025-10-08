@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+/* Estilos para SortableJS */
+.sortable-ghost {
+    opacity: 0.4;
+    background: #e0e7ff;
+}
+
+.sortable-chosen {
+    cursor: grabbing !important;
+}
+
+.sortable-drag {
+    opacity: 0.8;
+}
+
+.drag-handle {
+    cursor: grab;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
