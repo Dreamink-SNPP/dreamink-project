@@ -37,7 +37,6 @@ export default class extends Controller {
 
     updatePosition(id, position) {
         const url = this.urlValue.replace(':id', id)
-        const type = this.typeValue
 
         fetch(url, {
             method: 'PATCH',
@@ -51,13 +50,14 @@ export default class extends Controller {
         })
             .then(response => {
                 if (!response.ok) {
-                    console.error('Error updating position')
-                    // Revertir el cambio si falla
-                    window.location.reload()
+                    console.error('Error updating position:', response.status)
+                    throw new Error('Failed to update position')
                 }
+                console.log(`✓ Position updated successfully for ${this.typeValue} ${id}`)
             })
             .catch(error => {
                 console.error('Error:', error)
+                alert('Error al actualizar la posición. La página se recargará.')
                 window.location.reload()
             })
     }
