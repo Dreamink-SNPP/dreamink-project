@@ -45,6 +45,7 @@ class SequencesController < ApplicationController
   end
 
   def new_modal
+    @act = @project.acts.find(params[:act_id])
     @sequence = @act.sequences.build
     render partial: "sequences/form", locals: { sequence: @sequence }, layout: false
   end
