@@ -4,5 +4,20 @@
 
 import { application } from "./application"
 
+import CollapsibleController from "./collapsible_controller"
+application.register("collapsible", CollapsibleController)
+
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
+import TabsController from "./tabs_controller"
+application.register("tabs", TabsController)
+
+import TagInputController from "./tag_input_controller"
+application.register("tag-input", TagInputController)
