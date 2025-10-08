@@ -2,7 +2,7 @@ class SequencesController < ApplicationController
   include ProjectAuthorization
 
   before_action :set_sequence, only: [ :edit, :update, :destroy, :move ]
-  before_action :set_act, only: [ :new, :create ]
+  before_action :set_act, only: [ :new, :create, :new_modal ]
 
   def index
     @sequences = @project.sequences.includes(:act).order('acts.position, sequences.position')
