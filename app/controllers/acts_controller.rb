@@ -39,7 +39,7 @@ class ActsController < ApplicationController
 
   def move
     new_position = params[:position].to_i
-    @act.insert_at(new_position)
+    @act.insert_at(new_position + 1)
     head :ok
   end
 
