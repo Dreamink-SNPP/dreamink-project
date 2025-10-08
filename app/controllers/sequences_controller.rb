@@ -57,7 +57,8 @@ class SequencesController < ApplicationController
   end
 
   def set_act
-    @act = @project.acts.find(params[:act_id]) if params[:act_id]
+    act_id = params[:act_id] || params.dig(:sequence, :act_id)
+    @act = @project.acts.find(act_id) if act_id
   end
 
   def sequence_params
