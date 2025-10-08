@@ -61,7 +61,10 @@
   <div id="scenes-<%= sequence.id %>"
        class="hidden"
        data-collapsible-target="content">
-    <div class="p-2 space-y-2">
+    <div class="p-2 space-y-2"
+         data-controller="sortable"
+         data-sortable-url-value="/projects/<%= project.id %>/scenes/:id/move"
+         data-sortable-type-value="scene">
       <% if sequence.scenes.any? %>
         <% sequence.scenes.each do |scene| %>
           <%= render "structures/scene_item", scene: scene, project: project %>
