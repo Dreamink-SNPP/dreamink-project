@@ -56,8 +56,11 @@ class ScenesController < ApplicationController
 
   def move
     new_position = params[:position].to_i
-    @scene.insert_at(new_position)
+    @scene.insert_at(new_position + 1)
     head :ok
+  rescue => e
+    Rails.logger.error "Error moving scene: #{e.message}"
+    head :unprocessable_entity
   end
 
   def by_location
