@@ -52,7 +52,10 @@
   </div>
 
   <!-- Lista de Secuencias -->
-  <div class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto">
+  <div class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto"
+       data-controller="sortable"
+       data-sortable-url-value="/projects/<%= project.id %>/sequences/:id/move"
+       data-sortable-type-value="sequence">
     <% if act.sequences.any? %>
       <% act.sequences.each do |sequence| %>
         <%= render "structures/sequence_card", sequence: sequence, project: project %>
