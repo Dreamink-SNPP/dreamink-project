@@ -22,6 +22,9 @@ gem "jbuilder"
 # Now Tailwind:
 gem "tailwindcss-rails"
 
+# Gemfile for drag and drop purposes:
+gem "acts_as_list"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
