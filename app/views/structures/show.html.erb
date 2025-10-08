@@ -215,6 +215,13 @@
               document.body.style.overflow = 'auto'
           }
       })
+
+      // Función auxiliar para cerrar modal
+      window.closeModal = function (modalId) {
+          const modal = document.getElementById(modalId)
+          modal.classList.add('hidden')
+          document.body.style.overflow = 'auto'
+      }
   </script>
 
 </div>
