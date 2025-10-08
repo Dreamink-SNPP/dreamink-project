@@ -41,6 +41,9 @@ class ActsController < ApplicationController
     new_position = params[:position].to_i
     @act.insert_at(new_position + 1)
     head :ok
+  rescue => e
+    Rails.logger.error "Error moving act: #{e.message}"
+    head :unprocessable_entity
   end
 
   private
