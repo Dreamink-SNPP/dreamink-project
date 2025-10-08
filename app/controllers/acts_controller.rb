@@ -37,15 +37,6 @@ class ActsController < ApplicationController
     redirect_to project_structure_path(@project), notice: "Acto eliminado exitosamente"
   end
 
-  def move
-    new_position = params[:position].to_i
-    @act.insert_at(new_position + 1)
-    head :ok
-  rescue => e
-    Rails.logger.error "Error moving act: #{e.message}"
-    head :unprocessable_entity
-  end
-
   private
 
   def set_act

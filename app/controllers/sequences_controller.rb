@@ -38,15 +38,6 @@ class SequencesController < ApplicationController
     redirect_to project_structure_path(@project), notice: "Secuencia eliminada exitosamente"
   end
 
-  def move
-    new_position = params[:position].to_i
-    @sequence.insert_at(new_position + 1)
-    head :ok
-  rescue => e
-    Rails.logger.error "Error moving sequence: #{e.message}"
-    head :unprocessable_entity
-  end
-
   def new_modal
     @act = @project.acts.find(params[:act_id])
     @sequence = @act.sequences.build

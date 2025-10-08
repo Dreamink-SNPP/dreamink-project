@@ -54,15 +54,6 @@ class ScenesController < ApplicationController
     redirect_to project_structure_path(@project), notice: "Escena eliminada exitosamente"
   end
 
-  def move
-    new_position = params[:position].to_i
-    @scene.insert_at(new_position + 1)
-    head :ok
-  rescue => e
-    Rails.logger.error "Error moving scene: #{e.message}"
-    head :unprocessable_entity
-  end
-
   def by_location
     @location = @project.locations.find(params[:location_id])
     @scenes = @location.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
