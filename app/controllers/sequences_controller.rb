@@ -1,7 +1,7 @@
 class SequencesController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_sequence, only: [ :edit, :update, :destroy, :move ]
+  before_action :set_sequence, only: [ :edit, :update, :destroy ]
   before_action :set_act, only: [ :new, :create, :new_modal ]
 
   def index

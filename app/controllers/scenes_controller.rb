@@ -1,7 +1,7 @@
 class ScenesController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_scene, only: [ :show, :edit, :update, :destroy, :move ]
+  before_action :set_scene, only: [ :show, :edit, :update, :destroy ]
   before_action :set_sequence, only: [ :new, :create, :new_modal ]
 
   def index
