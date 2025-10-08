@@ -11,7 +11,6 @@ class Sequence < ApplicationRecord
   # Validations:
   validates :title, presence: true, length: { maximum: 100 }
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :position, uniqueness: { scope: :act_id }
 
   # Callbacks:
   before_validation :set_position, on: :create

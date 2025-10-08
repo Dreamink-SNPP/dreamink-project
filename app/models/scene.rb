@@ -13,7 +13,6 @@ class Scene < ApplicationRecord
   # Validations:
   validates :title, presence: true, length: { maximum: 200 }
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :position, uniqueness: { scope: :sequence_id }
   validates :color, format: { with: /\A#[0-9A-F]{6}\z/i, allow_blank: true }
 
   # Callbacks:
