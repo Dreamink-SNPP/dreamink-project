@@ -10,7 +10,7 @@ export default class extends Controller {
     connect() {
         this.sortable = Sortable.create(this.element, {
             animation: 150,
-            handle: '.drag-handle', // Solo se puede arrastrar desde el handle
+            handle: '.drag-handle',
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
@@ -21,43 +21,51 @@ export default class extends Controller {
     disconnect() {
         if (this.sortable) {
             this.sortable.destroy()
+            this.sortable = null
         }
     }
 
     end(event) {
-        const id = event.item.dataset.sortableId
-        const newPosition = event.newIndex
         const oldPosition = event.oldIndex
+        const newPosition = event.newIndex
 
-        // Solo hacer la petición si cambió de posición
+        // Solo actualizar si cambió de posición
         if (oldPosition !== newPosition) {
-            this.updatePosition(id, newPosition)
+            this.updateAllPositions()
         }
     }
 
-    updatePosition(id, position) {
-        const url = this.urlValue.replace(':id', id)
+    updateAllPositions() {
+        // Obtener todos los elementos ordenados
+        const items = Array.from(this.element.querySelectorAll('[data-sortable-id]'))
+
+        // Crear un array con las IDs en el nuevo orden
+        const orderedIds = items.map(item => item.dataset.sortableId)
+
+        // Enviar todas las posiciones al backend
+        const url = this.urlValue.replace('/:id/move', '/reorder')
 
         fetch(url, {
-            method: 'PATCH',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
             },
             body: JSON.stringify({
-                position: position
+                type: this.typeValue,
+                ids: orderedIds
             })
         })
             .then(response => {
                 if (!response.ok) {
-                    console.error('Error updating position:', response.status)
-                    throw new Error('Failed to update position')
+                    console.error('Error updating positions:', response.status)
+                    throw new Error('Failed to update positions')
                 }
-                console.log(`✓ Position updated successfully for ${this.typeValue} ${id}`)
+                console.log(`✓ Positions updated successfully for ${this.typeValue}`)
             })
             .catch(error => {
                 console.error('Error:', error)
-                alert('Error al actualizar la posición. La página se recargará.')
+                alert('Error al actualizar las posiciones. La página se recargará.')
                 window.location.reload()
             })
     }
