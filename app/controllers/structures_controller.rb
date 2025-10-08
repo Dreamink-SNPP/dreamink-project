@@ -21,23 +21,55 @@ class StructuresController < ApplicationController
   private
 
   def reorder_acts
-    params[:acts].each_with_index do |act_id, index|
-      Act.find(act_id).update(position: index)
+    ids = params[:ids]
+    return head :bad_request if ids.blank?
+
+    # Actualizar posiciones en una transacción
+    ActiveRecord::Base.transaction do
+      ids.each_with_index do |act_id, index|
+        act = @project.acts.find(act_id)
+        # acts_as_list usa posiciones 1-based
+        act.update_column(:position, index + 1)
+      end
     end
+
     head :ok
+  rescue => e
+    Rails.logger.error "Error reordering acts: #{e.message}"
+    head :unprocessable_entity
   end
 
   def reorder_sequences
-    params[:sequences].each_with_index do |sequence_id, index|
-      Sequence.find(sequence_id).update(position: index)
+    ids = params[:ids]
+    return head :bad_request if ids.blank?
+
+    ActiveRecord::Base.transaction do
+      ids.each_with_index do |sequence_id, index|
+        sequence = @project.sequences.find(sequence_id)
+        sequence.update_column(:position, index + 1)
+      end
     end
+
     head :ok
+  rescue => e
+    Rails.logger.error "Error reordering sequences: #{e.message}"
+    head :unprocessable_entity
   end
 
   def reorder_scenes
-    params[:scenes].each_with_index do |scene_id, index|
-      Scene.find(scene_id).update(position: index)
+    ids = params[:ids]
+    return head :bad_request if ids.blank?
+
+    ActiveRecord::Base.transaction do
+      ids.each_with_index do |scene_id, index|
+        scene = @project.scenes.find(scene_id)
+        scene.update_column(:position, index + 1)
+      end
     end
+
     head :ok
+  rescue => e
+    Rails.logger.error "Error reordering scenes: #{e.message}"
+    head :unprocessable_entity
   end
 end
