@@ -53,7 +53,10 @@
   <div class="px-4 sm:px-6 lg:px-8 py-6">
     <% if @acts.any? %>
       <!-- Contenedor horizontal con scroll -->
-      <div class="flex space-x-4 overflow-x-auto pb-4">
+      <div class="flex space-x-4 overflow-x-auto pb-4"
+           data-controller="sortable"
+           data-sortable-url-value="/projects/<%= @project.id %>/acts/:id/move"
+           data-sortable-type-value="act">
         <% @acts.each do |act| %>
           <%= render "structures/act_column", act: act, project: @project %>
         <% end %>
