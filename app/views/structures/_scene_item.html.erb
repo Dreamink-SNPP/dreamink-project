@@ -1,7 +1,15 @@
 <!-- Item de Escena -->
 <div class="bg-white rounded border border-gray-200 p-2 hover:border-indigo-300 transition"
-     style="<%= "border-left: 3px solid #{scene.color};" if scene.color.present? %>">
+     style="<%= "border-left: 3px solid #{scene.color};" if scene.color.present? %>"
+     data-sortable-id="<%= scene.id %>">
   <div class="flex items-start justify-between">
+    <!-- Drag Handle -->
+    <div class="drag-handle mr-1.5 pt-0.5 text-gray-300 hover:text-gray-500 transition cursor-grab">
+      <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
+      </svg>
+    </div>
+
     <div class="flex-1 min-w-0">
       <p class="text-xs font-medium text-gray-900 truncate">
         <%= scene.title %>
