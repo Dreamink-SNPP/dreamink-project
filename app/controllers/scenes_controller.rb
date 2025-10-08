@@ -2,7 +2,7 @@ class ScenesController < ApplicationController
   include ProjectAuthorization
 
   before_action :set_scene, only: [ :show, :edit, :update, :destroy, :move ]
-  before_action :set_sequence, only: [ :new, :create ]
+  before_action :set_sequence, only: [ :new, :create, :new_modal ]
 
   def index
     @scenes = @project.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
