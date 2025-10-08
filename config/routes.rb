@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       end
     end
 
-    # Special route for kanban board
+    # Cambiar la ruta de structure para usar POST en reorder
     get 'structure', to: 'structures#show', as: :structure
     post 'structure/reorder', to: 'structures#reorder', as: :reorder_structure
   end
