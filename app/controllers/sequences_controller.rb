@@ -53,7 +53,7 @@ class SequencesController < ApplicationController
   private
 
   def set_sequence
-    @sequence = @project.sequences.find(params[:id])
+    @sequence = @project.sequences.find(params[:id]) if params[:id]
   end
 
   def set_act
@@ -62,5 +62,9 @@ class SequencesController < ApplicationController
 
   def sequence_params
     params.require(:sequence).permit(:title, :description, :position, :act_id)
+  end
+
+  def set_project
+    @project = Project.find(params[:project_id])
   end
 end
