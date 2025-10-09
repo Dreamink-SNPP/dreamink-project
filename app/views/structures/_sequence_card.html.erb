@@ -75,7 +75,8 @@
 
       <!-- Botón para agregar escena -->
       <button type="button"
-              onclick="openNewSceneModal(<%= sequence.id %>)"
+              data-action="click->structure#openNewSceneModal"
+              data-sequence-id="<%= sequence.id %>"
               class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition">
         + Agregar Escena
       </button>
