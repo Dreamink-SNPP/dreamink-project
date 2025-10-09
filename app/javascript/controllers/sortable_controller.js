@@ -45,7 +45,7 @@ export default class extends Controller {
         // Agregar clase al elemento que se está arrastrando
         event.item.classList.add('is-dragging')
 
-        // Feedback visual: cambiar cursor en todo el documento
+        // Feedback visual: cambiar cursor en all el documento
         document.body.style.cursor = 'grabbing'
 
         // Opcional: vibración en dispositivos móviles
