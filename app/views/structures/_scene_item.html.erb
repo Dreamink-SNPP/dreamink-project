@@ -1,5 +1,6 @@
 <!-- Item de Escena -->
-<div class="bg-white rounded border border-gray-200 p-2 hover:border-indigo-300 transition"
+<div id="scene_<%= scene.id %>"
+     class="bg-white rounded border border-gray-200 p-2 hover:border-indigo-300 transition"
      style="<%= "border-left: 3px solid #{scene.color};" if scene.color.present? %>"
      data-sortable-id="<%= scene.id %>">
   <div class="flex items-start justify-between">
