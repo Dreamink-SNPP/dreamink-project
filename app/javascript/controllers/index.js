@@ -7,6 +7,9 @@ import { application } from "./application"
 import CollapsibleController from "./collapsible_controller"
 application.register("collapsible", CollapsibleController)
 
+import ExpandCollapseController from "./expand_collapse_controller"
+application.register("expand-collapse", ExpandCollapseController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
