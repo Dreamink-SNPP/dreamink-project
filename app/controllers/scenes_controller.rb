@@ -19,15 +19,41 @@ class ScenesController < ApplicationController
   def create
     @scene = @sequence.scenes.build(scene_params)
 
-    if @scene.save
-      if params[:scene][:location_ids].present?
-        @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
-      end
+    respond_to do |format|
+      if @scene.save
+        if params[:scene][:location_ids].present?
+          @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
+        end
 
-      redirect_to project_structure_path(@project), notice: "Escena creada exitosamente"
-    else
-      @locations = @project.locations.order(:name)
-      render :new, status: :unprocessable_entity
+        format.turbo_stream do
+          render turbo_stream: [
+            # Agregar la nueva escena a la secuencia
+            turbo_stream.append("sequence_#{@sequence.id}_scenes",
+                                partial: "structures/scene_item",
+                                locals: { scene: @scene, project: @project }
+            ),
+            # Limpiar formulario
+            turbo_stream.update("new_scene_modal_content",
+                                partial: "scenes/success"
+            ),
+            # Mensaje flash
+            turbo_stream.prepend("flash_messages",
+                                 partial: "shared/flash_notice",
+                                 locals: { message: "Escena creada exitosamente" }
+            )
+          ]
+        end
+        format.html { redirect_to project_structure_path(@project), notice: "Escena creada exitosamente" }
+      else
+        @locations = @project.locations.order(:name)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("scene_form",
+                                                    partial: "scenes/form",
+                                                    locals: { scene: @scene }
+          )
+        end
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -36,22 +62,55 @@ class ScenesController < ApplicationController
   end
 
   def update
-    if @scene.update(scene_params)
-      # Actualizar locaciones
-      if params[:scene][:location_ids].present?
-        @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
-      end
+    respond_to do |format|
+      if @scene.update(scene_params)
+        # Actualizar locaciones
+        if params[:scene][:location_ids].present?
+          @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
+        end
 
-      redirect_to project_structure_path(@project), notice: "Escena actualizada exitosamente"
-    else
-      @locations = @project.locations.order(:name)
-      render :edit, status: :unprocessable_entity
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace("scene_#{@scene.id}",
+                                 partial: "structures/scene_item",
+                                 locals: { scene: @scene, project: @project }
+            ),
+            turbo_stream.prepend("flash_messages",
+                                 partial: "shared/flash_notice",
+                                 locals: { message: "Escena actualizada exitosamente" }
+            )
+          ]
+        end
+        format.html { redirect_to project_structure_path(@project), notice: "Escena actualizada exitosamente" }
+      else
+        @locations = @project.locations.order(:name)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("scene_form",
+                                                    partial: "scenes/form",
+                                                    locals: { scene: @scene }
+          )
+        end
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
+    sequence_id = @scene.sequence_id
     @scene.destroy
-    redirect_to project_structure_path(@project), notice: "Escena eliminada exitosamente"
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.remove("scene_#{@scene.id}"),
+          turbo_stream.prepend("flash_messages",
+                               partial: "shared/flash_notice",
+                               locals: { message: "Escena eliminada exitosamente" }
+          )
+        ]
+      end
+      format.html { redirect_to project_structure_path(@project), notice: "Escena eliminada exitosamente" }
+    end
   end
 
   def by_location
