@@ -50,10 +50,11 @@
   <div>
     <%= form.label :location_ids, "Locaciones", class: "block text-sm font-medium text-gray-700" %>
     <% project = scene.sequence.act.project %>
-    <% if project.locations.any? %>
+    <% locations = @locations || project.locations.order(:name) %>
+    <% if locations.any? %>
       <div class="mt-2 max-h-40 overflow-y-auto border border-gray-300 rounded-md p-2">
         <%= form.collection_check_boxes :location_ids,
-                                        project.locations.order(:name),
+                                        locations,
                                         :id,
                                         :name do |b| %>
           <div class="flex items-center py-1">
@@ -66,8 +67,8 @@
       </div>
     <% else %>
       <p class="mt-1 text-sm text-gray-500">
-        No hay locaciones
-        creadas. <%= link_to "Crear locación", new_project_location_path(project), class: "text-indigo-600 hover:text-indigo-900", target: "_blank" %>
+        No hay locaciones creadas.
+        <%= link_to "Crear locación", new_project_location_path(project), class: "text-indigo-600 hover:text-indigo-900", target: "_blank" %>
       </p>
     <% end %>
   </div>
