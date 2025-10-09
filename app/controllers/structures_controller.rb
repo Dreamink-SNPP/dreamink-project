@@ -6,70 +6,84 @@ class StructuresController < ApplicationController
   end
 
   def reorder
-    case params[:type]
-    when 'act'
-      reorder_acts
-    when 'sequence'
-      reorder_sequences
-    when 'scene'
-      reorder_scenes
-    else
-      head :bad_request
+    type = params[:type]
+    ids = params[:ids]
+
+    # Validaciones
+    if type.blank? || ids.blank? || !ids.is_a?(Array)
+      return render json: { error: "Invalid parameters" }, status: :bad_request
+    end
+
+    unless %w[act sequence scene].include?(type)
+      return render json: { error: "Invalid type" }, status: :bad_request
+    end
+
+    begin
+      case type
+      when 'act'
+        reorder_acts(ids)
+      when 'sequence'
+        reorder_sequences(ids)
+      when 'scene'
+        reorder_scenes(ids)
+      end
+
+      render json: { success: true }, status: :ok
+    rescue StandardError => e
+      Rails.logger.error "Reorder error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   end
 
   private
 
-  def reorder_acts
-    ids = params[:ids]
-    return head :bad_request if ids.blank?
+  def reorder_acts(ids)
+    # Convertir strings a integers
+    ids = ids.map(&:to_i)
 
-    # Actualizar posiciones en una transacción
     ActiveRecord::Base.transaction do
       ids.each_with_index do |act_id, index|
         act = @project.acts.find(act_id)
-        # acts_as_list usa posiciones 1-based
-        act.update_column(:position, index + 1)
+        # Usar insert_at de acts_as_list
+        act.insert_at(index + 1) if act.position != (index + 1)
       end
     end
-
-    head :ok
-  rescue => e
-    Rails.logger.error "Error reordering acts: #{e.message}"
-    head :unprocessable_entity
   end
 
-  def reorder_sequences
-    ids = params[:ids]
-    return head :bad_request if ids.blank?
+  def reorder_sequences(ids)
+    ids = ids.map(&:to_i)
+
+    # Obtener todas las secuencias de una vez
+    sequences = @project.sequences.where(id: ids).index_by(&:id)
 
     ActiveRecord::Base.transaction do
+      # Paso 1: Posiciones temporales negativas
       ids.each_with_index do |sequence_id, index|
-        sequence = @project.sequences.find(sequence_id)
-        sequence.update_column(:position, index + 1)
+        sequence = sequences[sequence_id]
+        next unless sequence
+        sequence.update_columns(position: -(index + 1000)) # Usar números muy negativos
+      end
+
+      # Paso 2: Posiciones finales
+      ids.each_with_index do |sequence_id, index|
+        sequence = sequences[sequence_id]
+        next unless sequence
+        sequence.update_columns(position: index + 1)
       end
     end
-
-    head :ok
-  rescue => e
-    Rails.logger.error "Error reordering sequences: #{e.message}"
-    head :unprocessable_entity
   end
 
-  def reorder_scenes
-    ids = params[:ids]
-    return head :bad_request if ids.blank?
+  def reorder_scenes(ids)
+    # Convertir strings a integers
+    ids = ids.map(&:to_i)
 
     ActiveRecord::Base.transaction do
       ids.each_with_index do |scene_id, index|
         scene = @project.scenes.find(scene_id)
-        scene.update_column(:position, index + 1)
+        # Usar insert_at de acts_as_list
+        scene.insert_at(index + 1) if scene.position != (index + 1)
       end
     end
-
-    head :ok
-  rescue => e
-    Rails.logger.error "Error reordering scenes: #{e.message}"
-    head :unprocessable_entity
   end
 end
