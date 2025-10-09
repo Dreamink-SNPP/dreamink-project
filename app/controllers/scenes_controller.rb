@@ -21,6 +21,7 @@ class ScenesController < ApplicationController
 
     respond_to do |format|
       if @scene.save
+        # Actualizar locaciones si fueron seleccionadas
         if params[:scene][:location_ids].present?
           @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
         end
@@ -32,7 +33,7 @@ class ScenesController < ApplicationController
                                 partial: "structures/scene_item",
                                 locals: { scene: @scene, project: @project }
             ),
-            # Limpiar formulario
+            # Mostrar éxito en el modal
             turbo_stream.update("new_scene_modal_content",
                                 partial: "scenes/success"
             ),
@@ -96,7 +97,6 @@ class ScenesController < ApplicationController
   end
 
   def destroy
-    sequence_id = @scene.sequence_id
     @scene.destroy
 
     respond_to do |format|
@@ -120,6 +120,7 @@ class ScenesController < ApplicationController
 
   def new_modal
     @scene = @sequence.scenes.build
+    @locations = @project.locations.order(:name)
     render partial: "scenes/form", locals: { scene: @scene }, layout: false
   end
 
