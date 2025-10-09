@@ -219,3 +219,26 @@
         transition-duration: 0.01ms !important;
     }
 }
+
+#acts_container {
+  scroll-behavior: smooth;
+}
+
+#acts_container.is-sorting {
+  scroll-behavior: auto;
+}
+
+/* Placeholder para drag horizontal */
+#acts_container .sortable-ghost {
+  opacity: 0.3;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px dashed #818cf8;
+}
+
+/* Item siendo arrastrado */
+.is-dragging {
+  opacity: 0.8;
+  transform: scale(1.02);
+  z-index: 999;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
