@@ -62,7 +62,8 @@
   <div id="scenes-<%= sequence.id %>"
        class="hidden"
        data-collapsible-target="content">
-    <div class="p-2 space-y-2"
+    <div id="sequence_<%= sequence.id %>_scenes"
+         class="p-2 space-y-2"
          data-controller="sortable"
          data-sortable-url-value="/projects/<%= project.id %>/structure/reorder"
          data-sortable-type-value="scene">
