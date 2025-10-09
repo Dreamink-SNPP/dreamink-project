@@ -1,4 +1,5 @@
 <%= form_with(model: [ scene.sequence.act.project, scene ],
+              id: "scene_form",
               html: { data: { turbo_frame: "_top" } },
               class: "space-y-4") do |form| %>
   <%= render "shared/form_errors", object: scene %>
