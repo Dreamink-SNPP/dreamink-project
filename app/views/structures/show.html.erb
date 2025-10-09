@@ -75,10 +75,7 @@
     <% if @acts.any? %>
       <!-- Contenedor horizontal con scroll -->
       <div id="acts_container"
-           class="flex space-x-4 overflow-x-auto pb-4"
-           data-controller="sortable"
-           data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
-           data-sortable-type-value="act">
+           class="flex space-x-4 overflow-x-auto pb-4">
         <% @acts.each do |act| %>
           <%= render "structures/act_column", act: act, project: @project %>
         <% end %>
@@ -90,8 +87,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
         </svg>
         <h3 class="mt-2 text-sm font-medium text-gray-900">Sin estructura</h3>
-        <p class="mt-1 text-sm text-gray-500">Comienza creando el primer acto de
-          tu historia.</p>
+        <p class="mt-1 text-sm text-gray-500">Comienza creando el primer acto de tu historia.</p>
         <div class="mt-6">
           <button type="button"
                   data-action="click->structure#openNewActModal"
