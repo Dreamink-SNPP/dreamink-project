@@ -51,6 +51,22 @@
           <%= @project.scenes.count == 1 ? "Escena" : "Escenas" %>
         </div>
       </div>
+
+      <!-- Botones expandir/colapsar - USANDO CONTROLLER -->
+      <% if @acts.any? && @project.sequences.any? %>
+        <div class="mt-4 flex space-x-2" data-controller="expand-collapse">
+          <button type="button"
+                  data-action="click->expand-collapse#expandAll"
+                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition">
+            📖 Expandir Todo
+          </button>
+          <button type="button"
+                  data-action="click->expand-collapse#collapseAll"
+                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition">
+            📕 Colapsar Todo
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
 
@@ -98,17 +114,11 @@
   <div data-structure-target="newActModal"
        class="hidden fixed inset-0 z-50 overflow-y-auto">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <!-- Overlay -->
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
            data-action="click->structure#closeModal"></div>
-
-      <!-- Centrado vertical -->
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-
-      <!-- Panel del modal -->
-      <div class="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <!-- Header -->
           <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Nuevo Acto</h3>
             <button type="button"
@@ -119,8 +129,6 @@
               </svg>
             </button>
           </div>
-
-          <!-- Contenido -->
           <div id="new_act_modal_content" data-modal-content>
             <%= render "acts/form", act: @project.acts.build %>
           </div>
@@ -133,10 +141,10 @@
   <div data-structure-target="newSequenceModal"
        class="hidden fixed inset-0 z-50 overflow-y-auto">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
            data-action="click->structure#closeModal"></div>
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-      <div class="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
           <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Nueva Secuencia</h3>
@@ -160,10 +168,10 @@
   <div data-structure-target="newSceneModal"
        class="hidden fixed inset-0 z-50 overflow-y-auto">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
            data-action="click->structure#closeModal"></div>
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-      <div class="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
           <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Nueva Escena</h3>
@@ -176,7 +184,7 @@
             </button>
           </div>
           <div id="new_scene_modal_content" data-modal-content>
-          <!-- Se carga dinámicamente -->
+            <!-- Se carga dinámicamente -->
           </div>
         </div>
       </div>
