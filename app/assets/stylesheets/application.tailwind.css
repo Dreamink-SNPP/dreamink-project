@@ -1,23 +1,221 @@
 @import "tailwindcss";
 
-/* Estilos para SortableJS */
+/* ========================================
+   SORTABLE - Drag & Drop
+   ======================================== */
+
 .sortable-ghost {
     opacity: 0.4;
     background: #e0e7ff;
+    border: 2px dashed #818cf8;
 }
 
 .sortable-chosen {
     cursor: grabbing !important;
+    opacity: 0.9;
 }
 
 .sortable-drag {
     opacity: 0.8;
+    transform: rotate(2deg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .drag-handle {
     cursor: grab;
+    transition: color 0.2s ease;
+}
+
+.drag-handle:hover {
+    color: #6366f1;
 }
 
 .drag-handle:active {
     cursor: grabbing;
+}
+
+/* Estado: está siendo arrastrado */
+.is-dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+/* ========================================
+   ESTADOS DE GUARDADO
+   ======================================== */
+
+.is-saving {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.save-success {
+    animation: pulse-success 0.6s ease;
+}
+
+.save-error {
+    animation: shake 0.6s ease;
+}
+
+@keyframes pulse-success {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+/* ========================================
+   COLLAPSIBLE - Animaciones suaves
+   ======================================== */
+
+[data-controller="collapsible"] [id^="scenes-"],
+[data-controller="collapsible"] [id^="sequences-"] {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Iconos de colapso */
+[data-action*="collapsible#toggle"] svg {
+    transition: transform 0.3s ease-out;
+}
+
+/* ========================================
+   MODALES
+   ======================================== */
+
+.modal-overlay {
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   FLASH MESSAGES
+   ======================================== */
+
+[data-controller="flash"] {
+    animation: slideInDown 0.3s ease;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   CARDS Y HOVER STATES
+   ======================================== */
+
+.act-column {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.act-column:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.sequence-card {
+    transition: all 0.2s ease;
+}
+
+.sequence-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.scene-item {
+    transition: all 0.2s ease;
+}
+
+.scene-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: translateX(2px);
+}
+
+/* ========================================
+   UTILIDADES
+   ======================================== */
+
+.scroll-smooth {
+    scroll-behavior: smooth;
+}
+
+/* Loading spinner reutilizable */
+.spinner {
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid #6366f1;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   ACCESIBILIDAD
+   ======================================== */
+
+/* Focus visible para navegación por teclado */
+*:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+/* Reducir movimiento para usuarios con preferencias */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
