@@ -99,7 +99,7 @@ class ActsController < ApplicationController
     end
   end
 
-  # Mover acto a la izquierda (decrementar posición)
+    # Mover acto a la izquierda (decrementar posición)
     def move_left
       target_act = @project.acts.find_by(position: @act.position - 1)
 
@@ -137,7 +137,7 @@ class ActsController < ApplicationController
     params.require(:act).permit(:title, :description, :position)
   end
 
-  # Intercambiar posiciones de dos actos evitando el unique constraint
+    # Intercambiar posiciones de dos actos evitando el unique constraint
     def swap_positions(act1, act2)
       # Guardar posiciones originales
       pos1 = act1.position
