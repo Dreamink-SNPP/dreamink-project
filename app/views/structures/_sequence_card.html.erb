@@ -68,24 +68,24 @@
   <div id="scenes-<%= sequence.id %>" class="hidden">
     <!-- Contenedor sortable para escenas -->
     <div id="sequence_<%= sequence.id %>_scenes"
-         class="p-2 space-y-2"
+         class="p-2 space-y-2 min-h-[100px]"
          data-controller="sortable"
          data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
          data-sortable-type-value="scene">
 
-      <% if sequence.scenes.any? %>
-        <% sequence.scenes.each do |scene| %>
-          <%= render "structures/scene_item", scene: scene, project: project %>
-        <% end %>
-      <% else %>
-        <!-- Placeholder cuando no hay escenas -->
-        <div class="text-center py-4 text-gray-400 text-xs">
+      <% sequence.scenes.each do |scene| %>
+        <%= render "structures/scene_item", scene: scene, project: project %>
+      <% end %>
+
+      <!-- ⭐ SI NO HAY ESCENAS, mostrar placeholder PERO sin data-sortable-id -->
+      <% if sequence.scenes.empty? %>
+        <div class="text-center py-4 text-gray-400 text-xs pointer-events-none">
           <p>Sin escenas</p>
         </div>
       <% end %>
     </div>
 
-    <!-- Botón para agregar escena - FUERA del sortable -->
+    <!-- ⭐ Botón FUERA del contenedor sortable -->
     <div class="p-2 border-t border-gray-100">
       <button type="button"
               data-action="click->structure#openNewSceneModal"
