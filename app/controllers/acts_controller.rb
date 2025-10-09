@@ -18,8 +18,10 @@ class ActsController < ApplicationController
       if @act.save
         format.turbo_stream do
           render turbo_stream: [
-            # Cerrar el modal
-            turbo_stream.update("new_act_modal_content", partial: "acts/success"),
+            # Cerrar el modal mostrando éxito
+            turbo_stream.update("new_act_modal_content",
+                                partial: "acts/success"
+            ),
             # Agregar el nuevo acto a la estructura
             turbo_stream.append("acts_container",
                                 partial: "structures/act_column",
