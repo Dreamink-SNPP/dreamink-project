@@ -4,6 +4,7 @@
      data-controller="collapsible"
      data-collapsible-storage-key-value="sequence"
      data-sortable-id="<%= sequence.id %>">
+
   <!-- Header de la Secuencia -->
   <div class="p-3 border-b border-gray-200">
     <div class="flex items-start justify-between">
@@ -51,8 +52,12 @@
     <button type="button"
             data-action="click->collapsible#toggle"
             data-target-id="scenes-<%= sequence.id %>"
-            class="mt-2 text-xs text-gray-500 hover:text-gray-700 flex items-center">
-      <svg class="h-4 w-4 mr-1 transform transition-transform" data-collapsible-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            class="mt-2 text-xs text-gray-500 hover:text-gray-700 flex items-center transition">
+      <svg class="h-4 w-4 mr-1 transform transition-transform"
+           style="transform: rotate(-90deg)"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
       </svg>
       <%= pluralize(sequence.scenes.count, "escena") %>
@@ -60,23 +65,28 @@
   </div>
 
   <!-- Lista de Escenas (colapsable) -->
-  <div id="scenes-<%= sequence.id %>"
-       class="hidden"
-       data-collapsible-target="content">
+  <div id="scenes-<%= sequence.id %>" class="hidden">
+    <!-- Contenedor sortable para escenas -->
     <div id="sequence_<%= sequence.id %>_scenes"
          class="p-2 space-y-2"
          data-controller="sortable"
-         data-sortable-url-value="/projects/<%= project.id %>/structure/reorder"
+         data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
          data-sortable-type-value="scene">
+
       <% if sequence.scenes.any? %>
         <% sequence.scenes.each do |scene| %>
           <%= render "structures/scene_item", scene: scene, project: project %>
         <% end %>
       <% else %>
-        <p class="text-xs text-gray-400 text-center py-2">Sin escenas</p>
+        <!-- Placeholder cuando no hay escenas -->
+        <div class="text-center py-4 text-gray-400 text-xs">
+          <p>Sin escenas</p>
+        </div>
       <% end %>
+    </div>
 
-      <!-- Botón para agregar escena -->
+    <!-- Botón para agregar escena - FUERA del sortable -->
+    <div class="p-2 border-t border-gray-100">
       <button type="button"
               data-action="click->structure#openNewSceneModal"
               data-sequence-id="<%= sequence.id %>"
