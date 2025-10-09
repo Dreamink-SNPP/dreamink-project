@@ -1,7 +1,7 @@
 class ActsController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_act, only: [ :edit, :update, :destroy ]
+  before_action :set_act, only: [ :edit, :update, :destroy, :move_left, :move_right ]
 
   def index
     @acts = @project.acts.ordered
@@ -99,6 +99,34 @@ class ActsController < ApplicationController
     end
   end
 
+  # Mover acto a la izquierda (decrementar posición)
+    def move_left
+      target_act = @project.acts.find_by(position: @act.position - 1)
+
+      if target_act
+        swap_positions(@act, target_act)
+        flash[:notice] = "Acto movido correctamente"
+      else
+        flash[:alert] = "El acto ya está en la primera posición"
+      end
+
+      redirect_to project_structure_path(@project)
+    end
+
+    # Mover acto a la derecha (incrementar posición)
+    def move_right
+      target_act = @project.acts.find_by(position: @act.position + 1)
+
+      if target_act
+        swap_positions(@act, target_act)
+        flash[:notice] = "Acto movido correctamente"
+      else
+        flash[:alert] = "El acto ya está en la última posición"
+      end
+
+      redirect_to project_structure_path(@project)
+    end
+
   private
 
   def set_act
@@ -108,4 +136,23 @@ class ActsController < ApplicationController
   def act_params
     params.require(:act).permit(:title, :description, :position)
   end
+
+  # Intercambiar posiciones de dos actos evitando el unique constraint
+    def swap_positions(act1, act2)
+      # Guardar posiciones originales
+      pos1 = act1.position
+      pos2 = act2.position
+
+      ActiveRecord::Base.transaction do
+        # Paso 1: Mover a posiciones temporales negativas
+        act1.update_column(:position, -1000)
+        act2.update_column(:position, -1001)
+
+        # Paso 2: Asignar las posiciones intercambiadas
+        act1.update_column(:position, pos2)
+        act2.update_column(:position, pos1)
+      end
+
+      Rails.logger.info "Swapped acts #{act1.id} and #{act2.id}"
+    end
 end

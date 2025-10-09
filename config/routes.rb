@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   resources :projects do
     # Nested resources inside a project
     resources :acts, except: [ :show ] do
+      member do
+              patch :move_left
+              patch :move_right
+      end
       get 'sequences/new_modal', to: 'sequences#new_modal', as: :new_sequence_modal
     end
 
