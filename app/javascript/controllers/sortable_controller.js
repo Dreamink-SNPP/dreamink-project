@@ -18,11 +18,16 @@ export default class extends Controller {
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
-            // Drag vertical solo para sequences y scenes
             direction: this.typeValue === 'act' ? 'horizontal' : 'vertical',
-            // Prevenir drag fuera del contenedor
             fallbackTolerance: 3,
             forceFallback: true,
+            swapThreshold: 0.65,
+            invertSwap: false,
+            group: {
+                name: this.typeValue,
+                pull: false,
+                put: false
+            },
             // Callbacks
             onStart: this.onStart.bind(this),
             onEnd: this.onEnd.bind(this),
@@ -55,12 +60,26 @@ export default class extends Controller {
     }
 
     onMove(event) {
-        // Prevenir drops en lugares no permitidos
         const related = event.related
+        const dragged = event.dragged
 
         // No permitir drops en elementos disabled o readonly
         if (related.hasAttribute('data-no-drop')) {
             return false
+        }
+
+        // Prevenir que se mueva a lugares incorrectos
+        // Por ejemplo, no mover un acto dentro de una secuencia
+        const draggedType = this.typeValue
+        const relatedParent = related.closest('[data-sortable-type-value]')
+
+        if (relatedParent) {
+            const relatedType = relatedParent.dataset.sortableTypeValue
+
+            // Solo permitir movimientos del mismo tipo
+            if (draggedType !== relatedType) {
+                return false
+            }
         }
 
         return true
