@@ -45,7 +45,14 @@ Rails.application.routes.draw do
         get :report
       end
     end
-    resources :locations
+    resources :locations do
+      collection do
+        get :collection_report
+      end
+      member do
+        get :report
+      end
+    end
     resources :ideas do
       collection do
         get :search
