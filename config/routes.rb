@@ -37,7 +37,14 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :characters
+    resources :characters do
+      collection do
+        get :collection_report
+      end
+      member do
+        get :report
+      end
+    end
     resources :locations
     resources :ideas do
       collection do
