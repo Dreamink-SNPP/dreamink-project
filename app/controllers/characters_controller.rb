@@ -42,6 +42,30 @@ class CharactersController < ApplicationController
     redirect_to project_characters_path(@project), notice: "Personaje eliminado exitosamente"
   end
 
+  # Generar PDF de un personaje individual
+  def report
+    @character = @project.characters.find(params[:id])
+
+    pdf_generator = Pdf::CharacterReportGenerator.new(@character)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "personaje_#{@character.name.parameterize}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
+  # Generar PDF de todos los personajes
+  def collection_report
+    pdf_generator = Pdf::CharactersCollectionReportGenerator.new(@project)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "personajes_#{@project.title.parameterize}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
   private
 
   def set_character
