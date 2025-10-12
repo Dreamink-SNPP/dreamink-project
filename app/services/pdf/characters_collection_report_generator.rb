@@ -17,12 +17,12 @@ module Pdf
     private
 
     def add_summary
-      @pdf.text "Resumen del Proyecto", size: 18, style: :bold, color: '1F2937'
+      @pdf.text "Resumen del Proyecto", size: 18, style: :bold, color: "1F2937"
       @pdf.move_down 10
 
-      @pdf.text "Total de personajes: #{@characters.count}", size: 12, color: '4B5563'
+      @pdf.text "Total de personajes: #{@characters.count}", size: 12, color: "4B5563"
       @pdf.text "Fecha de generación: #{Time.current.strftime('%d/%m/%Y %H:%M')}",
-        size: 10, color: '6B7280'
+        size: 10, color: "6B7280"
 
       @pdf.move_down 20
       add_divider
@@ -37,7 +37,7 @@ module Pdf
 
     def add_character_section(character)
       # Encabezado del personaje
-      @pdf.text character.name, size: 22, style: :bold, color: '4F46E5'
+      @pdf.text character.name, size: 22, style: :bold, color: "4F46E5"
       @pdf.move_down 15
       add_divider
 
