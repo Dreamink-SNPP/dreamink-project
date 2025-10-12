@@ -45,6 +45,28 @@ class LocationsController < ApplicationController
     redirect_to project_locations_path(@project), notice: "Locación eliminada exitosamente"
   end
 
+  def report
+    @location = @project.locations.find(params[:id])
+
+    pdf_generator = Pdf::LocationReportGenerator.new(@location)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "locacion_#{@location.name.parameterize}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
+  def collection_report
+    pdf_generator = Pdf::LocationsCollectionReportGenerator.new(@project)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "locaciones_#{@project.title.parameterize}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
   private
 
   def set_location
