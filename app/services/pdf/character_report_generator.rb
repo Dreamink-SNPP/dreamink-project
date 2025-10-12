@@ -12,7 +12,6 @@ module Pdf
       add_character_basic_info
       add_internal_traits
       add_external_traits
-      add_footer
 
       @pdf.render
     end

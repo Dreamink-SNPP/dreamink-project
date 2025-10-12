@@ -10,7 +10,6 @@ module Pdf
       add_header("Reporte de Personajes", @project.title)
       add_summary
       add_characters_details
-      add_footer
 
       @pdf.render
     end
