@@ -1,7 +1,7 @@
 class ScenesController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_scene, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_scene, only: [ :show, :edit, :edit_modal, :update, :destroy ]
   before_action :set_sequence, only: [ :new, :create, :new_modal ]
 
   def index
@@ -62,6 +62,11 @@ class ScenesController < ApplicationController
     @locations = @project.locations.order(:name)
   end
 
+  def edit_modal
+    @locations = @project.locations.order(:name)
+    render partial: "scenes/form", locals: { scene: @scene }, layout: false
+  end
+
   def update
     respond_to do |format|
       if @scene.update(scene_params)
@@ -72,11 +77,14 @@ class ScenesController < ApplicationController
 
         format.turbo_stream do
           render turbo_stream: [
+            # Cerrar el modal mostrando éxito
+            turbo_stream.update("edit_scene_modal_content",
+                                partial: "scenes/success_edit"
+            ),
             turbo_stream.replace("scene_#{@scene.id}",
                                  partial: "structures/scene_item",
                                  locals: { scene: @scene, project: @project }
             ),
-            turbo_stream.update("modal", ""),
             turbo_stream.prepend("flash_messages",
                                  partial: "shared/flash_notice",
                                  locals: { message: "Escena actualizada exitosamente" }
@@ -121,12 +129,6 @@ class ScenesController < ApplicationController
 
   def new_modal
     @scene = @sequence.scenes.build
-    @locations = @project.locations.order(:name)
-    render partial: "scenes/form", locals: { scene: @scene }, layout: false
-  end
-
-  def edit_modal
-    @scene = @project.scenes.find(params[:id])
     @locations = @project.locations.order(:name)
     render partial: "scenes/form", locals: { scene: @scene }, layout: false
   end
