@@ -1,7 +1,7 @@
 class SequencesController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_sequence, only: [ :edit, :update, :destroy ]
+  before_action :set_sequence, only: [ :edit, :edit_modal, :update, :destroy ]
   before_action :set_act, only: [ :new, :create, :new_modal ]
 
   def index
@@ -51,11 +51,18 @@ class SequencesController < ApplicationController
   def edit
   end
 
+  def edit_modal
+    render partial: "sequences/form", locals: { sequence: @sequence }, layout: false
+  end
+
   def update
     respond_to do |format|
       if @sequence.update(sequence_params)
         format.turbo_stream do
           render turbo_stream: [
+            turbo_stream.update("edit_sequence_modal_content",
+                                partial: "sequences/success_edit"
+            ),
             turbo_stream.replace("sequence_#{@sequence.id}",
                                  partial: "structures/sequence_card",
                                  locals: { sequence: @sequence, project: @project }

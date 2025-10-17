@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     end
 
     resources :sequences, except: [ :show ] do
+      member do
+        get :edit_modal
+      end
       get 'scenes/new_modal', to: 'scenes#new_modal', as: :new_scene_modal
     end
 
