@@ -41,7 +41,8 @@
 
     <!-- Acciones -->
     <div class="ml-2 flex space-x-1">
-      <%= link_to edit_project_scene_path(project, scene),
+      <%= link_to edit_modal_project_scene_path(project, scene),
+                  data: { turbo_frame: "modal" },
                   class: "text-gray-400 hover:text-indigo-600",
                   title: "Editar escena" do %>
         <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
