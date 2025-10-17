@@ -1,7 +1,7 @@
 class ActsController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_act, only: [ :edit, :update, :destroy, :move_left, :move_right ]
+  before_action :set_act, only: [ :edit, :edit_modal, :update, :destroy, :move_left, :move_right ]
 
   def index
     @acts = @project.acts.ordered
@@ -50,11 +50,19 @@ class ActsController < ApplicationController
   def edit
   end
 
+  def edit_modal
+    render layout: false
+  end
+
   def update
     respond_to do |format|
       if @act.update(act_params)
         format.turbo_stream do
           render turbo_stream: [
+            # Cerrar el modal mostrando éxito
+            turbo_stream.update("edit_act_modal_content",
+                                partial: "acts/success_edit"
+            ),
             # Actualizar la columna del acto
             turbo_stream.replace("act_#{@act.id}",
                                  partial: "structures/act_column",
