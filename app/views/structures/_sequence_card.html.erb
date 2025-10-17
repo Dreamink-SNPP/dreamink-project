@@ -28,13 +28,15 @@
 
       <!-- Acciones de la secuencia -->
       <div class="ml-2 flex space-x-1">
-        <%= link_to edit_project_sequence_path(project, sequence),
-                    class: "text-gray-400 hover:text-indigo-600 p-1",
-                    title: "Editar secuencia" do %>
+        <button type="button"
+                data-action="click->structure#openEditSequenceModal"
+                data-sequence-id="<%= sequence.id %>"
+                class="text-gray-400 hover:text-indigo-600 p-1"
+                title="Editar secuencia">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
           </svg>
-        <% end %>
+        </button>
 
         <%= button_to project_sequence_path(project, sequence),
                       method: :delete,
