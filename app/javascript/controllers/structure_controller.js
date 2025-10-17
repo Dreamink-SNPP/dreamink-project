@@ -9,6 +9,7 @@ export default class extends Controller {
         "newSequenceModal",
         "editSequenceModal",
         "newSceneModal",
+        "editSceneModal",
         "modalContent"
     ]
 
@@ -109,6 +110,21 @@ export default class extends Controller {
         this.loadModalContent(this.newSceneModalTarget, url)
     }
 
+    openEditSceneModal(event) {
+        event.preventDefault()
+        const sceneId = event.currentTarget.dataset.sceneId
+
+        if (!sceneId) {
+            console.error("No se encontró el scene_id")
+            return
+        }
+
+        // Usar Turbo para cargar el formulario de edición
+        const url = `/projects/${this.projectIdValue}/scenes/${sceneId}/edit_modal`
+
+        this.loadModalContent(this.editSceneModalTarget, url)
+    }
+
     // ==========================================
     // MÉTODOS AUXILIARES PARA MODALES
     // ==========================================
@@ -138,7 +154,8 @@ export default class extends Controller {
             this.editActModalTarget,
             this.newSequenceModalTarget,
             this.editSequenceModalTarget,
-            this.newSceneModalTarget
+            this.newSceneModalTarget,
+            this.editSceneModalTarget
         ]
 
         modals.forEach(modal => {
@@ -243,7 +260,8 @@ export default class extends Controller {
             editAct: this.hasEditActModalTarget,
             sequence: this.hasNewSequenceModalTarget,
             editSequence: this.hasEditSequenceModalTarget,
-            scene: this.hasNewSceneModalTarget
+            scene: this.hasNewSceneModalTarget,
+            editScene: this.hasEditSceneModalTarget
         })
     }
 }
