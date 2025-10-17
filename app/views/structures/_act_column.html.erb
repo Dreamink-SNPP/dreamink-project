@@ -44,13 +44,15 @@
           <% end %>
         <% end %>
 
-        <%= link_to edit_project_act_path(project, act),
-                    class: "text-white hover:text-indigo-100 p-1 transition",
-                    title: "Editar acto" do %>
+        <button type="button"
+                data-action="click->structure#openEditActModal"
+                data-act-id="<%= act.id %>"
+                class="text-white hover:text-indigo-100 p-1 transition"
+                title="Editar acto">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
           </svg>
-        <% end %>
+        </button>
 
         <%= button_to project_act_path(project, act),
                       method: :delete,
