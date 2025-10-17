@@ -5,6 +5,7 @@ import {Controller} from "@hotwired/stimulus"
 export default class extends Controller {
     static targets = [
         "newActModal",
+        "editActModal",
         "newSequenceModal",
         "newSceneModal",
         "modalContent"
@@ -39,6 +40,20 @@ export default class extends Controller {
     openNewActModal(event) {
         event?.preventDefault()
         this.showModal(this.newActModalTarget)
+    }
+
+    openEditActModal(event) {
+        event.preventDefault()
+        const actId = event.currentTarget.dataset.actId
+
+        if (!actId) {
+            console.error("No se encontró el act_id")
+            return
+        }
+
+        const url = `/projects/${this.projectIdValue}/acts/${actId}/edit_modal`
+
+        this.loadModalContent(this.editActModalTarget, url)
     }
 
     // ==========================================
@@ -105,6 +120,7 @@ export default class extends Controller {
         // Cerrar todos los modales
         const modals = [
             this.newActModalTarget,
+            this.editActModalTarget,
             this.newSequenceModalTarget,
             this.newSceneModalTarget
         ]
@@ -173,7 +189,7 @@ export default class extends Controller {
             contentContainer.innerHTML = `
         <div class="text-center py-8">
           <p class="text-red-600">Error al cargar el formulario</p>
-          <button 
+          <button
             data-action="click->structure#closeModal"
             class="mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
             Cerrar
@@ -208,6 +224,7 @@ export default class extends Controller {
         console.log("Project ID:", this.projectIdValue)
         console.log("Modals:", {
             act: this.hasNewActModalTarget,
+            editAct: this.hasEditActModalTarget,
             sequence: this.hasNewSequenceModalTarget,
             scene: this.hasNewSceneModalTarget
         })
