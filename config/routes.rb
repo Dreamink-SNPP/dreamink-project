@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       member do
               patch :move_left
               patch :move_right
+              get :edit_modal
       end
       get 'sequences/new_modal', to: 'sequences#new_modal', as: :new_sequence_modal
     end
