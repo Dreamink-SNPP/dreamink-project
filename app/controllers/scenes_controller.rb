@@ -76,6 +76,7 @@ class ScenesController < ApplicationController
                                  partial: "structures/scene_item",
                                  locals: { scene: @scene, project: @project }
             ),
+            turbo_stream.update("modal", ""),
             turbo_stream.prepend("flash_messages",
                                  partial: "shared/flash_notice",
                                  locals: { message: "Escena actualizada exitosamente" }
@@ -120,6 +121,12 @@ class ScenesController < ApplicationController
 
   def new_modal
     @scene = @sequence.scenes.build
+    @locations = @project.locations.order(:name)
+    render partial: "scenes/form", locals: { scene: @scene }, layout: false
+  end
+
+  def edit_modal
+    @scene = @project.scenes.find(params[:id])
     @locations = @project.locations.order(:name)
     render partial: "scenes/form", locals: { scene: @scene }, layout: false
   end
