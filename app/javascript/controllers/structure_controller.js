@@ -7,6 +7,7 @@ export default class extends Controller {
         "newActModal",
         "editActModal",
         "newSequenceModal",
+        "editSequenceModal",
         "newSceneModal",
         "modalContent"
     ]
@@ -75,6 +76,20 @@ export default class extends Controller {
         this.loadModalContent(this.newSequenceModalTarget, url)
     }
 
+    openEditSequenceModal(event) {
+        event.preventDefault()
+        const sequenceId = event.currentTarget.dataset.sequenceId
+
+        if (!sequenceId) {
+            console.error("No se encontró el sequence_id")
+            return
+        }
+
+        const url = `/projects/${this.projectIdValue}/sequences/${sequenceId}/edit_modal`
+
+        this.loadModalContent(this.editSequenceModalTarget, url)
+    }
+
     // ==========================================
     // MÉTODOS PARA MODALES DE ESCENA
     // ==========================================
@@ -122,6 +137,7 @@ export default class extends Controller {
             this.newActModalTarget,
             this.editActModalTarget,
             this.newSequenceModalTarget,
+            this.editSequenceModalTarget,
             this.newSceneModalTarget
         ]
 
@@ -226,6 +242,7 @@ export default class extends Controller {
             act: this.hasNewActModalTarget,
             editAct: this.hasEditActModalTarget,
             sequence: this.hasNewSequenceModalTarget,
+            editSequence: this.hasEditSequenceModalTarget,
             scene: this.hasNewSceneModalTarget
         })
     }
