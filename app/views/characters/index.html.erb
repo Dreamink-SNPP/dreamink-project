@@ -1,6 +1,18 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Header -->
     <div class="mb-8">
+        <!-- Título y navegación -->
+        <div class="flex items-center space-x-3 mb-4">
+            <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500" do %>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            <% end %>
+            <h1 class="text-3xl font-bold text-gray-900">
+              Personajes
+            </h1>
+        </div>
+
         <div class="flex items-center space-x-3">
             <%= link_to collection_report_project_characters_path(@project, format: :pdf),
             target: "_blank",
