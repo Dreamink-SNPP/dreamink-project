@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Authentication (Rails 8)
   resource :session, only: [ :new, :create, :destroy ]
+  resource :registration, only: [ :new, :create ]
   resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
 
   # Health check
