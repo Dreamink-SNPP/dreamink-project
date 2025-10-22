@@ -1,0 +1,19 @@
+es:
+  activerecord:
+    attributes:
+      user:
+        email_address: "Email"
+        password: "Contraseña"
+        password_confirmation: "Confirmación de contraseña"
+    errors:
+      models:
+        user:
+          attributes:
+            email_address:
+              taken: "ya está en uso"
+              invalid: "no es válido"
+            password:
+              too_short: "es demasiado corta (mínimo %{count} caracteres)"
+              blank: "no puede estar en blanco"
+            password_confirmation:
+              confirmation: "no coincide con la contraseña"
