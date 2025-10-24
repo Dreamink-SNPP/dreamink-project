@@ -3,8 +3,8 @@ include UserScoped
 class Character < ApplicationRecord
   belongs_to :project
 
-  has_one :internal_trait, class_name: 'CharacterInternalTrait', dependent: :destroy
-  has_one :external_trait, class_name: 'CharacterExternalTrait', dependent: :destroy
+  has_one :internal_trait, class_name: "CharacterInternalTrait", dependent: :destroy
+  has_one :external_trait, class_name: "CharacterExternalTrait", dependent: :destroy
 
   accepts_nested_attributes_for :internal_trait, :external_trait
 

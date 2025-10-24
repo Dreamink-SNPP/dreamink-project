@@ -11,14 +11,14 @@ class Location < ApplicationRecord
   validates :location_type, inclusion: { in: %w[interior exterior], message: "%{value} no es un tipo válido" }, allow_blank: true
 
 
-  scope :interiors, -> { where(location_type: 'interior') }
-  scope :exteriors, -> { where(location_type: 'exterior') }
+  scope :interiors, -> { where(location_type: "interior") }
+  scope :exteriors, -> { where(location_type: "exterior") }
 
   def interior?
-    location_type == 'interior'
+    location_type == "interior"
   end
 
   def exterior?
-    location_type == 'exterior'
+    location_type == "exterior"
   end
 end

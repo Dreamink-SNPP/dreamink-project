@@ -30,6 +30,6 @@ class Scene < ApplicationRecord
   end
 
   def set_default_color
-    self.color ||= '#FFFFFF'
+    self.color ||= "#FFFFFF"
   end
 end
