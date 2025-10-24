@@ -22,13 +22,13 @@ module UserScoped
   class_methods do
     def for_user(user)
       case name
-      when 'Project'
+      when "Project"
         where(user: user)
-      when 'Act', 'Character', 'Location', 'Idea'
+      when "Act", "Character", "Location", "Idea"
         joins(:project).where(projects: { user: user })
-      when 'Sequence'
+      when "Sequence"
         joins(act: :project).where(projects: { user: user })
-      when 'Scene'
+      when "Scene"
         joins(sequence: { act: :project }).where(projects: { user: user })
       else
         none
