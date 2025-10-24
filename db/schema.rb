@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_08_215500) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_08_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_215500) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["project_id", "position"], name: "index_acts_on_project_and_position", unique: true
     t.index ["project_id"], name: "index_acts_on_project_id"
   end
 
@@ -139,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_215500) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["sequence_id", "position"], name: "index_scenes_on_sequence_and_position", unique: true
     t.index ["sequence_id"], name: "index_scenes_on_sequence_id"
   end
 
@@ -149,6 +151,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_215500) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["act_id", "position"], name: "index_sequences_on_act_and_position", unique: true
     t.index ["act_id"], name: "index_sequences_on_act_id"
   end
 
