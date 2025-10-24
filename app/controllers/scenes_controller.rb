@@ -5,7 +5,7 @@ class ScenesController < ApplicationController
   before_action :set_sequence, only: [ :new, :create, :new_modal ]
 
   def index
-    @scenes = @project.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
+    @scenes = @project.scenes.includes(sequence: :act).order("acts.position, sequences.position, scenes.position")
   end
 
   def show
@@ -124,7 +124,7 @@ class ScenesController < ApplicationController
 
   def by_location
     @location = @project.locations.find(params[:location_id])
-    @scenes = @location.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
+    @scenes = @location.scenes.includes(sequence: :act).order("acts.position, sequences.position, scenes.position")
   end
 
   def new_modal

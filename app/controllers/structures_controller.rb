@@ -20,11 +20,11 @@ class StructuresController < ApplicationController
 
     begin
       case type
-      when 'act'
+      when "act"
         reorder_acts(ids)
-      when 'sequence'
+      when "sequence"
         reorder_sequences(ids)
-      when 'scene'
+      when "scene"
         reorder_scenes(ids)
       end
 

@@ -5,7 +5,7 @@ class SequencesController < ApplicationController
   before_action :set_act, only: [ :new, :create, :new_modal ]
 
   def index
-    @sequences = @project.sequences.includes(:act).order('acts.position, sequences.position')
+    @sequences = @project.sequences.includes(:act).order("acts.position, sequences.position")
   end
 
   def new

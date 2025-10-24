@@ -51,8 +51,8 @@ class CharactersController < ApplicationController
 
     send_data pdf_content,
       filename: "personaje_#{@character.name.parameterize}.pdf",
-      type: 'application/pdf',
-      disposition: 'inline'
+      type: "application/pdf",
+      disposition: "inline"
   end
 
   # Generar PDF de todos los personajes
@@ -62,8 +62,8 @@ class CharactersController < ApplicationController
 
     send_data pdf_content,
       filename: "personajes_#{@project.title.parameterize}.pdf",
-      type: 'application/pdf',
-      disposition: 'inline'
+      type: "application/pdf",
+      disposition: "inline"
   end
 
   private

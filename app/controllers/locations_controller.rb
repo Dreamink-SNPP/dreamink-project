@@ -12,7 +12,7 @@ class LocationsController < ApplicationController
   end
 
   def show
-    @scenes = @location.scenes.includes(sequence: :act).order('acts.position, sequences.position, scenes.position')
+    @scenes = @location.scenes.includes(sequence: :act).order("acts.position, sequences.position, scenes.position")
   end
 
   def new
@@ -53,8 +53,8 @@ class LocationsController < ApplicationController
 
     send_data pdf_content,
       filename: "locacion_#{@location.name.parameterize}.pdf",
-      type: 'application/pdf',
-      disposition: 'inline'
+      type: "application/pdf",
+      disposition: "inline"
   end
 
   def collection_report
@@ -63,8 +63,8 @@ class LocationsController < ApplicationController
 
     send_data pdf_content,
       filename: "locaciones_#{@project.title.parameterize}.pdf",
-      type: 'application/pdf',
-      disposition: 'inline'
+      type: "application/pdf",
+      disposition: "inline"
   end
 
   private
