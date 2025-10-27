@@ -2,9 +2,9 @@ include UserScoped
 
 class Scene < ApplicationRecord
   belongs_to :sequence
+  belongs_to :act
+  belongs_to :project
 
-  has_one :act, through: :sequence
-  has_one :project, through: :act
   has_many :scene_locations, dependent: :destroy
   has_many :locations, through: :scene_locations
 
@@ -18,6 +18,7 @@ class Scene < ApplicationRecord
   # Callbacks:
   before_validation :set_position, on: :create
   before_validation :set_default_color, on: :create
+  before_validation :sync_references
 
   # Scopes:
   scope :ordered, -> { order(position: :asc) }
@@ -31,5 +32,12 @@ class Scene < ApplicationRecord
 
   def set_default_color
     self.color ||= "#FFFFFF"
+  end
+
+  def sync_references
+    if sequence
+      self.act_id = sequence.act_id
+      self.project_id = sequence.act.project_id
+    end
   end
 end
