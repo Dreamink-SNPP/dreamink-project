@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_08_220000) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_27_083300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -140,6 +140,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_220000) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "project_id"
+    t.bigint "act_id"
+    t.index ["act_id"], name: "index_scenes_on_act_id"
+    t.index ["project_id"], name: "index_scenes_on_project_id"
     t.index ["sequence_id", "position"], name: "index_scenes_on_sequence_and_position", unique: true
     t.index ["sequence_id"], name: "index_scenes_on_sequence_id"
   end
@@ -151,8 +155,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_220000) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "project_id"
     t.index ["act_id", "position"], name: "index_sequences_on_act_and_position", unique: true
     t.index ["act_id"], name: "index_sequences_on_act_id"
+    t.index ["project_id"], name: "index_sequences_on_project_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -181,7 +187,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_220000) do
   add_foreign_key "projects", "users"
   add_foreign_key "scene_locations", "locations"
   add_foreign_key "scene_locations", "scenes"
+  add_foreign_key "scenes", "acts"
+  add_foreign_key "scenes", "projects"
   add_foreign_key "scenes", "sequences"
   add_foreign_key "sequences", "acts"
+  add_foreign_key "sequences", "projects"
   add_foreign_key "sessions", "users"
 end
