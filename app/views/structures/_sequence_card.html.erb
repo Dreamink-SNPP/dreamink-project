@@ -68,33 +68,32 @@
 
   <!-- Lista de Escenas (colapsable) -->
   <div id="scenes-<%= sequence.id %>" class="hidden">
-    <!-- Contenedor sortable para escenas -->
     <div id="sequence_<%= sequence.id %>_scenes"
-         class="p-2 space-y-2 min-h-[100px]"
-         data-controller="sortable"
-         data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
-         data-sortable-type-value="scene">
+           class="p-2 space-y-2 min-h-[100px]"
+           data-controller="sortable"
+           data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
+           data-sortable-type-value="scene"
+           data-sortable-group-value="scenes"
+           data-sortable-parent-id-value="<%= sequence.id %>">
 
-      <% sequence.scenes.each do |scene| %>
-        <%= render "structures/scene_item", scene: scene, project: project %>
-      <% end %>
+        <% sequence.scenes.each do |scene| %>
+          <%= render "structures/scene_item", scene: scene, project: project %>
+        <% end %>
 
-      <!-- ⭐ SI NO HAY ESCENAS, mostrar placeholder PERO sin data-sortable-id -->
-      <% if sequence.scenes.empty? %>
-        <div class="text-center py-4 text-gray-400 text-xs pointer-events-none">
-          <p>Sin escenas</p>
-        </div>
-      <% end %>
+        <% if sequence.scenes.empty? %>
+          <div class="text-center py-4 text-gray-400 text-xs pointer-events-none">
+            <p>Sin escenas</p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="p-2 border-t border-gray-100">
+        <button type="button"
+                data-action="click->structure#openNewSceneModal"
+                data-sequence-id="<%= sequence.id %>"
+                class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition">
+          + Agregar Escena
+        </button>
+      </div>
     </div>
-
-    <!-- ⭐ Botón FUERA del contenedor sortable -->
-    <div class="p-2 border-t border-gray-100">
-      <button type="button"
-              data-action="click->structure#openNewSceneModal"
-              data-sequence-id="<%= sequence.id %>"
-              class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition">
-        + Agregar Escena
-      </button>
-    </div>
-  </div>
 </div>

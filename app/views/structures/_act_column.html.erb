@@ -75,25 +75,26 @@
 
   <!-- Lista de Secuencias -->
   <div id="act_<%= act.id %>_sequences"
-       class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto"
-       data-controller="sortable"
-       data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
-       data-sortable-type-value="sequence">
+         class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto"
+         data-controller="sortable"
+         data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
+         data-sortable-type-value="sequence"
+         data-sortable-group-value="sequences"
+         data-sortable-parent-id-value="<%= act.id %>">
 
-    <% if act.sequences.any? %>
-      <% act.sequences.each do |sequence| %>
-        <%= render "structures/sequence_card", sequence: sequence, project: project %>
+      <% if act.sequences.any? %>
+        <% act.sequences.each do |sequence| %>
+          <%= render "structures/sequence_card", sequence: sequence, project: project %>
+        <% end %>
+      <% else %>
+        <div class="text-center py-8 text-gray-400 text-sm pointer-events-none">
+          <svg class="mx-auto h-8 w-8 mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p>Sin secuencias</p>
+        </div>
       <% end %>
-    <% else %>
-      <!-- Placeholder cuando no hay secuencias -->
-      <div class="text-center py-8 text-gray-400 text-sm pointer-events-none">
-        <svg class="mx-auto h-8 w-8 mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-        <p>Sin secuencias</p>
-      </div>
-    <% end %>
-  </div>
+    </div>
 
   <!-- Botón para agregar secuencia -->
   <div class="p-4 border-t border-gray-100">
