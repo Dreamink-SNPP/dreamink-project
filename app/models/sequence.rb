@@ -21,30 +21,39 @@ class Sequence < ApplicationRecord
     return true if act_id == new_act.id
 
     ActiveRecord::Base.transaction do
-      remove_from_list
+      old_act_id = self.act_id
+      old_position = self.position
 
-      self.act = new_act
-      self.project_id = new_act.project_id
+      target_position = new_position || (new_act.sequences.maximum(:position).to_i + 1)
 
-      if new_position
-        self.position = new_position
-      else
-        self.position = new_act.sequences.maximum(:position).to_i + 1
+      update_columns(
+        act_id: new_act.id,
+        project_id: new_act.project_id,
+        position: target_position
+      )
+
+      Sequence.where(act_id: old_act_id)
+              .where("position > ?", old_position)
+              .update_all("position = position - 1")
+
+      if target_position <= new_act.sequences.maximum(:position).to_i
+        Sequence.where(act_id: new_act.id)
+                .where("position >= ? AND id != ?", target_position, self.id)
+                .update_all("position = position + 1")
       end
-
-      save!
 
       scenes.update_all(
         act_id: new_act.id,
         project_id: new_act.project_id
       )
 
-      insert_at(position) if position
+      reload
     end
 
     true
-  rescue ActiveRecord::RecordInvalid => e
+  rescue => e
     Rails.logger.error "Error moving sequence: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
     false
   end
 
