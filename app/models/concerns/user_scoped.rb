@@ -10,9 +10,9 @@ module UserScoped
       when Act, Character, Location, Idea
         project.user_id == user.id
       when Sequence
-        act.project.user_id == user.id
+        project.user_id == user.id
       when Scene
-        sequence.act.project.user_id == user.id
+        project.user_id == user.id
       else
         false
       end
@@ -27,9 +27,9 @@ module UserScoped
       when "Act", "Character", "Location", "Idea"
         joins(:project).where(projects: { user: user })
       when "Sequence"
-        joins(act: :project).where(projects: { user: user })
+        where(project: user.projects)
       when "Scene"
-        joins(sequence: { act: :project }).where(projects: { user: user })
+        where(project: user.projects)
       else
         none
       end
