@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resources :sequences, except: [ :show ] do
       member do
         get :edit_modal
+        patch :move_to_act
       end
       get 'scenes/new_modal', to: 'scenes#new_modal', as: :new_scene_modal
     end
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
       member do
         get :new_modal
         get :edit_modal
+        patch :move_to_sequence
       end
       collection do
         get :by_location # Filter scenes by locations
