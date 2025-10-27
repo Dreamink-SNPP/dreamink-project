@@ -31,22 +31,25 @@ class Scene < ApplicationRecord
 
       target_position = new_position || (new_sequence.scenes.maximum(:position).to_i + 1)
 
+      if target_position <= new_sequence.scenes.maximum(:position).to_i
+        Scene.where(sequence_id: new_sequence.id)
+             .where("position >= ?", target_position)
+             .update_all("position = position + 1")
+      end
+
+      temp_position = 999999
       update_columns(
         sequence_id: new_sequence.id,
         act_id: new_sequence.act_id,
         project_id: new_sequence.act.project_id,
-        position: target_position
+        position: temp_position
       )
 
       Scene.where(sequence_id: old_sequence_id)
            .where("position > ?", old_position)
            .update_all("position = position - 1")
 
-      if target_position <= new_sequence.scenes.maximum(:position).to_i
-        Scene.where(sequence_id: new_sequence.id)
-             .where("position >= ? AND id != ?", target_position, self.id)
-             .update_all("position = position + 1")
-      end
+      update_columns(position: target_position)
 
       reload
     end

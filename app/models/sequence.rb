@@ -26,21 +26,24 @@ class Sequence < ApplicationRecord
 
       target_position = new_position || (new_act.sequences.maximum(:position).to_i + 1)
 
+      if target_position <= new_act.sequences.maximum(:position).to_i
+        Sequence.where(act_id: new_act.id)
+                .where("position >= ?", target_position)
+                .update_all("position = position + 1")
+      end
+
+      temp_position = 999999
       update_columns(
         act_id: new_act.id,
         project_id: new_act.project_id,
-        position: target_position
+        position: temp_position
       )
 
       Sequence.where(act_id: old_act_id)
               .where("position > ?", old_position)
               .update_all("position = position - 1")
 
-      if target_position <= new_act.sequences.maximum(:position).to_i
-        Sequence.where(act_id: new_act.id)
-                .where("position >= ? AND id != ?", target_position, self.id)
-                .update_all("position = position + 1")
-      end
+      update_columns(position: target_position)
 
       scenes.update_all(
         act_id: new_act.id,
