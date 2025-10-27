@@ -10,19 +10,44 @@ class Scene < ApplicationRecord
 
   acts_as_list scope: :sequence
 
-  # Validations:
   validates :title, presence: true, length: { maximum: 200 }
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :color, format: { with: /\A#[0-9A-F]{6}\z/i, allow_blank: true }
 
-  # Callbacks:
   before_validation :set_position, on: :create
   before_validation :set_default_color, on: :create
   before_validation :sync_references
 
-  # Scopes:
   scope :ordered, -> { order(position: :asc) }
   scope :by_color, ->(color) { where(color: color) }
+
+  def move_to_sequence(new_sequence, new_position: nil)
+    return false if new_sequence.nil?
+    return true if sequence_id == new_sequence.id
+
+    ActiveRecord::Base.transaction do
+      remove_from_list
+
+      self.sequence = new_sequence
+      self.act_id = new_sequence.act_id
+      self.project_id = new_sequence.act.project_id
+
+      if new_position
+        self.position = new_position
+      else
+        self.position = new_sequence.scenes.maximum(:position).to_i + 1
+      end
+
+      save!
+
+      add_to_list(position)
+    end
+
+    true
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "Error moving scene: #{e.message}"
+    false
+  end
 
   private
 
