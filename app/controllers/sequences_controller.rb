@@ -1,7 +1,7 @@
 class SequencesController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_sequence, only: [ :edit, :edit_modal, :update, :destroy ]
+  before_action :set_sequence, only: [ :edit, :edit_modal, :update, :destroy, :move_to_act ]
   before_action :set_act, only: [ :new, :create, :new_modal ]
 
   def index
@@ -108,6 +108,49 @@ class SequencesController < ApplicationController
     @act = @project.acts.find(params[:act_id])
     @sequence = @act.sequences.build
     render partial: "sequences/form", locals: { sequence: @sequence }, layout: false
+  end
+
+  def move_to_act
+    target_act_id = params[:target_act_id]
+    target_position = params[:target_position]&.to_i
+
+    if target_act_id.blank?
+      return render json: { error: "target_act_id is required" }, status: :bad_request
+    end
+
+  target_act = @project.acts.find_by(id: target_act_id)
+
+    if target_act.nil?
+      return render json: { error: "Target act not found" }, status: :not_found
+    end
+
+    if @sequence.move_to_act(target_act, new_position: target_position)
+      respond_to do |format|
+      format.turbo_stream do
+      redirect_to project_structure_path(@project)
+    end
+      format.json do
+        render json: {
+        success: true,
+        sequence_id: @sequence.id,
+        new_act_id: target_act.id,
+        new_position: @sequence.position
+        }, status: :ok
+      end
+    end
+    else
+      respond_to do |format|
+        format.turbo_stream do
+        render turbo_stream: turbo_stream.prepend("flash_messages",
+        partial: "shared/flash_alert",
+        locals: { message: "Error al mover la secuencia" }
+        )
+      end
+        format.json do
+          render json: { error: "Failed to move sequence" }, status: :unprocessable_entity
+        end
+      end
+    end
   end
 
   private
