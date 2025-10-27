@@ -39,7 +39,7 @@ class Sequence < ApplicationRecord
         project_id: new_act.project_id
       )
 
-      add_to_list(position)
+      insert_at(position) if position
     end
 
     true

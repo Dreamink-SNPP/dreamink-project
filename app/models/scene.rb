@@ -40,7 +40,7 @@ class Scene < ApplicationRecord
 
       save!
 
-      add_to_list(position)
+      insert_at(position) if position
     end
 
     true
