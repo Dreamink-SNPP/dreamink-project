@@ -75,12 +75,13 @@
 
   <!-- Lista de Secuencias -->
   <div id="act_<%= act.id %>_sequences"
-         class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto"
-         data-controller="sortable"
-         data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
-         data-sortable-type-value="sequence"
-         data-sortable-group-value="sequences"
-         data-sortable-parent-id-value="<%= act.id %>">
+       class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto"
+       data-controller="sortable"
+       data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
+       data-sortable-type-value="sequence"
+       data-sortable-group-value="sequences"
+       data-sortable-parent-id-value="<%= act.id %>"
+       data-sortable-parent-id="<%= act.id %>">
 
       <% if act.sequences.any? %>
         <% act.sequences.each do |sequence| %>
