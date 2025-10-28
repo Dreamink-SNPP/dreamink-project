@@ -10,6 +10,14 @@ export default class extends Controller {
     }
 
     connect() {
+        // Prevent initialization if we're inside a dragging element
+        // This prevents nested controllers from reconnecting during parent drag
+        const draggingParent = this.element.closest('.is-dragging')
+        if (draggingParent) {
+            console.log('⏸️ SKIPPING COLLAPSIBLE INIT (inside dragging parent)')
+            return
+        }
+
         console.log("Collapsible connected")
 
         // Restaurar estado guardado o usar inicial

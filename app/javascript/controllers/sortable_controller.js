@@ -10,6 +10,14 @@ export default class extends Controller {
   }
 
   connect() {
+    // Prevent initialization if we're inside a dragging element
+    // This prevents nested sortables from reconnecting during parent drag
+    const draggingParent = this.element.closest('.is-dragging')
+    if (draggingParent) {
+      console.log('⏸️ SKIPPING SORTABLE INIT (inside dragging parent):', this.typeValue)
+      return
+    }
+
     console.log('🟢 SORTABLE CONNECTED:', this.typeValue)
     console.log('   URL:', this.urlValue)
     console.log('   Group:', this.groupValue || 'none')
