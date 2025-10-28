@@ -126,26 +126,26 @@ class SequencesController < ApplicationController
 
     if @sequence.move_to_act(target_act, new_position: target_position)
       respond_to do |format|
-      format.turbo_stream do
-      redirect_to project_structure_path(@project)
-    end
-      format.json do
-        render json: {
-        success: true,
-        sequence_id: @sequence.id,
-        new_act_id: target_act.id,
-        new_position: @sequence.position
-        }, status: :ok
+        format.turbo_stream do
+          redirect_to project_structure_path(@project), notice: "Secuencia movida exitosamente"
+        end
+        format.json do
+          render json: {
+            success: true,
+            sequence_id: @sequence.id,
+            new_act_id: target_act.id,
+            new_position: @sequence.position
+          }, status: :ok
+        end
       end
-    end
     else
       respond_to do |format|
         format.turbo_stream do
-        render turbo_stream: turbo_stream.prepend("flash_messages",
-        partial: "shared/flash_alert",
-        locals: { message: "Error al mover la secuencia" }
-        )
-      end
+          render turbo_stream: turbo_stream.prepend("flash_messages",
+            partial: "shared/flash_alert",
+            locals: { message: "Error al mover la secuencia" }
+          )
+        end
         format.json do
           render json: { error: "Failed to move sequence" }, status: :unprocessable_entity
         end

@@ -45,9 +45,19 @@ class Scene < ApplicationRecord
         position: temp_position
       )
 
-      Scene.where(sequence_id: old_sequence_id)
-           .where("position > ?", old_position)
-           .update_all("position = position - 1")
+      # Close gap in source sequence using temp negative positions
+      # This avoids unique constraint violations during the shift
+      scenes_to_shift = Scene.where(sequence_id: old_sequence_id)
+                             .where("position > ?", old_position)
+                             .order(:position)
+
+      scenes_to_shift.each_with_index do |sc, index|
+        sc.update_columns(position: -(old_position + index + 1000))
+      end
+
+      scenes_to_shift.each_with_index do |sc, index|
+        sc.update_columns(position: old_position + index)
+      end
 
       update_columns(position: target_position)
 

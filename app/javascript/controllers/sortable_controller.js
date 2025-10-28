@@ -44,6 +44,7 @@ export default class extends Controller {
       onStart: (event) => {
         console.log('🟡 DRAG START for', this.typeValue)
         console.log('   Item:', event.item.id)
+        console.log('   From container:', event.from.id)
         event.item.classList.add('is-dragging')
         document.body.style.cursor = 'grabbing'
       },
@@ -137,11 +138,21 @@ export default class extends Controller {
     })
     .then(data => {
       console.log('   ✅ Response data:', data)
-      this.element.style.opacity = '1'
 
       if (data.success) {
         this.showToast('Elemento movido correctamente', 'success')
+        // Reload page to update counters and ensure DOM matches database.
+        // After cross-container moves, parent container counts and nested
+        // element references need to be refreshed for UI consistency.
+        setTimeout(() => {
+          if (typeof Turbo !== 'undefined') {
+            Turbo.visit(window.location.href)
+          } else {
+            window.location.reload()
+          }
+        }, 600)
       } else {
+        this.element.style.opacity = '1'
         throw new Error('Server returned success: false')
       }
     })
