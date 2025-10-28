@@ -40,12 +40,24 @@ export default class extends Controller {
       ghostClass: 'sortable-ghost',
       chosenClass: 'sortable-chosen',
       dragClass: 'sortable-drag',
+      fallbackOnBody: true,
+      swapThreshold: 0.65,
+      forceFallback: false,
 
       onStart: (event) => {
         console.log('🟡 DRAG START for', this.typeValue)
         console.log('   Item:', event.item.id)
+        console.log('   From container:', event.from.id)
         event.item.classList.add('is-dragging')
         document.body.style.cursor = 'grabbing'
+      },
+
+      onMove: (event) => {
+        // Log move events for debugging nested sortable issues
+        if (this.typeValue === 'sequence') {
+          console.log('   📦 Moving sequence...')
+        }
+        return true  // Allow the move
       },
 
       onEnd: (event) => {
