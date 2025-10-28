@@ -10,14 +10,6 @@ export default class extends Controller {
   }
 
   connect() {
-    // Prevent initialization if we're inside a dragging element
-    // This prevents nested sortables from reconnecting during parent drag
-    const draggingParent = this.element.closest('.is-dragging')
-    if (draggingParent) {
-      console.log('⏸️ SKIPPING SORTABLE INIT (inside dragging parent):', this.typeValue)
-      return
-    }
-
     console.log('🟢 SORTABLE CONNECTED:', this.typeValue)
     console.log('   URL:', this.urlValue)
     console.log('   Group:', this.groupValue || 'none')
@@ -40,26 +32,6 @@ export default class extends Controller {
       put: true
     } : false
 
-    // Configuration options that vary by type
-    const typeSpecificConfig = {}
-
-    // For sequences, only allow dragging when collapsed (scenes hidden)
-    if (this.typeValue === 'sequence') {
-      typeSpecificConfig.filter = (event, target) => {
-        // Check if the sequence's scenes container is visible (expanded)
-        const sequenceCard = target.closest('[data-sortable-id]')
-        if (sequenceCard) {
-          const sequenceId = sequenceCard.dataset.sortableId
-          const scenesContainer = document.getElementById(`scenes-${sequenceId}`)
-          if (scenesContainer && !scenesContainer.classList.contains('hidden')) {
-            console.log('⚠️ Cannot drag expanded sequence. Collapse it first.')
-            return true // Filter out (prevent drag)
-          }
-        }
-        return false // Allow drag
-      }
-    }
-
     this.sortable = Sortable.create(this.element, {
       animation: 200,
       handle: '.drag-handle',
@@ -68,10 +40,6 @@ export default class extends Controller {
       ghostClass: 'sortable-ghost',
       chosenClass: 'sortable-chosen',
       dragClass: 'sortable-drag',
-      fallbackOnBody: true,
-      swapThreshold: 0.65,
-      forceFallback: false,
-      ...typeSpecificConfig,
 
       onStart: (event) => {
         console.log('🟡 DRAG START for', this.typeValue)
