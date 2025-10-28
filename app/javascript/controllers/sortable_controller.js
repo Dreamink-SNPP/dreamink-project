@@ -40,6 +40,26 @@ export default class extends Controller {
       put: true
     } : false
 
+    // Configuration options that vary by type
+    const typeSpecificConfig = {}
+
+    // For sequences, only allow dragging when collapsed (scenes hidden)
+    if (this.typeValue === 'sequence') {
+      typeSpecificConfig.filter = (event, target) => {
+        // Check if the sequence's scenes container is visible (expanded)
+        const sequenceCard = target.closest('[data-sortable-id]')
+        if (sequenceCard) {
+          const sequenceId = sequenceCard.dataset.sortableId
+          const scenesContainer = document.getElementById(`scenes-${sequenceId}`)
+          if (scenesContainer && !scenesContainer.classList.contains('hidden')) {
+            console.log('⚠️ Cannot drag expanded sequence. Collapse it first.')
+            return true // Filter out (prevent drag)
+          }
+        }
+        return false // Allow drag
+      }
+    }
+
     this.sortable = Sortable.create(this.element, {
       animation: 200,
       handle: '.drag-handle',
@@ -51,28 +71,14 @@ export default class extends Controller {
       fallbackOnBody: true,
       swapThreshold: 0.65,
       forceFallback: false,
+      ...typeSpecificConfig,
 
       onStart: (event) => {
         console.log('🟡 DRAG START for', this.typeValue)
         console.log('   Item:', event.item.id)
         console.log('   From container:', event.from.id)
-
-        // For sequences, disable nested Stimulus controllers during drag
-        // to prevent DOM manipulation from interfering with SortableJS
-        if (this.typeValue === 'sequence') {
-          this.disableNestedControllers(event.item)
-        }
-
         event.item.classList.add('is-dragging')
         document.body.style.cursor = 'grabbing'
-      },
-
-      onMove: (event) => {
-        // Log move events for debugging nested sortable issues
-        if (this.typeValue === 'sequence') {
-          console.log('   📦 Moving sequence...')
-        }
-        return true  // Allow the move
       },
 
       onEnd: (event) => {
@@ -80,11 +86,6 @@ export default class extends Controller {
         console.log('   From container:', event.from.id)
         console.log('   To container:', event.to.id)
         console.log('   Old index:', event.oldIndex, 'New index:', event.newIndex)
-
-        // Re-enable nested controllers for sequences
-        if (this.typeValue === 'sequence') {
-          this.restoreNestedControllers(event.item)
-        }
 
         event.item.classList.remove('is-dragging')
         document.body.style.cursor = ''
@@ -283,34 +284,5 @@ export default class extends Controller {
       toast.style.transition = 'all 0.3s'
       setTimeout(() => toast.remove(), 300)
     }, 3000)
-  }
-
-  // Temporarily disable nested Stimulus controllers during drag
-  // This prevents Stimulus from interfering with SortableJS operations
-  disableNestedControllers(element) {
-    const nestedControllers = element.querySelectorAll('[data-controller]')
-    console.log(`   🔇 Disabling ${nestedControllers.length} nested controllers`)
-
-    nestedControllers.forEach(el => {
-      const controllers = el.getAttribute('data-controller')
-      if (controllers) {
-        el.setAttribute('data-controller-disabled', controllers)
-        el.removeAttribute('data-controller')
-      }
-    })
-  }
-
-  // Restore nested Stimulus controllers after drag completes
-  restoreNestedControllers(element) {
-    const disabledControllers = element.querySelectorAll('[data-controller-disabled]')
-    console.log(`   🔊 Restoring ${disabledControllers.length} nested controllers`)
-
-    disabledControllers.forEach(el => {
-      const controllers = el.getAttribute('data-controller-disabled')
-      if (controllers) {
-        el.setAttribute('data-controller', controllers)
-        el.removeAttribute('data-controller-disabled')
-      }
-    })
   }
 }
