@@ -15,6 +15,9 @@ export default class extends Controller {
         const collapsibles = document.querySelectorAll('[data-controller*="collapsible"]')
 
         collapsibles.forEach(element => {
+            // Obtener el storage key del collapsible controller
+            const storageKey = element.dataset.collapsibleStorageKeyValue
+
             // Buscar los botones de toggle dentro de cada collapsible
             const toggleButtons = element.querySelectorAll('[data-action*="collapsible#toggle"]')
 
@@ -26,6 +29,8 @@ export default class extends Controller {
                 // Solo expandir si está colapsado
                 if (content && content.classList.contains('hidden')) {
                     this.expand(content, icon)
+                    // Guardar estado en localStorage
+                    this.saveState(storageKey, targetId, 'expanded')
                 }
             })
         })
@@ -39,6 +44,9 @@ export default class extends Controller {
         const collapsibles = document.querySelectorAll('[data-controller*="collapsible"]')
 
         collapsibles.forEach(element => {
+            // Obtener el storage key del collapsible controller
+            const storageKey = element.dataset.collapsibleStorageKeyValue
+
             const toggleButtons = element.querySelectorAll('[data-action*="collapsible#toggle"]')
 
             toggleButtons.forEach(button => {
@@ -49,6 +57,8 @@ export default class extends Controller {
                 // Solo colapsar si está expandido
                 if (content && !content.classList.contains('hidden')) {
                     this.collapse(content, icon)
+                    // Guardar estado en localStorage
+                    this.saveState(storageKey, targetId, 'collapsed')
                 }
             })
         })
@@ -105,6 +115,21 @@ export default class extends Controller {
             content.style.maxHeight = ''
             content.style.opacity = ''
         }, 300)
+    }
+
+    // ==========================================
+    // PERSISTENCIA DE ESTADO
+    // ==========================================
+
+    saveState(storageKey, targetId, state) {
+        if (!storageKey) return
+
+        try {
+            const key = `${storageKey}_${targetId}`
+            localStorage.setItem(key, state)
+        } catch (error) {
+            console.warn('Could not save collapse state:', error)
+        }
     }
 
     // ==========================================
