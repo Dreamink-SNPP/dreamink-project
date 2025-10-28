@@ -39,9 +39,19 @@ class Sequence < ApplicationRecord
         position: temp_position
       )
 
-      Sequence.where(act_id: old_act_id)
-              .where("position > ?", old_position)
-              .update_all("position = position - 1")
+      # Close gap in source act using temp negative positions
+      # This avoids unique constraint violations during the shift
+      sequences_to_shift = Sequence.where(act_id: old_act_id)
+                                   .where("position > ?", old_position)
+                                   .order(:position)
+
+      sequences_to_shift.each_with_index do |seq, index|
+        seq.update_columns(position: -(old_position + index + 1000))
+      end
+
+      sequences_to_shift.each_with_index do |seq, index|
+        seq.update_columns(position: old_position + index)
+      end
 
       update_columns(position: target_position)
 
