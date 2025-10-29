@@ -16,14 +16,30 @@ end
 
 module ActionDispatch
   class IntegrationTest
+    # Store the session ID for this test
+    attr_accessor :test_session_id
+
     # Helper method to sign in a user for integration tests
     def sign_in_as(user)
       user_session = user.sessions.create!(user_agent: "Test Browser", ip_address: "127.0.0.1")
+      @test_session_id = user_session.id
 
-      # Make a request to an unauthenticated endpoint to initialize the session
-      # This is necessary because session isn't available until first request in tests
+      # Make a request to initialize the session first
       get rails_health_check_path
-      session[:session_id] = user_session.id
+
+      # Now set the session_id - this should persist across subsequent requests
+      session[:session_id] = @test_session_id
+    end
+
+    # Override process to always include session data
+    def process(method, path, **args)
+      # Inject session data into every request if we have a test_session_id
+      if @test_session_id
+        args[:env] ||= {}
+        args[:env]["rack.session"] ||= {}
+        args[:env]["rack.session"][:session_id] = @test_session_id
+      end
+      super
     end
   end
 end
