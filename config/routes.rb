@@ -23,7 +23,7 @@ Rails.application.routes.draw do
               patch :move_right
               get :edit_modal
       end
-      get 'sequences/new_modal', to: 'sequences#new_modal', as: :new_sequence_modal
+      get "sequences/new_modal", to: "sequences#new_modal", as: :new_sequence_modal
     end
 
     resources :sequences, except: [ :show ] do
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
         get :edit_modal
         patch :move_to_act
       end
-      get 'scenes/new_modal', to: 'scenes#new_modal', as: :new_scene_modal
+      get "scenes/new_modal", to: "scenes#new_modal", as: :new_scene_modal
     end
 
     resources :scenes do
@@ -68,7 +68,7 @@ Rails.application.routes.draw do
     end
 
     # Cambiar la ruta de structure para usar POST en reorder
-    get 'structure', to: 'structures#show', as: :structure
-    post 'structure/reorder', to: 'structures#reorder', as: :reorder_structure
+    get "structure", to: "structures#show", as: :structure
+    post "structure/reorder", to: "structures#reorder", as: :reorder_structure
   end
 end
