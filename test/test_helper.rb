@@ -19,9 +19,10 @@ module ActionDispatch
     # Helper method to sign in a user for integration tests
     def sign_in_as(user)
       user_session = user.sessions.create!(user_agent: "Test Browser", ip_address: "127.0.0.1")
-      # Ensure session is initialized
-      reset!
-      # Store session_id in Rails session hash (persists across requests in tests)
+
+      # Make a request to an unauthenticated endpoint to initialize the session
+      # This is necessary because session isn't available until first request in tests
+      get rails_health_check_path
       session[:session_id] = user_session.id
     end
   end
