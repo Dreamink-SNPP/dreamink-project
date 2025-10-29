@@ -20,8 +20,11 @@ module ActionDispatch
     def sign_in_as(user)
       user_session = user.sessions.create!(user_agent: "Test Browser", ip_address: "127.0.0.1")
 
+      # Get the session ID (handle both Hash and ActiveRecord object)
+      session_id = user_session.is_a?(Hash) ? user_session["id"] : user_session.id
+
       # Directly set in the Rack session store which persists across requests
-      post rails_health_check_path, env: { "rack.session" => { session_id: user_session.id } }
+      post rails_health_check_path, env: { "rack.session" => { session_id: session_id } }
     end
   end
 end
