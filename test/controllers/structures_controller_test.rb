@@ -1,13 +1,80 @@
 require "test_helper"
 
 class StructuresControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:one)
+    @project = projects(:one)
+    @act = acts(:one)
+    @sequence = sequences(:one)
+    @scene = scenes(:one)
+    sign_in_as(@user)
+  end
+
   test "should get show" do
-    get structures_show_url
+    get project_structure_path(@project)
     assert_response :success
   end
 
-  test "should get reorder" do
-    get structures_reorder_url
+  test "should reorder acts" do
+    act2 = @project.acts.create!(title: "Act 2", description: "Second", position: 2)
+    act3 = @project.acts.create!(title: "Act 3", description: "Third", position: 3)
+
+    post reorder_structure_path(@project), params: {
+      type: "act",
+      ids: [ act3.id, @act.id, act2.id ]
+    }, as: :json
+
     assert_response :success
+    assert_equal true, JSON.parse(response.body)["success"]
+  end
+
+  test "should reorder sequences" do
+    seq2 = @project.sequences.create!(title: "Seq 2", act: @act, position: 2)
+    seq3 = @project.sequences.create!(title: "Seq 3", act: @act, position: 3)
+
+    post reorder_structure_path(@project), params: {
+      type: "sequence",
+      ids: [ seq3.id, @sequence.id, seq2.id ]
+    }, as: :json
+
+    assert_response :success
+    assert_equal true, JSON.parse(response.body)["success"]
+  end
+
+  test "should reorder scenes" do
+    scene2 = @project.scenes.create!(title: "Scene 2", sequence: @sequence, position: 2)
+    scene3 = @project.scenes.create!(title: "Scene 3", sequence: @sequence, position: 3)
+
+    post reorder_structure_path(@project), params: {
+      type: "scene",
+      ids: [ scene3.id, @scene.id, scene2.id ]
+    }, as: :json
+
+    assert_response :success
+    assert_equal true, JSON.parse(response.body)["success"]
+  end
+
+  test "should reject reorder with invalid type" do
+    post reorder_structure_path(@project), params: {
+      type: "invalid",
+      ids: [ @act.id ]
+    }, as: :json
+
+    assert_response :bad_request
+  end
+
+  test "should reject reorder with missing parameters" do
+    post reorder_structure_path(@project), params: {
+      type: "act"
+    }, as: :json
+
+    assert_response :bad_request
+  end
+
+  test "should not access other user's project structure" do
+    other_project = projects(:two)
+
+    get project_structure_path(other_project)
+    assert_redirected_to projects_path
   end
 end
