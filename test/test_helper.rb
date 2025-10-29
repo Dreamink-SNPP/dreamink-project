@@ -13,3 +13,13 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+module ActionDispatch
+  class IntegrationTest
+    # Helper method to sign in a user for integration tests
+    def sign_in_as(user)
+      session = user.sessions.create!(user_agent: "Test Browser", ip_address: "127.0.0.1")
+      cookies.signed[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+    end
+  end
+end
