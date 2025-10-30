@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sequence: one
+  title: MyString
+  description: MyText
+  color: MyString
+  position: 1
+
+two:
+  sequence: two
+  title: MyString
+  description: MyText
+  color: MyString
+  position: 1
