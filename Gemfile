@@ -74,7 +74,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "dotenv-rails", "~> 3.1", group: :development
+gem "dotenv-rails", "~> 3.1", groups: [ :development, :test ]
 gem "test", "~> 1.0", group: :development
 
 gem "tailwindcss-ruby", "~> 4.1"
