@@ -18,13 +18,21 @@ module ActionDispatch
   class IntegrationTest
     # Helper method to sign in a user for integration tests
     def sign_in_as(user)
-      user_session = user.sessions.create!(user_agent: "Test Browser", ip_address: "127.0.0.1")
+      # Get user ID, handling both Hash and ActiveRecord object
+      user_id = user.is_a?(Hash) ? (user["id"] || user[:id]) : user.id
 
-      # Get the session ID (handle both Hash and ActiveRecord object)
-      session_id = user_session.is_a?(Hash) ? user_session["id"] : user_session.id
+      # Ensure we have a User object, not a Hash (can happen in parallel tests)
+      user_obj = user.is_a?(Hash) ? User.find(user_id) : user
+
+      # Find or create a session for this user
+      # In parallel tests, use find_or_create_by to avoid race conditions
+      user_session = Session.find_or_create_by!(user_id: user_obj.id) do |session|
+        session.user_agent = "Test Browser"
+        session.ip_address = "127.0.0.1"
+      end
 
       # Directly set in the Rack session store which persists across requests
-      post rails_health_check_path, env: { "rack.session" => { session_id: session_id } }
+      post rails_health_check_path, env: { "rack.session" => { session_id: user_session.id } }
     end
   end
 end
