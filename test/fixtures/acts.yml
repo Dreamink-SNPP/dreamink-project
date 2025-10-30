@@ -2,12 +2,18 @@
 
 one:
   project: one
-  title: MyString
-  description: MyText
-  position: 1
+  title: "Acto I: El Reencuentro"
+  description: "Los tres amigos se encuentran después de 20 años"
+  position: 0
 
 two:
-  project: two
-  title: MyString
-  description: MyText
+  project: one
+  title: "Acto II: El Conflicto"
+  description: "Surgen viejas rencillas y secretos"
   position: 1
+
+three:
+  project: two
+  title: "Acto I: El Crimen"
+  description: "Se descubre el crimen"
+  position: 0

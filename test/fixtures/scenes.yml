@@ -2,14 +2,21 @@
 
 one:
   sequence: one
-  title: MyString
-  description: MyText
-  color: MyString
-  position: 1
+  title: "Escena 1: El sobre"
+  description: "El protagonista recibe un sobre con la invitación"
+  color: "#FFFFFF"
+  position: 0
 
 two:
-  sequence: two
-  title: MyString
-  description: MyText
-  color: MyString
+  sequence: one
+  title: "Escena 2: La decisión"
+  description: "Decide si asistir o no"
+  color: "#FFE4B5"
   position: 1
+
+three:
+  sequence: two
+  title: "Escena 1: En el auto"
+  description: "Viaja en auto recordando el pasado"
+  color: "#87CEEB"
+  position: 0

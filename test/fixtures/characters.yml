@@ -2,8 +2,12 @@
 
 one:
   project: one
-  name: MyString
+  name: "Martín Sosa"
 
 two:
+  project: one
+  name: "Carolina Benítez"
+
+three:
   project: two
-  name: MyString
+  name: "Detective Ramírez"
