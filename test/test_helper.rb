@@ -18,21 +18,32 @@ module ActionDispatch
   class IntegrationTest
     # Helper method to sign in a user for integration tests
     def sign_in_as(user)
-      # Get user ID, handling both Hash and ActiveRecord object
-      user_id = user.is_a?(Hash) ? (user["id"] || user[:id]) : user.id
+      # Handle both fixture reference (Hash) and User object
+      user_obj = if user.is_a?(Hash)
+        # In parallel tests, fixtures are accessed as Hashes
+        # Try both string and symbol keys
+        user_id = user["id"] || user[:id]
 
-      # Ensure we have a User object, not a Hash (can happen in parallel tests)
-      user_obj = user.is_a?(Hash) ? User.find(user_id) : user
+        if user_id.nil?
+          raise ArgumentError, "Fixture hash must contain 'id' or :id key. Got: #{user.inspect}"
+        end
+
+        User.find(user_id)
+      elsif user.is_a?(User)
+        user
+      else
+        # Handle fixture name as symbol: users(:one)
+        # This shouldn't happen but just in case
+        User.find(user.id)
+      end
 
       # Find or create a session for this user
-      # Use ::Session to reference our model, not ActionDispatch::Session
-      # In parallel tests, use find_or_create_by to avoid race conditions
       user_session = ::Session.find_or_create_by!(user_id: user_obj.id) do |sess|
         sess.user_agent = "Test Browser"
         sess.ip_address = "127.0.0.1"
       end
 
-      # Directly set in the Rack session store which persists across requests
+      # Set session in Rack session store
       post rails_health_check_path, env: { "rack.session" => { session_id: user_session.id } }
     end
   end
