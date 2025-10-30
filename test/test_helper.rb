@@ -25,10 +25,11 @@ module ActionDispatch
       user_obj = user.is_a?(Hash) ? User.find(user_id) : user
 
       # Find or create a session for this user
+      # Use ::Session to reference our model, not ActionDispatch::Session
       # In parallel tests, use find_or_create_by to avoid race conditions
-      user_session = Session.find_or_create_by!(user_id: user_obj.id) do |session|
-        session.user_agent = "Test Browser"
-        session.ip_address = "127.0.0.1"
+      user_session = ::Session.find_or_create_by!(user_id: user_obj.id) do |sess|
+        sess.user_agent = "Test Browser"
+        sess.ip_address = "127.0.0.1"
       end
 
       # Directly set in the Rack session store which persists across requests
