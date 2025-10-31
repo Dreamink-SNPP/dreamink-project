@@ -37,7 +37,7 @@ module Pdf
 
     def add_character_section(character)
       # Encabezado del personaje
-      @pdf.text character.name, size: 22, style: :bold, color: "4F46E5"
+      @pdf.text character.name, size: 22, style: :bold, color: "1B3C53"
       @pdf.move_down 15
       add_divider
 

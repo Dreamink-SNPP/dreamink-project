@@ -32,7 +32,7 @@
         <div class="relative" data-controller="dropdown">
           <button type="button"
                   data-action="click->dropdown#toggle"
-                  class="text-gray-400 hover:text-indigo-600 p-1"
+                  class="text-gray-400 hover:text-primary p-1"
                   title="Mover a otro acto">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
@@ -50,7 +50,7 @@
                 <%= button_to move_to_act_project_sequence_path(project, sequence),
                               method: :patch,
                               params: { target_act_id: act.id, target_position: 1 },
-                              class: "w-full text-left px-3 py-2 text-xs text-gray-700 hover:bg-indigo-50 hover:text-indigo-600",
+                              class: "w-full text-left px-3 py-2 text-xs text-gray-700 hover:bg-primary-50 hover:text-primary",
                               data: { turbo: true } do %>
                   <%= act.title %>
                 <% end %>
@@ -62,7 +62,7 @@
         <button type="button"
                 data-action="click->structure#openEditSequenceModal"
                 data-sequence-id="<%= sequence.id %>"
-                class="text-gray-400 hover:text-indigo-600 p-1"
+                class="text-gray-400 hover:text-primary p-1"
                 title="Editar secuencia">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -123,7 +123,7 @@
         <button type="button"
                 data-action="click->structure#openNewSceneModal"
                 data-sequence-id="<%= sequence.id %>"
-                class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition">
+                class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-primary hover:text-primary transition">
           + Agregar Escena
         </button>
       </div>

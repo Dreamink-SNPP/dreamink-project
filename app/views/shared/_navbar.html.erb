@@ -4,14 +4,14 @@
       <!-- Logo y nombre -->
       <div class="flex">
         <%= link_to root_path, class: "flex items-center" do %>
-          <span class="text-2xl font-bold text-indigo-600">🎬</span>
+          <span class="text-2xl font-bold text-primary">🎬</span>
           <span class="ml-2 text-xl font-semibold text-gray-900">Dreamink</span>
         <% end %>
 
         <!-- Navegación principal -->
         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
           <%= link_to "Proyectos", projects_path,
-                      class: "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium #{current_page?(projects_path) ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}" %>
+                      class: "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium #{current_page?(projects_path) ? 'border-primary text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}" %>
         </div>
       </div>
 
@@ -23,7 +23,7 @@
         <%= button_to "Cerrar Sesión",
                       session_path,
                       method: :delete,
-                      class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+                      class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
       </div>
     </div>
   </div>

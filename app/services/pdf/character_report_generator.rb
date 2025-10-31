@@ -18,7 +18,7 @@ module Pdf
     private
 
     def add_character_basic_info
-      @pdf.text @character.name, size: 22, style: :bold, color: "4F46E5"
+      @pdf.text @character.name, size: 22, style: :bold, color: "1B3C53"
       @pdf.move_down 5
       @pdf.text "Personaje de #{@project.title}", size: 11, color: "6B7280"
       @pdf.move_down 25

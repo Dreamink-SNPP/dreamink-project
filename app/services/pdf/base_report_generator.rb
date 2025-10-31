@@ -66,7 +66,7 @@ module Pdf
     end
 
     def add_header(title, subtitle = nil)
-      @pdf.text title, size: 26, style: :bold, color: "4F46E5"
+      @pdf.text title, size: 26, style: :bold, color: "1B3C53"
       if subtitle
         @pdf.move_down 5
         @pdf.text subtitle, size: 13, color: "6B7280"
