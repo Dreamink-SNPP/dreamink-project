@@ -1,4 +1,11 @@
 /* Dreamink Custom Color Utilities */
+
+/* Gradient Utilities */
+.bg-gradient-primary { background: linear-gradient(to right, #1b3c53, #234c6a) !important; }
+.bg-gradient-primary-light { background: linear-gradient(to right, #e8eef2, #d2c1b6) !important; }
+.bg-gradient-auth { background: linear-gradient(to bottom right, #d1dde5, #d2c1b6, #d2c1b6) !important; }
+
+/* Background Colors */
 .bg-primary { background-color: #1b3c53 !important; }
 .bg-primary-50 { background-color: #e8eef2 !important; }
 .bg-primary-100 { background-color: #d1dde5 !important; }
