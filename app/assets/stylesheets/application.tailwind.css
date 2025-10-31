@@ -6,8 +6,8 @@
 
 .sortable-ghost {
     opacity: 0.4;
-    background: #e0e7ff;
-    border: 2px dashed #818cf8;
+    background: #D1DDE5;
+    border: 2px dashed #456882;
 }
 
 .sortable-chosen {
@@ -27,7 +27,7 @@
 }
 
 .drag-handle:hover {
-    color: #6366f1;
+    color: #1B3C53;
 }
 
 .drag-handle:active {
@@ -187,7 +187,7 @@
 /* Loading spinner reutilizable */
 .spinner {
     border: 2px solid #f3f4f6;
-    border-top: 2px solid #6366f1;
+    border-top: 2px solid #1B3C53;
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -205,7 +205,7 @@
 
 /* Focus visible para navegación por teclado */
 *:focus-visible {
-    outline: 2px solid #6366f1;
+    outline: 2px solid #1B3C53;
     outline-offset: 2px;
 }
 
@@ -231,8 +231,8 @@
 /* Placeholder para drag horizontal */
 #acts_container .sortable-ghost {
   opacity: 0.3;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 2px dashed #818cf8;
+  background: linear-gradient(135deg, #1B3C53 0%, #234C6A 100%);
+  border: 2px dashed #456882;
 }
 
 /* Item siendo arrastrado */
