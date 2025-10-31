@@ -16,6 +16,10 @@ Rails.application.routes.draw do
 
   # Projects and nested resources
   resources :projects do
+    member do
+      get :report
+    end
+
     # Nested resources inside a project
     resources :acts, except: [ :show ] do
       member do
