@@ -51,6 +51,30 @@ class IdeasController < ApplicationController
     render :index
   end
 
+  # Generar PDF de una idea individual
+  def report
+    @idea = @project.ideas.find(params[:id])
+
+    pdf_generator = Pdf::IdeaReportGenerator.new(@idea)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "idea_#{@idea.title.parameterize}.pdf",
+      type: "application/pdf",
+      disposition: "inline"
+  end
+
+  # Generar PDF de todas las ideas
+  def collection_report
+    pdf_generator = Pdf::IdeasCollectionReportGenerator.new(@project)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "ideas_#{@project.title.parameterize}.pdf",
+      type: "application/pdf",
+      disposition: "inline"
+  end
+
   private
 
   def set_idea
