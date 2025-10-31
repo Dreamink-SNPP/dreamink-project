@@ -2,9 +2,9 @@ require_relative "../test_helper"
 
 class ActsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
-    @project = projects(:one)
-    @act = acts(:one)
+    @user = fixture_to_model(users(:one), User)
+    @project = fixture_to_model(projects(:one), Project)
+    @act = fixture_to_model(acts(:one), Act)
     sign_in_as(@user)
   end
 

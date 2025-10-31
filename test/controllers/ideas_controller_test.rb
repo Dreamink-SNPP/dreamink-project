@@ -2,9 +2,9 @@ require_relative "../test_helper"
 
 class IdeasControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
-    @project = projects(:one)
-    @idea = ideas(:one)
+    @user = fixture_to_model(users(:one), User)
+    @project = fixture_to_model(projects(:one), Project)
+    @idea = fixture_to_model(ideas(:one), Idea)
     sign_in_as(@user)
   end
 

@@ -2,8 +2,8 @@ require_relative "../test_helper"
 
 class ProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
-    @project = projects(:one)
+    @user = fixture_to_model(users(:one), User)
+    @project = fixture_to_model(projects(:one), Project)
     sign_in_as(@user)
   end
 
@@ -57,7 +57,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect to login when not authenticated" do
     # Clear authentication
-    cookies.delete(:session_id)
+    clear_authentication
 
     get projects_path
     assert_redirected_to new_session_path

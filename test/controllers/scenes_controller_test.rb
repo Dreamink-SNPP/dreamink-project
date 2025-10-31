@@ -2,11 +2,11 @@ require_relative "../test_helper"
 
 class ScenesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
-    @project = projects(:one)
-    @act = acts(:one)
-    @sequence = sequences(:one)
-    @scene = scenes(:one)
+    @user = fixture_to_model(users(:one), User)
+    @project = fixture_to_model(projects(:one), Project)
+    @act = fixture_to_model(acts(:one), Act)
+    @sequence = fixture_to_model(sequences(:one), Sequence)
+    @scene = fixture_to_model(scenes(:one), Scene)
     sign_in_as(@user)
   end
 
