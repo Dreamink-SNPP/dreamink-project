@@ -35,7 +35,7 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
       post project_scenes_path(@project), params: { scene: {
         title: "New Scene",
         description: "Scene description",
-        color: "blue",
+        color: "#0000FF",
         sequence_id: @sequence.id
       } }
     end

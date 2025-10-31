@@ -2,6 +2,8 @@
 
 one:
   sequence: one
+  act: one
+  project: one
   title: "Escena 1: El sobre"
   description: "El protagonista recibe un sobre con la invitación"
   color: "#FFFFFF"
@@ -9,6 +11,8 @@ one:
 
 two:
   sequence: one
+  act: one
+  project: one
   title: "Escena 2: La decisión"
   description: "Decide si asistir o no"
   color: "#FFE4B5"
@@ -16,6 +20,8 @@ two:
 
 three:
   sequence: two
+  act: one
+  project: one
   title: "Escena 1: En el auto"
   description: "Viaja en auto recordando el pasado"
   color: "#87CEEB"
