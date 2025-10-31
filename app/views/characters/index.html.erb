@@ -85,15 +85,15 @@
           <% end %>
 
           <!-- Acciones -->
-          <div class="px-6 pb-4 flex space-x-3 border-t border-gray-100 pt-4 mt-4">
+          <div class="border-t border-gray-100 px-6 py-3 mt-4 flex items-center justify-between gap-3">
             <%= link_to edit_project_character_path(@project, character),
-                        class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
+                        class: "text-primary hover:text-secondary-dark text-sm font-medium transition" do %>
               Editar
             <% end %>
             <%= button_to project_character_path(@project, character),
                           method: :delete,
                           data: { turbo_confirm: "¿Estás seguro de eliminar a #{character.name}?" },
-                          class: "text-red-600 hover:text-red-900 text-sm font-medium" do %>
+                          class: "text-red-600 hover:text-red-700 text-sm font-medium transition" do %>
               Eliminar
             <% end %>
           </div>
