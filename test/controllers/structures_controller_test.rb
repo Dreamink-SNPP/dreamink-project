@@ -19,9 +19,12 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
     act2 = @project.acts.create!(title: "Act 2", description: "Second")
     act3 = @project.acts.create!(title: "Act 3", description: "Third")
 
+    # Get all acts for this project (including fixtures) and reorder them
+    all_act_ids = @project.acts.order(:position).pluck(:id)
+
     post project_reorder_structure_path(@project), params: {
       type: "act",
-      ids: [ act3.id, @act.id, act2.id ]
+      ids: all_act_ids.reverse # Reverse the order
     }, as: :json
 
     assert_response :success
@@ -29,12 +32,15 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reorder sequences" do
-    seq2 = @project.sequences.create!(title: "Seq 2", act: @act)
-    seq3 = @project.sequences.create!(title: "Seq 3", act: @act)
+    seq2 = @act.sequences.create!(title: "Seq 2")
+    seq3 = @act.sequences.create!(title: "Seq 3")
+
+    # Get all sequences for this act (including fixtures) and reorder them
+    all_sequence_ids = @act.sequences.order(:position).pluck(:id)
 
     post project_reorder_structure_path(@project), params: {
       type: "sequence",
-      ids: [ seq3.id, @sequence.id, seq2.id ]
+      ids: all_sequence_ids.reverse # Reverse the order
     }, as: :json
 
     assert_response :success
@@ -42,12 +48,15 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reorder scenes" do
-    scene2 = @project.scenes.create!(title: "Scene 2", sequence: @sequence)
-    scene3 = @project.scenes.create!(title: "Scene 3", sequence: @sequence)
+    scene2 = @sequence.scenes.create!(title: "Scene 2")
+    scene3 = @sequence.scenes.create!(title: "Scene 3")
+
+    # Get all scenes for this sequence (including fixtures) and reorder them
+    all_scene_ids = @sequence.scenes.order(:position).pluck(:id)
 
     post project_reorder_structure_path(@project), params: {
       type: "scene",
-      ids: [ scene3.id, @scene.id, scene2.id ]
+      ids: all_scene_ids.reverse # Reverse the order
     }, as: :json
 
     assert_response :success

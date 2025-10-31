@@ -76,10 +76,9 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should move scene to different sequence" do
-    other_sequence = @project.sequences.create!(
+    other_sequence = @act.sequences.create!(
       title: "Sequence 2",
-      description: "Second sequence",
-      act: @act
+      description: "Second sequence"
     )
 
     patch move_to_sequence_project_scene_path(@project, @scene), params: {
