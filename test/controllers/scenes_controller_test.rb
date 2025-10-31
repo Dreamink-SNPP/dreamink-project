@@ -36,7 +36,6 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
         title: "New Scene",
         description: "Scene description",
         color: "blue",
-        position: 2,
         sequence_id: @sequence.id
       } }
     end
@@ -71,7 +70,7 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get scenes by location" do
     location = @project.locations.first
-    get by_location_project_scenes_path(@project, location_id: location.id)
+    get by_location_project_scenes_path(@project, location_id: location.id), as: :turbo_stream
     assert_response :success
   end
 
@@ -84,9 +83,9 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
     patch move_to_sequence_project_scene_path(@project, @scene), params: {
       target_sequence_id: other_sequence.id,
       target_position: 1
-    }
+    }, as: :turbo_stream
 
-    assert_redirected_to project_structure_path(@project)
+    assert_response :redirect
     @scene.reload
     assert_equal other_sequence.id, @scene.sequence_id
   end

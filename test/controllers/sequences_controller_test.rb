@@ -68,9 +68,9 @@ class SequencesControllerTest < ActionDispatch::IntegrationTest
     patch move_to_act_project_sequence_path(@project, @sequence), params: {
       target_act_id: other_act.id,
       target_position: 1
-    }
+    }, as: :turbo_stream
 
-    assert_redirected_to project_structure_path(@project)
+    assert_response :redirect
     @sequence.reload
     assert_equal other_act.id, @sequence.act_id
   end
