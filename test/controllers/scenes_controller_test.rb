@@ -79,7 +79,6 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
     other_sequence = @project.sequences.create!(
       title: "Sequence 2",
       description: "Second sequence",
-      position: 2,
       act: @act
     )
 

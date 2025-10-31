@@ -56,18 +56,17 @@ class ActsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should move act left" do
-    # Create another act with lower position
-    other_act = @project.acts.create!(title: "Act 0", description: "First", position: 0)
-    @act.update!(position: 1)
+    # Create another act (auto-assigns next position)
+    other_act = @project.acts.create!(title: "Act 0", description: "First")
+    # @act from fixtures is already at an earlier position, so other_act will be after it
 
-    patch move_left_project_act_path(@project, @act)
+    patch move_left_project_act_path(@project, other_act)
     assert_redirected_to project_structure_path(@project)
   end
 
   test "should move act right" do
-    # Create another act with higher position
-    other_act = @project.acts.create!(title: "Act 2", description: "Third", position: 2)
-    @act.update!(position: 1)
+    # Create another act (auto-assigns next position after @act)
+    other_act = @project.acts.create!(title: "Act 2", description: "Third")
 
     patch move_right_project_act_path(@project, @act)
     assert_redirected_to project_structure_path(@project)

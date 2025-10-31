@@ -20,7 +20,7 @@ class SequencesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new modal" do
-    get new_sequence_modal_project_act_path(@project, @act)
+    get project_act_new_sequence_modal_path(@project, @act)
     assert_response :success
   end
 
@@ -63,7 +63,7 @@ class SequencesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should move sequence to different act" do
-    other_act = @project.acts.create!(title: "Act 2", description: "Second act", position: 2)
+    other_act = @project.acts.create!(title: "Act 2", description: "Second act")
 
     patch move_to_act_project_sequence_path(@project, @sequence), params: {
       target_act_id: other_act.id,

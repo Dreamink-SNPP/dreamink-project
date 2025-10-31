@@ -16,10 +16,10 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reorder acts" do
-    act2 = @project.acts.create!(title: "Act 2", description: "Second", position: 2)
-    act3 = @project.acts.create!(title: "Act 3", description: "Third", position: 3)
+    act2 = @project.acts.create!(title: "Act 2", description: "Second")
+    act3 = @project.acts.create!(title: "Act 3", description: "Third")
 
-    post reorder_structure_path(@project), params: {
+    post project_reorder_structure_path(@project), params: {
       type: "act",
       ids: [ act3.id, @act.id, act2.id ]
     }, as: :json
@@ -29,10 +29,10 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reorder sequences" do
-    seq2 = @project.sequences.create!(title: "Seq 2", act: @act, position: 2)
-    seq3 = @project.sequences.create!(title: "Seq 3", act: @act, position: 3)
+    seq2 = @project.sequences.create!(title: "Seq 2", act: @act)
+    seq3 = @project.sequences.create!(title: "Seq 3", act: @act)
 
-    post reorder_structure_path(@project), params: {
+    post project_reorder_structure_path(@project), params: {
       type: "sequence",
       ids: [ seq3.id, @sequence.id, seq2.id ]
     }, as: :json
@@ -42,10 +42,10 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reorder scenes" do
-    scene2 = @project.scenes.create!(title: "Scene 2", sequence: @sequence, position: 2)
-    scene3 = @project.scenes.create!(title: "Scene 3", sequence: @sequence, position: 3)
+    scene2 = @project.scenes.create!(title: "Scene 2", sequence: @sequence)
+    scene3 = @project.scenes.create!(title: "Scene 3", sequence: @sequence)
 
-    post reorder_structure_path(@project), params: {
+    post project_reorder_structure_path(@project), params: {
       type: "scene",
       ids: [ scene3.id, @scene.id, scene2.id ]
     }, as: :json
@@ -55,7 +55,7 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reject reorder with invalid type" do
-    post reorder_structure_path(@project), params: {
+    post project_reorder_structure_path(@project), params: {
       type: "invalid",
       ids: [ @act.id ]
     }, as: :json
@@ -64,7 +64,7 @@ class StructuresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reject reorder with missing parameters" do
-    post reorder_structure_path(@project), params: {
+    post project_reorder_structure_path(@project), params: {
       type: "act"
     }, as: :json
 
