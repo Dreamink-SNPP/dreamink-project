@@ -4,16 +4,16 @@ one:
   project: one
   title: "Acto I: El Reencuentro"
   description: "Los tres amigos se encuentran después de 20 años"
-  position: 0
+  position: 1
 
 two:
   project: one
   title: "Acto II: El Conflicto"
   description: "Surgen viejas rencillas y secretos"
-  position: 1
+  position: 2
 
 three:
   project: two
   title: "Acto I: El Crimen"
   description: "Se descubre el crimen"
-  position: 0
+  position: 1

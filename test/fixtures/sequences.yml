@@ -5,18 +5,18 @@ one:
   project: one
   title: "Secuencia 1: La Invitación"
   description: "Llega la invitación al reencuentro"
-  position: 0
+  position: 1
 
 two:
   act: one
   project: one
   title: "Secuencia 2: El Viaje"
   description: "Los personajes viajan al lugar del reencuentro"
-  position: 1
+  position: 2
 
 three:
   act: two
   project: one
   title: "Secuencia 1: La Tensión"
   description: "Empiezan las discusiones"
-  position: 0
+  position: 1
