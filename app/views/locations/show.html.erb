@@ -83,7 +83,7 @@
         Aparece en <%= pluralize(@scenes.count, "escena") %>
       </h2>
       <% if @scenes.any? %>
-        <%= link_to project_structure_path(@project), class: "text-indigo-600 hover:text-indigo-900 text-sm font-medium" do %>
+        <%= link_to project_structure_path(@project), class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
           Ver en estructura →
         <% end %>
       <% end %>
@@ -92,7 +92,7 @@
     <% if @scenes.any? %>
       <div class="space-y-3">
         <% @scenes.each do |scene| %>
-          <div class="border-l-4 border-indigo-500 pl-4 py-2 hover:bg-gray-50 transition">
+          <div class="border-l-4 border-primary pl-4 py-2 hover:bg-gray-50 transition">
             <%= link_to project_scene_path(@project, scene), class: "block" do %>
               <div class="flex items-center justify-between">
                 <div>
@@ -121,7 +121,7 @@
           Esta locación aún no se usa en ninguna escena
         </p>
         <div class="mt-4">
-          <%= link_to project_structure_path(@project), class: "text-indigo-600 hover:text-indigo-900 text-sm font-medium" do %>
+          <%= link_to project_structure_path(@project), class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
             Ir a la estructura para agregar escenas →
           <% end %>
         </div>

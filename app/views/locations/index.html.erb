@@ -16,7 +16,7 @@
     <div class="flex items-center space-x-3">
         <%= link_to collection_report_project_locations_path(@project, format: :pdf),
                     target: "_blank",
-                    class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                    class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
         <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
         </svg>
@@ -24,7 +24,7 @@
         <% end %>
 
         <%= link_to new_project_location_path(@project),
-                    class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                    class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
@@ -35,7 +35,7 @@
     <!-- Filtros -->
     <div class="mt-4 flex space-x-3">
       <%= link_to project_locations_path(@project),
-                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium #{params[:type].blank? ? 'border-indigo-500 text-indigo-700 bg-indigo-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium #{params[:type].blank? ? 'border-primary text-secondary-dark bg-primary-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
         📋 Todas (<%= @project.locations.count %>)
       <% end %>
 
@@ -126,7 +126,7 @@
       <p class="mt-1 text-sm text-gray-500">Comienza agregando las locaciones
         donde se desarrolla tu historia.</p>
       <div class="mt-6">
-        <%= link_to new_project_location_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+        <%= link_to new_project_location_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
           <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>

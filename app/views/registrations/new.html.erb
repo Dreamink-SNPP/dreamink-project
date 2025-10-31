@@ -1,4 +1,4 @@
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-100 via-secondary-light to-secondary-light py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-md w-full space-y-8">
     <!-- Logo y título -->
     <div>
@@ -49,7 +49,7 @@
                                  required: true,
                                  autofocus: true,
                                  autocomplete: "email",
-                                 class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                 class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm",
                                  placeholder: "tu@email.com" %>
           </div>
         </div>
@@ -62,7 +62,7 @@
                                     required: true,
                                     autocomplete: "new-password",
                                     maxlength: 72,
-                                    class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                    class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm",
                                     placeholder: "Mínimo 6 caracteres" %>
           </div>
           <p class="mt-1 text-xs text-gray-500">La contraseña debe tener al menos 6 caracteres</p>
@@ -76,7 +76,7 @@
                                     required: true,
                                     autocomplete: "new-password",
                                     maxlength: 72,
-                                    class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm",
+                                    class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm",
                                     placeholder: "Repetí tu contraseña" %>
           </div>
         </div>
@@ -84,14 +84,14 @@
         <!-- Submit -->
         <div>
           <%= form.submit "Crear Cuenta",
-                          class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out cursor-pointer" %>
+                          class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150 ease-in-out cursor-pointer" %>
         </div>
 
         <!-- Link a Login -->
         <div class="text-center">
           <p class="text-sm text-gray-600">
             ¿Ya tenés una cuenta?
-            <%= link_to "Iniciar sesión", new_session_path, class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+            <%= link_to "Iniciar sesión", new_session_path, class: "font-medium text-primary hover:text-primary" %>
           </p>
         </div>
       <% end %>

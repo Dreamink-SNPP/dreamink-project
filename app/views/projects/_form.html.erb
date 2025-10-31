@@ -12,7 +12,7 @@
         <%= form.text_field :title,
                             required: true,
                             maxlength: 200,
-                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                             placeholder: "Ej: La Última Función" %>
         <p class="mt-1 text-xs text-gray-500">Máximo 200 caracteres</p>
       </div>
@@ -22,7 +22,7 @@
         <%= form.label :genre, "Género", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_field :genre,
                             maxlength: 100,
-                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                             placeholder: "Ej: Drama, Thriller, Comedia" %>
       </div>
 
@@ -31,7 +31,7 @@
         <%= form.label :tone, "Tono", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_field :tone,
                             maxlength: 500,
-                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                             placeholder: "Ej: Oscuro y melancólico" %>
       </div>
     </div>
@@ -48,7 +48,7 @@
         <%= form.text_area :idea,
                            rows: 4,
                            maxlength: 1000,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "¿De qué trata tu historia? Describe la idea central..." %>
         <p class="mt-1 text-xs text-gray-500">Máximo 1000 caracteres</p>
       </div>
@@ -59,7 +59,7 @@
         <%= form.text_area :logline,
                            rows: 2,
                            maxlength: 300,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Una oración que resume tu historia (quién, qué quiere, qué se lo impide)..." %>
         <p class="mt-1 text-xs text-gray-500">Máximo 300 caracteres. Ej: Un
           detective retirado debe volver a trabajar para salvar a su hija
@@ -72,7 +72,7 @@
         <%= form.text_area :storyline,
                            rows: 3,
                            maxlength: 500,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Resumen en un párrafo..." %>
         <p class="mt-1 text-xs text-gray-500">Máximo 500 caracteres</p>
       </div>
@@ -83,7 +83,7 @@
         <%= form.text_area :story_engine,
                            rows: 3,
                            maxlength: 500,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "El conflicto central que impulsa la narrativa..." %>
         <p class="mt-1 text-xs text-gray-500">Máximo 500 caracteres</p>
       </div>
@@ -100,7 +100,7 @@
         <%= form.label :short_synopsis, "Sinopsis Corta", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_area :short_synopsis,
                            rows: 6,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Descripción breve de la historia (2-3 párrafos)..." %>
         <p class="mt-1 text-xs text-gray-500">Sin límite de caracteres</p>
       </div>
@@ -110,7 +110,7 @@
         <%= form.label :long_synopsis, "Sinopsis Larga", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_area :long_synopsis,
                            rows: 12,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Descripción detallada de toda la historia, incluyendo el final..." %>
         <p class="mt-1 text-xs text-gray-500">Sin límite de caracteres</p>
       </div>
@@ -127,7 +127,7 @@
         <%= form.label :world, "Mundo / Universo Narrativo", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_area :world,
                            rows: 6,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Describe el universo en el que se desarrolla la historia (época, lugar, reglas, atmósfera)..." %>
       </div>
 
@@ -136,7 +136,7 @@
         <%= form.label :themes, "Temas", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_area :themes,
                            rows: 4,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Temas principales y secundarios (redención, venganza, familia, poder, etc.)..." %>
       </div>
 
@@ -145,7 +145,7 @@
         <%= form.label :characters_summary, "Resumen de Personajes", class: "block text-sm font-medium text-gray-700" %>
         <%= form.text_area :characters_summary,
                            rows: 4,
-                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                            placeholder: "Descripción general de los personajes principales..." %>
         <p class="mt-1 text-xs text-gray-500">Nota: Los personajes detallados se
           gestionan en la sección específica de personajes.</p>
@@ -157,9 +157,9 @@
   <div class="flex items-center justify-end space-x-3 bg-gray-50 px-4 py-3 rounded-lg">
     <%= link_to "Cancelar",
                 projects_path,
-                class: "inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+                class: "inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" %>
 
     <%= form.submit (project.persisted? ? "Actualizar Proyecto" : "Crear Proyecto"),
-                    class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer" %>
+                    class: "inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer" %>
   </div>
 <% end %>
