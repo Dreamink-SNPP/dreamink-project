@@ -37,7 +37,7 @@ module Pdf
 
     def add_idea_section(idea)
       # Encabezado de la idea
-      @pdf.text idea.title, size: 22, style: :bold, color: "4F46E5"
+      @pdf.text idea.title, size: 22, style: :bold, color: "1B3C53"
       @pdf.move_down 15
       add_divider
 

@@ -18,7 +18,7 @@ module Pdf
     private
 
     def add_location_info
-      @pdf.text @location.name, size: 22, style: :bold, color: "4F46E5"
+      @pdf.text @location.name, size: 22, style: :bold, color: "1B3C53"
       @pdf.move_down 5
 
       if @location.location_type.present?

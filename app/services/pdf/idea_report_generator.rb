@@ -17,7 +17,7 @@ module Pdf
     private
 
     def add_idea_basic_info
-      @pdf.text @idea.title, size: 22, style: :bold, color: "4F46E5"
+      @pdf.text @idea.title, size: 22, style: :bold, color: "1B3C53"
       @pdf.move_down 5
       @pdf.text "Idea de #{@project.title}", size: 11, color: "6B7280"
       @pdf.move_down 25
