@@ -65,6 +65,18 @@ class IdeasControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should generate idea report PDF" do
+    get report_project_idea_path(@project, @idea)
+    assert_response :success
+    assert_equal "application/pdf", response.media_type
+  end
+
+  test "should generate collection report PDF" do
+    get collection_report_project_ideas_path(@project)
+    assert_response :success
+    assert_equal "application/pdf", response.media_type
+  end
+
   test "should not access other user's project ideas" do
     other_project = projects(:two)
 
