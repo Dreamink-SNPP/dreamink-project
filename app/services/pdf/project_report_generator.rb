@@ -43,9 +43,6 @@ module Pdf
       # Storyline
       add_field("Storyline", @project.storyline)
 
-      # Motor de la Historia
-      add_field("Motor de la Historia", @project.story_engine)
-
       add_light_divider
     end
 

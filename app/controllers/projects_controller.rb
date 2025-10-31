@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(
       :title, :genre, :idea, :logline, :storyline,
       :short_synopsis, :long_synopsis, :world,
-      :characters_summary, :story_engine, :themes, :tone
+      :characters_summary, :themes, :tone
     )
   end
 end

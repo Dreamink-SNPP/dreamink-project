@@ -106,15 +106,6 @@
       </div>
     <% end %>
 
-    <!-- Motor de la Historia -->
-    <% if @project.story_engine.present? %>
-      <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">Motor de la
-          Historia</h2>
-        <p class="text-gray-700 whitespace-pre-wrap"><%= @project.story_engine %></p>
-      </div>
-    <% end %>
-
     <!-- Sinopsis -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <% if @project.short_synopsis.present? %>
