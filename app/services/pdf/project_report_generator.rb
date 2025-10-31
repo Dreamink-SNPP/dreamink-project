@@ -33,7 +33,7 @@ module Pdf
       # Logline
       if @project.logline.present?
         add_subsection_title("Logline")
-        @pdf.text @project.logline, size: 11, color: "374151", style: :italic, leading: 4
+        @pdf.text @project.logline, size: 11, color: "374151", leading: 4
         @pdf.move_down 15
       end
 
