@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [ :show, :edit, :update, :destroy ]
-  before_action :authorize_project!, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_project, only: [ :show, :edit, :update, :destroy, :report ]
+  before_action :authorize_project!, only: [ :show, :edit, :update, :destroy, :report ]
 
   def index
     @projects = current_user.projects.order(updated_at: :desc)
@@ -38,6 +38,17 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     redirect_to projects_path, notice: "Proyecto eliminado exitosamente"
+  end
+
+  # Generar PDF del tratamiento del proyecto
+  def report
+    pdf_generator = Pdf::ProjectReportGenerator.new(@project)
+    pdf_content = pdf_generator.generate
+
+    send_data pdf_content,
+      filename: "tratamiento_#{@project.title.parameterize}.pdf",
+      type: "application/pdf",
+      disposition: "inline"
   end
 
   private

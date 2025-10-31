@@ -55,6 +55,12 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to projects_path
   end
 
+  test "should generate project report PDF" do
+    get report_project_path(@project)
+    assert_response :success
+    assert_equal "application/pdf", response.media_type
+  end
+
   test "should redirect to login when not authenticated" do
     # Clear authentication
     clear_authentication
