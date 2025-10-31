@@ -20,28 +20,35 @@
   <div class="bg-white shadow rounded-lg overflow-hidden">
     <!-- Tab headers -->
     <div class="border-b border-gray-200 bg-gray-50">
-      <nav class="-mb-px flex" aria-label="Tabs">
+      <nav class="-mb-px flex flex-wrap gap-x-6 px-4" aria-label="Tabs">
         <button type="button"
                 data-action="click->tabs#switch"
                 data-tabs-target="button"
-                data-tab-id="internal"
-                class="tab-button active w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
-          Características Internas
+                data-tab-id="main"
+                class="tab-button active py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap">
+          🎭 Características Principales
         </button>
         <button type="button"
                 data-action="click->tabs#switch"
                 data-tabs-target="button"
-                data-tab-id="external"
-                class="tab-button w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
-          Características Externas
+                data-tab-id="physical"
+                class="tab-button py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap">
+          👁️ Características Físicas
+        </button>
+        <button type="button"
+                data-action="click->tabs#switch"
+                data-tabs-target="button"
+                data-tab-id="other"
+                class="tab-button py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap">
+          ⭐ Otras Características
         </button>
       </nav>
     </div>
 
     <!-- Tab content -->
     <div class="p-6">
-      <!-- Características Internas -->
-      <div data-tabs-target="panel" data-tab-id="internal" class="space-y-6">
+      <!-- Características Principales -->
+      <div data-tabs-target="panel" data-tab-id="main" class="space-y-6">
         <%= form.fields_for :internal_trait, character.internal_trait || character.build_internal_trait do |internal_form| %>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <!-- Habilidades -->
@@ -150,7 +157,7 @@
             </div>
           </div>
 
-          <!-- Más características -->
+          <!-- Más características principales -->
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 pt-4 border-t border-gray-200">
             <!-- Focos de Conversación -->
             <div>
@@ -169,24 +176,6 @@
                                            maxlength: 300,
                                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                                            placeholder: "¿Cuán consciente es de sí mismo?" %>
-            </div>
-
-            <!-- Administración del Tiempo -->
-            <div>
-              <%= internal_form.label :time_management, "Administración del Tiempo", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_field :time_management,
-                                           maxlength: 300,
-                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                                           placeholder: "Cómo maneja su tiempo..." %>
-            </div>
-
-            <!-- Inclinaciones Artísticas -->
-            <div>
-              <%= internal_form.label :artistic_inclinations, "Inclinaciones Artísticas", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_area :artistic_inclinations,
-                                          rows: 3,
-                                          maxlength: 500,
-                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
             </div>
 
             <!-- Héroes y Modelos -->
@@ -224,66 +213,12 @@
                                           maxlength: 500,
                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
             </div>
-
-            <!-- Ubicación Temporal -->
-            <div>
-              <%= internal_form.label :temporal_location, "Ubicación Temporal (Época)", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_field :temporal_location,
-                                           maxlength: 200,
-                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                                           placeholder: "Ej: Siglo XXI, Era Medieval..." %>
-            </div>
-
-            <!-- Preferencias Alimenticias -->
-            <div>
-              <%= internal_form.label :food_preferences, "Preferencias Alimenticias", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_field :food_preferences,
-                                           maxlength: 300,
-                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
-            </div>
-
-            <!-- Hábitos -->
-            <div>
-              <%= internal_form.label :habits, "Hábitos", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_area :habits,
-                                          rows: 3,
-                                          maxlength: 500,
-                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                                          placeholder: "Rutinas, costumbres..." %>
-            </div>
-
-            <!-- Peculiaridades -->
-            <div>
-              <%= internal_form.label :peculiarities, "Peculiaridades", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_area :peculiarities,
-                                          rows: 3,
-                                          maxlength: 500,
-                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                                          placeholder: "Rarezas, tics, manías..." %>
-            </div>
-
-            <!-- Pasatiempos -->
-            <div>
-              <%= internal_form.label :hobbies, "Pasatiempos", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_area :hobbies,
-                                          rows: 3,
-                                          maxlength: 500,
-                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
-            </div>
-
-            <!-- Actividades Caritativas -->
-            <div>
-              <%= internal_form.label :charitable_activities, "Actividades Caritativas", class: "block text-sm font-medium text-gray-700" %>
-              <%= internal_form.text_field :charitable_activities,
-                                           maxlength: 300,
-                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
-            </div>
           </div>
         <% end %>
       </div>
 
-      <!-- Características Externas -->
-      <div data-tabs-target="panel" data-tab-id="external" class="space-y-6 hidden">
+      <!-- Características Físicas -->
+      <div data-tabs-target="panel" data-tab-id="physical" class="space-y-6 hidden">
         <%= form.fields_for :external_trait, character.external_trait || character.build_external_trait do |external_form| %>
           <!-- Apariencia -->
           <div class="space-y-6">
@@ -396,6 +331,85 @@
                                         rows: 5,
                                         class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
                                         placeholder: "Padres, hermanos, pareja, hijos, relaciones familiares..." %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Otras Características -->
+      <div data-tabs-target="panel" data-tab-id="other" class="space-y-6 hidden">
+        <%= form.fields_for :internal_trait, character.internal_trait || character.build_internal_trait do |internal_form| %>
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <!-- Administración del Tiempo -->
+            <div>
+              <%= internal_form.label :time_management, "Administración del Tiempo", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_field :time_management,
+                                           maxlength: 300,
+                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                                           placeholder: "Cómo maneja su tiempo..." %>
+            </div>
+
+            <!-- Inclinaciones Artísticas -->
+            <div>
+              <%= internal_form.label :artistic_inclinations, "Inclinaciones Artísticas", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_area :artistic_inclinations,
+                                          rows: 3,
+                                          maxlength: 500,
+                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+            </div>
+
+            <!-- Ubicación Temporal -->
+            <div>
+              <%= internal_form.label :temporal_location, "Ubicación Temporal (Época)", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_field :temporal_location,
+                                           maxlength: 200,
+                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                                           placeholder: "Ej: Siglo XXI, Era Medieval..." %>
+            </div>
+
+            <!-- Preferencias Alimenticias -->
+            <div>
+              <%= internal_form.label :food_preferences, "Preferencias Alimenticias", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_field :food_preferences,
+                                           maxlength: 300,
+                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+            </div>
+
+            <!-- Hábitos -->
+            <div>
+              <%= internal_form.label :habits, "Hábitos", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_area :habits,
+                                          rows: 3,
+                                          maxlength: 500,
+                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                                          placeholder: "Rutinas, costumbres..." %>
+            </div>
+
+            <!-- Peculiaridades -->
+            <div>
+              <%= internal_form.label :peculiarities, "Peculiaridades", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_area :peculiarities,
+                                          rows: 3,
+                                          maxlength: 500,
+                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                                          placeholder: "Rarezas, tics, manías..." %>
+            </div>
+
+            <!-- Pasatiempos -->
+            <div>
+              <%= internal_form.label :hobbies, "Pasatiempos", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_area :hobbies,
+                                          rows: 3,
+                                          maxlength: 500,
+                                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+            </div>
+
+            <!-- Actividades Caritativas -->
+            <div>
+              <%= internal_form.label :charitable_activities, "Actividades Caritativas", class: "block text-sm font-medium text-gray-700" %>
+              <%= internal_form.text_field :charitable_activities,
+                                           maxlength: 300,
+                                           class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" %>
+            </div>
           </div>
         <% end %>
       </div>
