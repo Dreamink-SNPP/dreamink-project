@@ -2,56 +2,84 @@
 
 one:
   character: one
-  skills: MyText
-  religion: MyString
-  spirituality: MyText
-  identity: MyText
-  beliefs: MyText
-  mental_programs: MyText
-  ethics: MyText
-  sexuality: MyString
-  main_motivation: MyText
-  friendship_relations: MyText
-  conversation_focus: MyText
-  self_awareness_level: MyString
-  values_priorities: MyText
-  time_management: MyString
-  artistic_inclinations: MyText
-  heroes_models: MyText
-  political_ideas: MyText
-  authority_relationship: MyString
-  vices: MyText
-  temporal_location: MyString
-  food_preferences: MyString
-  habits: MyText
-  peculiarities: MyText
-  hobbies: MyText
-  charitable_activities: MyString
+  skills: "Carpintería, pesca, guitarra"
+  religion: "Católico no practicante"
+  spirituality: "Busca significado en la naturaleza"
+  identity: "Hombre de 42 años, nostálgico y reflexivo"
+  beliefs: "Cree en las segundas oportunidades"
+  mental_programs: "Tendencia a idealizar el pasado"
+  ethics: "Honesto pero evasivo con sus emociones"
+  sexuality: "Heterosexual"
+  main_motivation: "Encontrar la paz con su pasado"
+  friendship_relations: "Valora profundamente la amistad verdadera"
+  conversation_focus: "Habla de recuerdos y experiencias pasadas"
+  self_awareness_level: "Mediano - entiende sus emociones pero le cuesta expresarlas"
+  values_priorities: "Familia, amistad, autenticidad"
+  time_management: "Vive en el presente pero anclado al pasado"
+  artistic_inclinations: "Disfruta tocar guitarra y escribir"
+  heroes_models: "Su abuelo pescador"
+  political_ideas: "Progresista moderado"
+  authority_relationship: "Respeta pero cuestiona"
+  vices: "Bebe vino en exceso cuando está nostálgico"
+  temporal_location: "Presente"
+  food_preferences: "Comida casera, pescado fresco"
+  habits: "Caminar por la playa al amanecer"
+  peculiarities: "Siempre lleva una armónica en el bolsillo"
+  hobbies: "Pesca, guitarra, carpintería"
+  charitable_activities: "Voluntario en refugio de animales"
 
 two:
   character: two
-  skills: MyText
-  religion: MyString
-  spirituality: MyText
-  identity: MyText
-  beliefs: MyText
-  mental_programs: MyText
-  ethics: MyText
-  sexuality: MyString
-  main_motivation: MyText
-  friendship_relations: MyText
-  conversation_focus: MyText
-  self_awareness_level: MyString
-  values_priorities: MyText
-  time_management: MyString
-  artistic_inclinations: MyText
-  heroes_models: MyText
-  political_ideas: MyText
-  authority_relationship: MyString
-  vices: MyText
-  temporal_location: MyString
-  food_preferences: MyString
-  habits: MyText
-  peculiarities: MyText
-  hobbies: MyText
-  charitable_activities: MyString
+  skills: "Medicina, piano, idiomas"
+  religion: "Agnóstica"
+  spirituality: "Práctica meditación y yoga"
+  identity: "Mujer de 41 años, profesional exitosa"
+  beliefs: "Cree en el trabajo duro y la autodeterminación"
+  mental_programs: "Perfeccionista, miedo al fracaso"
+  ethics: "Muy ética en su profesión médica"
+  sexuality: "Bisexual"
+  main_motivation: "Demostrar que logró sus sueños"
+  friendship_relations: "Selectiva pero leal"
+  conversation_focus: "Temas intelectuales y profesionales"
+  self_awareness_level: "Alto - muy consciente de sus emociones y limitaciones"
+  values_priorities: "Conocimiento, justicia, libertad"
+  time_management: "Muy organizada, vive para el futuro"
+  artistic_inclinations: "Toca piano clásico"
+  heroes_models: "Marie Curie"
+  political_ideas: "Progresista, feminista"
+  authority_relationship: "Desafía cuando es necesario"
+  vices: "Workaholic, evita confrontaciones emocionales"
+  temporal_location: "Presente"
+  food_preferences: "Cocina internacional, vegetariana"
+  habits: "Corre todas las mañanas, medita antes de dormir"
+  peculiarities: "Siempre llega 10 minutos antes"
+  hobbies: "Piano, lectura, yoga"
+  charitable_activities: "Médicos Sin Fronteras"
+
+three:
+  character: three
+  skills: "Investigación, artes marciales, análisis forense"
+  religion: "Católico practicante"
+  spirituality: "Fe tradicional"
+  identity: "Hombre de 50 años, detective experimentado"
+  beliefs: "La justicia siempre prevalece"
+  mental_programs: "Busca patrones en todo"
+  ethics: "Código moral estricto"
+  sexuality: "Heterosexual"
+  main_motivation: "Resolver cada caso sin importar el costo"
+  friendship_relations: "Pocos amigos, pero leales"
+  conversation_focus: "Directo, va al grano"
+  self_awareness_level: "Medio - entiende sus motivaciones pero le cuesta equilibrar"
+  values_priorities: "Justicia, verdad, familia"
+  time_management: "El trabajo es su vida"
+  artistic_inclinations: "Ninguna"
+  heroes_models: "Su padre, también detective"
+  political_ideas: "Conservador moderado"
+  authority_relationship: "Respeta la jerarquía"
+  vices: "Fuma cuando está estresado"
+  temporal_location: "Presente"
+  food_preferences: "Carne, comida simple"
+  habits: "Revisa casos antes de dormir"
+  peculiarities: "Siempre lleva dos relojes"
+  hobbies: "Artes marciales, ajedrez"
+  charitable_activities: "Mentor de jóvenes en riesgo"

@@ -1,38 +1,74 @@
-require "test_helper"
+require_relative "../test_helper"
 
 class IdeasControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = fixture_to_model(users(:one), User)
+    @project = fixture_to_model(projects(:one), Project)
+    @idea = fixture_to_model(ideas(:one), Idea)
+    sign_in_as(@user)
+  end
+
   test "should get index" do
-    get ideas_index_url
+    get project_ideas_path(@project)
+    assert_response :success
+  end
+
+  test "should get index filtered by tag" do
+    get project_ideas_path(@project, tag: "action")
     assert_response :success
   end
 
   test "should get new" do
-    get ideas_new_url
+    get new_project_idea_path(@project)
     assert_response :success
   end
 
-  test "should get create" do
-    get ideas_create_url
-    assert_response :success
+  test "should create idea" do
+    assert_difference("Idea.count") do
+      post project_ideas_path(@project), params: { idea: {
+        title: "New Idea",
+        description: "A brilliant concept",
+        tags: "action, thriller"
+      } }
+    end
+
+    assert_redirected_to project_ideas_path(@project)
   end
 
   test "should get edit" do
-    get ideas_edit_url
+    get edit_project_idea_path(@project, @idea)
     assert_response :success
   end
 
-  test "should get update" do
-    get ideas_update_url
+  test "should update idea" do
+    patch project_idea_path(@project, @idea), params: { idea: { title: "Updated Idea" } }
+    assert_redirected_to project_ideas_path(@project)
+    @idea.reload
+    assert_equal "Updated Idea", @idea.title
+  end
+
+  test "should destroy idea" do
+    assert_difference("Idea.count", -1) do
+      delete project_idea_path(@project, @idea)
+    end
+
+    assert_redirected_to project_ideas_path(@project)
+  end
+
+  test "should search ideas" do
+    get search_project_ideas_path(@project, q: "test")
     assert_response :success
   end
 
-  test "should get destroy" do
-    get ideas_destroy_url
+  test "should search ideas with empty query" do
+    get search_project_ideas_path(@project)
     assert_response :success
   end
 
-  test "should get search" do
-    get ideas_search_url
-    assert_response :success
+  test "should not access other user's project ideas" do
+    other_project = projects(:two)
+
+    get project_ideas_path(other_project)
+    assert_redirected_to projects_path
   end
 end

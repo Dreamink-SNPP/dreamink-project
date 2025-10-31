@@ -184,7 +184,11 @@ class ScenesController < ApplicationController
 
   def set_sequence
     sequence_id = params[:sequence_id] || params.dig(:scene, :sequence_id)
-    @sequence = @project.sequences.find(sequence_id) if sequence_id
+    @sequence = Sequence.find(sequence_id) if sequence_id
+    # Ensure sequence belongs to current project
+    if @sequence && @sequence.act.project_id != @project.id
+      @sequence = nil
+    end
   end
 
   def scene_params

@@ -2,12 +2,12 @@
 
 one:
   project: one
-  name: "Martín Sosa"
+  name: MyString
+  description: MyText
+  location_type: MyString
 
 two:
-  project: one
-  name: "Carolina Benítez"
-
-three:
   project: two
-  name: "Detective Ramírez"
+  name: MyString
+  description: MyText
+  location_type: MyString

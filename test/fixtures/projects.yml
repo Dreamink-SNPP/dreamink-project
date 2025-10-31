@@ -2,30 +2,30 @@
 
 one:
   user: one
-  title: MyString
-  genre: MyString
-  idea: MyText
-  logline: MyString
-  storyline: MyText
-  short_synopsis: MyText
-  long_synopsis: MyText
-  world: MyText
-  characters_summary: MyText
-  story_engine: MyText
-  themes: MyText
-  tone: MyText
+  title: "El Último Verano"
+  genre: "Drama"
+  idea: "Historia sobre la amistad y el paso del tiempo"
+  logline: "Tres amigos de la infancia se reencuentran después de 20 años"
+  storyline: "Una historia nostálgica sobre el reencuentro"
+  short_synopsis: "Tres amigos se reencuentran"
+  long_synopsis: "Historia completa del reencuentro de tres amigos de la infancia"
+  world: "Ciudad costera contemporánea"
+  characters_summary: "Tres protagonistas en sus 40s"
+  story_engine: "La búsqueda del tiempo perdido"
+  themes: "Amistad, nostalgia, segundas oportunidades"
+  tone: "Melancólico pero esperanzador"
 
 two:
   user: two
-  title: MyString
-  genre: MyString
-  idea: MyText
-  logline: MyString
-  storyline: MyText
-  short_synopsis: MyText
-  long_synopsis: MyText
-  world: MyText
-  characters_summary: MyText
-  story_engine: MyText
-  themes: MyText
-  tone: MyText
+  title: "Proyecto de Prueba 2"
+  genre: "Thriller"
+  idea: "Un misterio por resolver"
+  logline: "Un detective busca la verdad"
+  storyline: "Historia de investigación"
+  short_synopsis: "Investigación policial"
+  long_synopsis: "Historia completa de la investigación"
+  world: "Ciudad moderna"
+  characters_summary: "Detective y sospechosos"
+  story_engine: "La búsqueda de la verdad"
+  themes: "Justicia, verdad, engaño"
+  tone: "Tenso y misterioso"

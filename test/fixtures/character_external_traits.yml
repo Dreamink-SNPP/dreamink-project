@@ -2,30 +2,45 @@
 
 one:
   character: one
-  general_appearance: MyText
-  detailed_appearance: MyText
-  medical_history: MyText
-  family_structure: MyText
-  education: MyText
-  profession: MyString
-  legal_situation: MyString
-  economic_situation: MyString
-  important_possessions: MyText
-  residence_type: MyString
-  usual_location: MyString
-  pets: MyString
+  general_appearance: "Hombre de complexión media, piel bronceada por el sol"
+  detailed_appearance: "Altura 1.75m, ojos castaños, cabello castaño con canas en las sienes, barba de tres días, manos callosas de trabajador manual"
+  medical_history: "Saludable, operación de menisco a los 30"
+  family_structure: "Casado, dos hijos adolescentes"
+  education: "Secundaria completa, curso de carpintería"
+  profession: "Carpintero independiente"
+  legal_situation: "Sin antecedentes"
+  economic_situation: "Clase media, ingresos estables"
+  important_possessions: "Caja de herramientas de su abuelo, guitarra Martin"
+  residence_type: "Casa pequeña con taller"
+  usual_location: "Su taller y el muelle"
+  pets: "Perro labrador llamado Río"
 
 two:
   character: two
-  general_appearance: MyText
-  detailed_appearance: MyText
-  medical_history: MyText
-  family_structure: MyText
-  education: MyText
-  profession: MyString
-  legal_situation: MyString
-  economic_situation: MyString
-  important_possessions: MyText
-  residence_type: MyString
-  usual_location: MyString
-  pets: MyString
+  general_appearance: "Mujer de estatura media, porte elegante"
+  detailed_appearance: "Altura 1.68m, ojos verdes, cabello negro largo, usa lentes para leer, manos cuidadas"
+  medical_history: "Saludable, donante de sangre regular"
+  family_structure: "Soltera, vive sola, madre vive en otra ciudad"
+  education: "Médica cirujana, especialidad en traumatología"
+  profession: "Médica en hospital público"
+  legal_situation: "Sin antecedentes"
+  economic_situation: "Clase media-alta, buen salario"
+  important_possessions: "Piano de cola Yamaha, biblioteca médica extensa"
+  residence_type: "Departamento moderno de dos ambientes"
+  usual_location: "Hospital, su departamento, gimnasio"
+  pets: "Gata persa llamada Luna"
+
+three:
+  character: three
+  general_appearance: "Hombre corpulento, postura militar"
+  detailed_appearance: "Altura 1.82m, ojos grises, cabello corto con canas, cicatriz en ceja izquierda, constitución atlética"
+  medical_history: "Lesión de bala en hombro derecho hace 10 años, artritis leve"
+  family_structure: "Divorciado, una hija universitaria"
+  education: "Licenciatura en Criminología"
+  profession: "Detective de homicidios"
+  legal_situation: "Sin antecedentes, licencia para portar arma"
+  economic_situation: "Clase media, salario policial"
+  important_possessions: "Placa de su padre, reloj de bolsillo antiguo"
+  residence_type: "Apartamento pequeño y austero"
+  usual_location: "Comisaría, escenas del crimen, dojo"
+  pets: "Sin mascotas"

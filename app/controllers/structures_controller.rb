@@ -42,11 +42,22 @@ class StructuresController < ApplicationController
     # Convertir strings a integers
     ids = ids.map(&:to_i)
 
+    # Obtener todos los acts de una vez
+    acts = @project.acts.where(id: ids).index_by(&:id)
+
     ActiveRecord::Base.transaction do
+      # Paso 1: Posiciones temporales negativas (evita conflictos de unique constraint)
       ids.each_with_index do |act_id, index|
-        act = @project.acts.find(act_id)
-        # Usar insert_at de acts_as_list
-        act.insert_at(index + 1) if act.position != (index + 1)
+        act = acts[act_id]
+        next unless act
+        act.update_columns(position: -(index + 1000))
+      end
+
+      # Paso 2: Posiciones finales
+      ids.each_with_index do |act_id, index|
+        act = acts[act_id]
+        next unless act
+        act.update_columns(position: index + 1)
       end
     end
   end
@@ -78,11 +89,22 @@ class StructuresController < ApplicationController
     # Convertir strings a integers
     ids = ids.map(&:to_i)
 
+    # Obtener todas las scenes de una vez
+    scenes = @project.scenes.where(id: ids).index_by(&:id)
+
     ActiveRecord::Base.transaction do
+      # Paso 1: Posiciones temporales negativas (evita conflictos de unique constraint)
       ids.each_with_index do |scene_id, index|
-        scene = @project.scenes.find(scene_id)
-        # Usar insert_at de acts_as_list
-        scene.insert_at(index + 1) if scene.position != (index + 1)
+        scene = scenes[scene_id]
+        next unless scene
+        scene.update_columns(position: -(index + 1000))
+      end
+
+      # Paso 2: Posiciones finales
+      ids.each_with_index do |scene_id, index|
+        scene = scenes[scene_id]
+        next unless scene
+        scene.update_columns(position: index + 1)
       end
     end
   end

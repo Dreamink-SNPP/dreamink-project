@@ -2,12 +2,18 @@
 
 one:
   project: one
-  name: MyString
-  description: MyText
-  location_type: MyString
+  name: "Casa de la Playa"
+  description: "Una casa antigua frente al mar donde solían juntarse"
+  location_type: "interior"
 
 two:
+  project: one
+  name: "Muelle"
+  description: "El viejo muelle donde pescaban de niños"
+  location_type: "exterior"
+
+three:
   project: two
-  name: MyString
-  description: MyText
-  location_type: MyString
+  name: "Comisaría"
+  description: "Oficina del detective"
+  location_type: "interior"

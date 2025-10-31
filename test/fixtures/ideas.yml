@@ -2,12 +2,18 @@
 
 one:
   project: one
-  title: MyString
-  description: MyText
-  tags: MyText
+  title: "Flashback de la infancia"
+  description: "Una escena donde vemos a los tres amigos de niños jugando en el muelle"
+  tags: "flashback, infancia, amistad"
 
 two:
+  project: one
+  title: "El secreto revelado"
+  description: "Uno de ellos confiesa algo que guardó por 20 años"
+  tags: "secreto, drama, revelación"
+
+three:
   project: two
-  title: MyString
-  description: MyText
-  tags: MyText
+  title: "Pista en la escena del crimen"
+  description: "El detective encuentra una pista crucial"
+  tags: "misterio, investigación, pista"

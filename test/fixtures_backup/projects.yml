@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  title: MyString
+  genre: MyString
+  idea: MyText
+  logline: MyString
+  storyline: MyText
+  short_synopsis: MyText
+  long_synopsis: MyText
+  world: MyText
+  characters_summary: MyText
+  story_engine: MyText
+  themes: MyText
+  tone: MyText
+
+two:
+  user: two
+  title: MyString
+  genre: MyString
+  idea: MyText
+  logline: MyString
+  storyline: MyText
+  short_synopsis: MyText
+  long_synopsis: MyText
+  world: MyText
+  characters_summary: MyText
+  story_engine: MyText
+  themes: MyText
+  tone: MyText

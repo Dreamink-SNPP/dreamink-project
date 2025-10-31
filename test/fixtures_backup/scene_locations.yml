@@ -6,8 +6,4 @@ one:
 
 two:
   scene: two
-  location: one
-
-three:
-  scene: three
   location: two
