@@ -70,13 +70,13 @@
                 <div class="flex items-center justify-between">
                   <div class="flex items-center flex-1 min-w-0">
                     <!-- Icono según tipo -->
-                    <div class="shrink-0">
+                    <div class="flex-shrink-0 h-12 w-12 flex items-center justify-center">
                       <% if location.interior? %>
-                        <span class="text-3xl">🏠</span>
+                        <span class="text-2xl">🏠</span>
                       <% elsif location.exterior? %>
-                        <span class="text-3xl">🌳</span>
+                        <span class="text-2xl">🌳</span>
                       <% else %>
-                        <span class="text-3xl">📍</span>
+                        <span class="text-2xl">📍</span>
                       <% end %>
                     </div>
 
