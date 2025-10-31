@@ -64,6 +64,10 @@ Rails.application.routes.draw do
     resources :ideas do
       collection do
         get :search
+        get :collection_report
+      end
+      member do
+        get :report
       end
     end
 
