@@ -55,7 +55,7 @@ module Pdf
         end
       else
         @pdf.text "Esta locación aún no se utiliza en ninguna escena.",
-          size: 10, color: "9CA3AF", style: :italic
+          size: 10, color: "9CA3AF"
       end
     end
 
