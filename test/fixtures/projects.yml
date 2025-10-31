@@ -11,7 +11,6 @@ one:
   long_synopsis: "Historia completa del reencuentro de tres amigos de la infancia"
   world: "Ciudad costera contemporánea"
   characters_summary: "Tres protagonistas en sus 40s"
-  story_engine: "La búsqueda del tiempo perdido"
   themes: "Amistad, nostalgia, segundas oportunidades"
   tone: "Melancólico pero esperanzador"
 
@@ -26,6 +25,5 @@ two:
   long_synopsis: "Historia completa de la investigación"
   world: "Ciudad moderna"
   characters_summary: "Detective y sospechosos"
-  story_engine: "La búsqueda de la verdad"
   themes: "Justicia, verdad, engaño"
   tone: "Tenso y misterioso"
