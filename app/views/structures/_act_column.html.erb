@@ -73,9 +73,16 @@
     </div>
   </div>
 
+  <!-- Sección de Secuencias -->
+  <div class="px-4 pt-3 pb-2 border-b border-gray-100">
+    <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+      Secuencias
+    </h4>
+  </div>
+
   <!-- Lista de Secuencias -->
   <div id="act_<%= act.id %>_sequences"
-       class="p-4 space-y-3 min-h-[200px] max-h-[calc(100vh-300px)] overflow-y-auto">
+       class="p-4 space-y-3 min-h-[150px] max-h-[calc(100vh-350px)] overflow-y-auto">
 
       <% act.sequences.each do |sequence| %>
         <%= render "structures/sequence_card", sequence: sequence, project: project %>
