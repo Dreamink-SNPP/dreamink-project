@@ -204,10 +204,6 @@ class ScenesController < ApplicationController
             streams = [
               # Remove scene from old sequence
               turbo_stream.remove("scene_#{@scene.id}"),
-              # Add scene to new sequence
-              turbo_stream.append("sequence_#{target_sequence.id}_scenes",
-                                  partial: "structures/scene_item",
-                                  locals: { scene: @scene, project: @project }),
               # Update old sequence stats
               turbo_stream.update("sequence_#{old_sequence.id}_stats",
                                   partial: "structures/sequence_stats",
@@ -225,6 +221,30 @@ class ScenesController < ApplicationController
                                    partial: "shared/flash_notice",
                                    locals: { message: "Escena movida correctamente" })
             ]
+
+            # Add scene to new sequence at correct position
+            if @scene.position == 1
+              # If position is 1, prepend (add to beginning)
+              streams << turbo_stream.prepend("sequence_#{target_sequence.id}_scenes",
+                                              partial: "structures/scene_item",
+                                              locals: { scene: @scene, project: @project })
+            else
+              # For other positions, we need to insert at the right place
+              # Find the scene that should come before this one
+              previous_scene = target_sequence.scenes.where("position < ?", @scene.position)
+                                                     .order(position: :desc).first
+
+              if previous_scene
+                streams << turbo_stream.after("scene_#{previous_scene.id}",
+                                              partial: "structures/scene_item",
+                                              locals: { scene: @scene, project: @project })
+              else
+                # Fallback to append if we can't find previous scene
+                streams << turbo_stream.append("sequence_#{target_sequence.id}_scenes",
+                                               partial: "structures/scene_item",
+                                               locals: { scene: @scene, project: @project })
+              end
+            end
 
             # Update new act stats if different from old act
             if new_act.id != old_act.id

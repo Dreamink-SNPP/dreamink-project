@@ -125,36 +125,26 @@ export default class extends Controller {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': this.getCsrfToken(),
-        'Accept': 'application/json'
+        'Accept': 'text/vnd.turbo-stream.html'
       },
       body: JSON.stringify(payload)
     })
     .then(response => {
       console.log('   ✅ Response status:', response.status)
+      this.element.style.opacity = '1'
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`)
       }
-      return response.json()
+      return response.text()
     })
-    .then(data => {
-      console.log('   ✅ Response data:', data)
-
-      if (data.success) {
-        this.showToast('Escena movida correctamente', 'success')
-        // Reload page to update counters and ensure DOM matches database.
-        // After cross-container moves, parent container counts and nested
-        // element references need to be refreshed for UI consistency.
-        setTimeout(() => {
-          if (typeof Turbo !== 'undefined') {
-            Turbo.visit(window.location.href)
-          } else {
-            window.location.reload()
-          }
-        }, 600)
-      } else {
-        this.element.style.opacity = '1'
-        throw new Error('Server returned success: false')
+    .then(html => {
+      console.log('   ✅ Turbo Stream response received')
+      // Turbo.renderStreamMessage handles the Turbo Stream updates
+      if (typeof Turbo !== 'undefined') {
+        Turbo.renderStreamMessage(html)
       }
+      this.showToast('Escena movida correctamente', 'success')
     })
     .catch(error => {
       console.error('   ❌ Error:', error)
