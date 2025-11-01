@@ -140,7 +140,7 @@ export default class extends Controller {
       console.log('   ✅ Response data:', data)
 
       if (data.success) {
-        this.showToast('Elemento movido correctamente', 'success')
+        this.showToast('Escena movida correctamente', 'success')
         // Reload page to update counters and ensure DOM matches database.
         // After cross-container moves, parent container counts and nested
         // element references need to be refreshed for UI consistency.
@@ -234,23 +234,71 @@ export default class extends Controller {
     const flashContainer = document.getElementById('flash_messages')
     if (!flashContainer) return
 
-    const colors = {
-      success: 'bg-green-50 border-green-200 text-green-800',
-      error: 'bg-red-50 border-red-200 text-red-800',
-      info: 'bg-blue-50 border-blue-200 text-blue-800'
+    const toast = document.createElement('div')
+    toast.className = 'bg-white rounded-lg shadow-lg p-4 pointer-events-auto transform transition-all duration-300 ease-out translate-x-full opacity-0'
+
+    // Different border colors and icons for different types
+    const config = {
+      success: {
+        borderColor: 'border-green-500',
+        icon: `<svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>`
+      },
+      error: {
+        borderColor: 'border-red-500',
+        icon: `<svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>`
+      },
+      info: {
+        borderColor: 'border-blue-500',
+        icon: `<svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>`
+      }
     }
 
-    const toast = document.createElement('div')
-    toast.className = `${colors[type]} border rounded-md p-3 mb-2 shadow-sm`
-    toast.textContent = message
+    const { borderColor, icon } = config[type] || config.info
+    toast.classList.add('border-l-4', borderColor)
 
-    flashContainer.insertBefore(toast, flashContainer.firstChild)
+    toast.innerHTML = `
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          ${icon}
+        </div>
+        <div class="ml-3 flex-1">
+          <p class="text-sm font-medium text-gray-900">${message}</p>
+        </div>
+        <button type="button" class="ml-3 inline-flex text-gray-400 hover:text-gray-600 transition close-toast">
+          <span class="sr-only">Cerrar</span>
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+    `
 
-    setTimeout(() => {
-      toast.style.opacity = '0'
-      toast.style.transform = 'translateY(-10px)'
-      toast.style.transition = 'all 0.3s'
+    flashContainer.appendChild(toast)
+
+    // Slide in animation
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-x-full', 'opacity-0')
+        toast.classList.add('translate-x-0', 'opacity-100')
+      })
+    })
+
+    // Close button handler
+    const closeButton = toast.querySelector('.close-toast')
+    const closeToast = () => {
+      toast.classList.remove('translate-x-0', 'opacity-100')
+      toast.classList.add('translate-x-full', 'opacity-0')
       setTimeout(() => toast.remove(), 300)
-    }, 3000)
+    }
+    closeButton.addEventListener('click', closeToast)
+
+    // Auto-dismiss after 5 seconds
+    setTimeout(closeToast, 5000)
   }
 }
