@@ -27,6 +27,15 @@ class ActsController < ApplicationController
                                 partial: "structures/act_column",
                                 locals: { act: @act, project: @project }
             ),
+            # Actualizar estadísticas
+            turbo_stream.update("statistics_counters",
+                                partial: "structures/statistics",
+                                locals: {
+                                  acts_count: @project.acts.count,
+                                  sequences_count: @project.sequences.count,
+                                  scenes_count: @project.scenes.count
+                                }
+            ),
             # Mostrar mensaje flash
             turbo_stream.prepend("flash_messages",
                                  partial: "shared/flash_notice",
@@ -96,6 +105,15 @@ class ActsController < ApplicationController
         render turbo_stream: [
           # Eliminar la columna del acto
           turbo_stream.remove("act_#{@act.id}"),
+          # Actualizar estadísticas
+          turbo_stream.update("statistics_counters",
+                              partial: "structures/statistics",
+                              locals: {
+                                acts_count: @project.acts.count,
+                                sequences_count: @project.sequences.count,
+                                scenes_count: @project.scenes.count
+                              }
+          ),
           # Mostrar mensaje
           turbo_stream.prepend("flash_messages",
                                partial: "shared/flash_notice",
