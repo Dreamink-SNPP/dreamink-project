@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [ :show, :edit, :update, :destroy, :report ]
-  before_action :authorize_project!, only: [ :show, :edit, :update, :destroy, :report ]
+  before_action :set_project, only: [ :show, :edit, :update, :destroy, :report, :fountain_export ]
+  before_action :authorize_project!, only: [ :show, :edit, :update, :destroy, :report, :fountain_export ]
 
   def index
     @projects = current_user.projects.order(updated_at: :desc)
@@ -49,6 +49,17 @@ class ProjectsController < ApplicationController
       filename: "tratamiento_#{@project.title.parameterize}.pdf",
       type: "application/pdf",
       disposition: "inline"
+  end
+
+  # Exportar estructura del proyecto en formato Fountain
+  def fountain_export
+    exporter = Fountain::StructureExporter.new(@project)
+    fountain_content = exporter.generate
+
+    send_data fountain_content,
+      filename: "#{@project.title.parameterize}.fountain",
+      type: "text/plain",
+      disposition: "attachment"
   end
 
   private
