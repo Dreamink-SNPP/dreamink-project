@@ -28,6 +28,20 @@ class SequencesController < ApplicationController
             turbo_stream.update("new_sequence_modal_content",
                                 partial: "sequences/success"
             ),
+            # Actualizar contador del acto
+            turbo_stream.update("act_#{@act.id}_stats",
+                                partial: "structures/act_stats",
+                                locals: { act: @act }
+            ),
+            # Actualizar estadísticas
+            turbo_stream.update("statistics_counters",
+                                partial: "structures/statistics",
+                                locals: {
+                                  acts_count: @project.acts.count,
+                                  sequences_count: @project.sequences.count,
+                                  scenes_count: @project.scenes.count
+                                }
+            ),
             # Mensaje flash
             turbo_stream.prepend("flash_messages",
                                  partial: "shared/flash_notice",
@@ -87,13 +101,27 @@ class SequencesController < ApplicationController
   end
 
   def destroy
-    act_id = @sequence.act_id
+    act = @sequence.act
     @sequence.destroy
 
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.remove("sequence_#{@sequence.id}"),
+          # Actualizar contador del acto
+          turbo_stream.update("act_#{act.id}_stats",
+                              partial: "structures/act_stats",
+                              locals: { act: act }
+          ),
+          # Actualizar estadísticas
+          turbo_stream.update("statistics_counters",
+                              partial: "structures/statistics",
+                              locals: {
+                                acts_count: @project.acts.count,
+                                sequences_count: @project.sequences.count,
+                                scenes_count: @project.scenes.count
+                              }
+          ),
           turbo_stream.prepend("flash_messages",
                                partial: "shared/flash_notice",
                                locals: { message: "Secuencia eliminada exitosamente" }
