@@ -1,6 +1,8 @@
 include UserScoped
 
 class Scene < ApplicationRecord
+  TIMES_OF_DAY = %w[DAY NIGHT MORNING AFTERNOON EVENING DUSK DAWN CONTINUOUS LATER].freeze
+
   belongs_to :sequence
   belongs_to :act
   belongs_to :project
@@ -13,6 +15,10 @@ class Scene < ApplicationRecord
   validates :title, presence: true, length: { maximum: 200 }
   validates :position, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :color, format: { with: /\A#[0-9A-F]{6}\z/i, allow_blank: true }
+  validates :time_of_day, inclusion: {
+    in: TIMES_OF_DAY,
+    message: "%{value} no es un momento del día válido"
+  }, allow_blank: true
 
   before_validation :set_position, on: :create
   before_validation :set_default_color, on: :create
