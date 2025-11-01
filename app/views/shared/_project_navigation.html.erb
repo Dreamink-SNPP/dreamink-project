@@ -1,0 +1,66 @@
+<%# Sticky project navigation for quick access to all sections %>
+<% if local_assigns[:project].present? %>
+  <div class="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Project info header (mobile collapsible, always visible on desktop) -->
+      <div class="py-3 border-b border-gray-100">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <span class="text-lg shrink-0">🎬</span>
+            <div class="min-w-0 flex-1">
+              <h2 class="text-sm font-semibold text-gray-900 truncate">
+                <%= project.title %>
+              </h2>
+              <% if project.genre.present? %>
+                <p class="text-xs text-gray-500"><%= project.genre %></p>
+              <% end %>
+            </div>
+          </div>
+          <%= link_to project_path(project), 
+                      class: "shrink-0 text-xs text-primary hover:text-secondary-dark font-medium",
+                      title: "Ver tratamiento completo" do %>
+            Tratamiento →
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Section navigation tabs -->
+      <nav class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0" aria-label="Project sections">
+        <div class="flex space-x-4 sm:space-x-6 min-w-max py-3">
+          <%= link_to project_characters_path(project),
+                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{current_page?(project_characters_path(project)) || current_page?(controller: 'characters', action: 'show') || current_page?(controller: 'characters', action: 'new') || current_page?(controller: 'characters', action: 'edit') ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
+            <span class="text-base">👤</span>
+            <span>Personajes</span>
+            <span class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-medium <%= current_page?(project_characters_path(project)) || current_page?(controller: 'characters', action: 'show') || current_page?(controller: 'characters', action: 'new') || current_page?(controller: 'characters', action: 'edit') ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
+              <%= project.characters.count %>
+            </span>
+          <% end %>
+
+          <%= link_to project_locations_path(project),
+                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{current_page?(project_locations_path(project)) || current_page?(controller: 'locations', action: 'show') || current_page?(controller: 'locations', action: 'new') || current_page?(controller: 'locations', action: 'edit') ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
+            <span class="text-base">📍</span>
+            <span>Locaciones</span>
+            <span class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-medium <%= current_page?(project_locations_path(project)) || current_page?(controller: 'locations', action: 'show') || current_page?(controller: 'locations', action: 'new') || current_page?(controller: 'locations', action: 'edit') ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
+              <%= project.locations.count %>
+            </span>
+          <% end %>
+
+          <%= link_to project_ideas_path(project),
+                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{current_page?(project_ideas_path(project)) || current_page?(controller: 'ideas', action: 'show') || current_page?(controller: 'ideas', action: 'new') || current_page?(controller: 'ideas', action: 'edit') ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
+            <span class="text-base">💡</span>
+            <span>Ideas</span>
+            <span class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-medium <%= current_page?(project_ideas_path(project)) || current_page?(controller: 'ideas', action: 'show') || current_page?(controller: 'ideas', action: 'new') || current_page?(controller: 'ideas', action: 'edit') ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
+              <%= project.ideas.count %>
+            </span>
+          <% end %>
+
+          <%= link_to project_structure_path(project),
+                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{current_page?(project_structure_path(project)) ? 'bg-green-600 text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
+            <span class="text-base">🎬</span>
+            <span>Estructura</span>
+          <% end %>
+        </div>
+      </nav>
+    </div>
+  </div>
+<% end %>
