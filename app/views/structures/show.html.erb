@@ -37,19 +37,8 @@
       </div>
 
       <!-- Estadísticas rápidas -->
-      <div class="mt-4 flex space-x-6 text-sm text-gray-600">
-        <div class="flex items-center">
-          <span class="font-semibold mr-1"><%= @acts.count %></span>
-          <%= @acts.count == 1 ? "Acto" : "Actos" %>
-        </div>
-        <div class="flex items-center">
-          <span class="font-semibold mr-1"><%= @project.sequences.count %></span>
-          <%= @project.sequences.count == 1 ? "Secuencia" : "Secuencias" %>
-        </div>
-        <div class="flex items-center">
-          <span class="font-semibold mr-1"><%= @project.scenes.count %></span>
-          <%= @project.scenes.count == 1 ? "Escena" : "Escenas" %>
-        </div>
+      <div id="statistics_counters">
+        <%= render "structures/statistics", acts_count: @acts.count, sequences_count: @project.sequences.count, scenes_count: @project.scenes.count %>
       </div>
 
       <!-- Botones expandir/colapsar - USANDO CONTROLLER -->
