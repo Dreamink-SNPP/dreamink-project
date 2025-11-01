@@ -183,6 +183,8 @@ class ScenesController < ApplicationController
   def move_to_sequence
       target_sequence_id = params[:target_sequence_id]
       target_position = params[:target_position]&.to_i
+      old_sequence = @scene.sequence
+      old_act = old_sequence.act
 
       if target_sequence_id.blank?
         return render json: { error: "target_sequence_id is required" }, status: :bad_request
@@ -195,9 +197,48 @@ class ScenesController < ApplicationController
       end
 
       if @scene.move_to_sequence(target_sequence, new_position: target_position)
+        new_act = target_sequence.act
+
         respond_to do |format|
           format.turbo_stream do
-            redirect_to project_structure_path(@project)
+            streams = [
+              # Remove scene from old sequence
+              turbo_stream.remove("scene_#{@scene.id}"),
+              # Add scene to new sequence
+              turbo_stream.append("sequence_#{target_sequence.id}_scenes",
+                                  partial: "structures/scene_item",
+                                  locals: { scene: @scene, project: @project }),
+              # Update old sequence stats
+              turbo_stream.update("sequence_#{old_sequence.id}_stats",
+                                  partial: "structures/sequence_stats",
+                                  locals: { sequence: old_sequence }),
+              # Update new sequence stats
+              turbo_stream.update("sequence_#{target_sequence.id}_stats",
+                                  partial: "structures/sequence_stats",
+                                  locals: { sequence: target_sequence }),
+              # Update old act stats
+              turbo_stream.update("act_#{old_act.id}_stats",
+                                  partial: "structures/act_stats",
+                                  locals: { act: old_act }),
+              # Flash message
+              turbo_stream.prepend("flash_messages",
+                                   partial: "shared/flash_notice",
+                                   locals: { message: "Escena movida correctamente" })
+            ]
+
+            # Update new act stats if different from old act
+            if new_act.id != old_act.id
+              streams << turbo_stream.update("act_#{new_act.id}_stats",
+                                            partial: "structures/act_stats",
+                                            locals: { act: new_act })
+            end
+
+            # Remove empty state from new sequence if this is the first scene
+            if target_sequence.scenes.count == 1
+              streams << turbo_stream.remove("sequence_#{target_sequence.id}_empty_state")
+            end
+
+            render turbo_stream: streams
           end
           format.json do
             render json: {
