@@ -23,13 +23,13 @@
   <% if @projects.any? %>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <% @projects.each do |project| %>
-        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition duration-150 ease-in-out">
+        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200">
           <%= link_to project_path(project), class: "block p-6" do %>
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg font-semibold text-gray-900 truncate">
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <h3 class="text-lg font-semibold text-gray-900 line-clamp-2 flex-1">
                 <%= project.title %>
               </h3>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+              <span class="shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
                 <%= project.genre || "Sin género" %>
               </span>
             </div>
@@ -45,31 +45,33 @@
             <% end %>
 
             <div class="flex items-center justify-between text-xs text-gray-500">
-              <div class="flex space-x-4">
+              <div class="flex gap-4">
                 <span title="Actos">📑 <%= project.acts.count %></span>
                 <span title="Personajes">👥 <%= project.characters.count %></span>
                 <span title="Locaciones">📍 <%= project.locations.count %></span>
               </div>
-              <span>
+              <span class="text-right">
                 <%= time_ago_in_words(project.updated_at) %>
               </span>
             </div>
           <% end %>
 
           <!-- Acciones -->
-          <div class="px-6 pb-4 flex space-x-2">
-            <%= link_to edit_project_path(project),
-                        class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
-              Editar
-            <% end %>
-            <%= link_to project_structure_path(project),
-                        class: "text-green-600 hover:text-green-900 text-sm font-medium" do %>
-              Estructura
-            <% end %>
+          <div class="border-t border-gray-100 px-6 py-3 mt-4 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-4">
+              <%= link_to edit_project_path(project),
+                          class: "text-primary hover:text-secondary-dark text-sm font-medium transition" do %>
+                Editar
+              <% end %>
+              <%= link_to project_structure_path(project),
+                          class: "text-green-600 hover:text-green-700 text-sm font-medium transition" do %>
+                Estructura
+              <% end %>
+            </div>
             <%= button_to project_path(project),
                           method: :delete,
                           data: { turbo_confirm: "¿Estás seguro de eliminar este proyecto?" },
-                          class: "text-red-600 hover:text-red-900 text-sm font-medium" do %>
+                          class: "text-red-600 hover:text-red-700 text-sm font-medium transition" do %>
               Eliminar
             <% end %>
           </div>

@@ -1,37 +1,47 @@
+<%= render "shared/project_navigation", project: @project %>
+
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Header -->
-    <div class="mb-8">
-        <!-- Título y navegación -->
-        <div class="flex items-center space-x-3 mb-4">
-            <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500" do %>
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-            <% end %>
-            <h1 class="text-3xl font-bold text-gray-900">
-              Personajes
-            </h1>
+  <div class="mb-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <!-- Título y navegación -->
+      <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+        <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        <% end %>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">
+            Personajes
+          </h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= @project.title %>
+          </p>
         </div>
+      </div>
 
-        <div class="flex items-center space-x-3">
-            <%= link_to collection_report_project_characters_path(@project, format: :pdf),
-            target: "_blank",
-            class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-            <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Acciones -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= link_to collection_report_project_characters_path(@project, format: :pdf),
+                    target: "_blank",
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-            </svg>
-            Reporte PDF Completo
-            <% end %>
+          </svg>
+          Reporte PDF Completo
+        <% end %>
 
-            <%= link_to new_project_character_path(@project),
-            class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <%= link_to new_project_character_path(@project),
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Nuevo Personaje
-            <% end %>
-        </div>
+          </svg>
+          Nuevo Personaje
+        <% end %>
+      </div>
     </div>
+  </div>
 
   <!-- Lista de personajes -->
   <% if @characters.any? %>
@@ -77,15 +87,15 @@
           <% end %>
 
           <!-- Acciones -->
-          <div class="px-6 pb-4 flex space-x-3 border-t border-gray-100 pt-4 mt-4">
+          <div class="border-t border-gray-100 px-6 py-3 mt-4 flex items-center justify-between gap-3">
             <%= link_to edit_project_character_path(@project, character),
-                        class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
+                        class: "text-primary hover:text-secondary-dark text-sm font-medium transition" do %>
               Editar
             <% end %>
             <%= button_to project_character_path(@project, character),
                           method: :delete,
                           data: { turbo_confirm: "¿Estás seguro de eliminar a #{character.name}?" },
-                          class: "text-red-600 hover:text-red-900 text-sm font-medium" do %>
+                          class: "text-red-600 hover:text-red-700 text-sm font-medium transition" do %>
               Eliminar
             <% end %>
           </div>

@@ -19,8 +19,14 @@ application.register("flash", FlashController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MobileMenuController from "./mobile_menu_controller"
+application.register("mobile-menu", MobileMenuController)
+
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
+
+import ScrollToTopController from "./scroll_to_top_controller"
+application.register("scroll-to-top", ScrollToTopController)
 
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)

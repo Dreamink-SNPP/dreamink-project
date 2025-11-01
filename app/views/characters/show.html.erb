@@ -1,76 +1,87 @@
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<%= render "shared/project_navigation", project: @project %>
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-controller="scroll-to-top">
   <!-- Header -->
   <div class="mb-8">
-    <div class="flex items-center justify-between">
-      <div class="flex-1">
-        <div class="flex items-center space-x-3 mb-2">
-          <%= link_to project_characters_path(@project), class: "text-gray-400 hover:text-gray-500" do %>
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-          <% end %>
-          <div class="shrink-0 h-16 w-16 rounded-full bg-primary-100 flex items-center justify-center">
-            <span class="text-4xl">👤</span>
-          </div>
-          <div>
-            <h1 class="text-3xl font-bold text-gray-900">
-              <%= @character.name %>
-            </h1>
-            <p class="text-sm text-gray-600">
-              <%= @project.title %>
-            </p>
-          </div>
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <!-- Título y navegación -->
+      <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+        <%= link_to project_characters_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        <% end %>
+        <div class="shrink-0 h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
+          <span class="text-2xl">👤</span>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">
+            <%= @character.name %>
+          </h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= @project.title %>
+          </p>
         </div>
       </div>
 
       <!-- Acciones -->
-        <div class="flex space-x-3">
-            <%= link_to report_project_character_path(@project, @character, format: :pdf),
-                        target: "_blank",
-                        class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" do %>
-            <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-            </svg>
-            Generar Reporte
-            <% end %>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= link_to report_project_character_path(@project, @character, format: :pdf),
+                    target: "_blank",
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          Generar Reporte
+        <% end %>
 
-            <%= link_to edit_project_character_path(@project, @character),
-                        class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" do %>
-            <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-            </svg>
-            Editar
-            <% end %>
-        </div>
+        <%= link_to edit_project_character_path(@project, @character),
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          Editar
+        <% end %>
+      </div>
     </div>
   </div>
 
   <!-- Tabs -->
   <div class="bg-white shadow rounded-lg overflow-hidden" data-controller="tabs">
-    <!-- Tab headers -->
-    <div class="border-b border-gray-200 bg-gray-50">
-      <nav class="-mb-px flex" aria-label="Tabs">
+    <!-- Tab headers - Card style -->
+    <div class="bg-gradient-to-r from-gray-50 to-gray-100 p-4 sm:p-6">
+      <nav class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4" aria-label="Tabs">
         <button type="button"
                 data-action="click->tabs#switch"
                 data-tabs-target="button"
-                data-tab-id="internal"
-                class="tab-button active w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
-          Características Internas
+                data-tab-id="main"
+                class="tab-card-button active group relative flex items-center justify-center sm:justify-start gap-3 px-4 py-4 sm:py-5 rounded-lg border-2 transition-all duration-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-200">🎭</span>
+          <span class="font-semibold text-sm sm:text-base text-center sm:text-left">Características<br class="hidden sm:inline"/>Principales</span>
         </button>
         <button type="button"
                 data-action="click->tabs#switch"
                 data-tabs-target="button"
-                data-tab-id="external"
-                class="tab-button w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
-          Características Externas
+                data-tab-id="physical"
+                class="tab-card-button group relative flex items-center justify-center sm:justify-start gap-3 px-4 py-4 sm:py-5 rounded-lg border-2 transition-all duration-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-200">👁️</span>
+          <span class="font-semibold text-sm sm:text-base text-center sm:text-left">Características<br class="hidden sm:inline"/>Físicas</span>
+        </button>
+        <button type="button"
+                data-action="click->tabs#switch"
+                data-tabs-target="button"
+                data-tab-id="other"
+                class="tab-card-button group relative flex items-center justify-center sm:justify-start gap-3 px-4 py-4 sm:py-5 rounded-lg border-2 transition-all duration-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+          <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-200">⭐</span>
+          <span class="font-semibold text-sm sm:text-base text-center sm:text-left">Otras<br class="hidden sm:inline"/>Características</span>
         </button>
       </nav>
     </div>
 
     <!-- Tab content -->
     <div class="p-6">
-      <!-- Características Internas -->
-      <div data-tabs-target="panel" data-tab-id="internal" class="space-y-6">
+      <!-- Características Principales -->
+      <div data-tabs-target="panel" data-tab-id="main" class="space-y-6">
         <% internal = @character.internal_trait %>
         <% if internal.present? %>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -93,27 +104,18 @@
           <div class="pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
             <%= render partial: "characters/trait_field", locals: { label: "💬 Focos de Conversación", value: internal.conversation_focus } %>
             <%= render partial: "characters/trait_field", locals: { label: "🎭 Nivel de Autoconciencia", value: internal.self_awareness_level } %>
-            <%= render partial: "characters/trait_field", locals: { label: "⏰ Administración del Tiempo", value: internal.time_management } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎨 Inclinaciones Artísticas", value: internal.artistic_inclinations } %>
             <%= render partial: "characters/trait_field", locals: { label: "🌟 Héroes y Modelos", value: internal.heroes_models } %>
             <%= render partial: "characters/trait_field", locals: { label: "🏛️ Ideas Políticas", value: internal.political_ideas } %>
             <%= render partial: "characters/trait_field", locals: { label: "👮 Relación con Autoridad", value: internal.authority_relationship } %>
             <%= render partial: "characters/trait_field", locals: { label: "🚬 Vicios", value: internal.vices } %>
-            <%= render partial: "characters/trait_field", locals: { label: "📅 Ubicación Temporal", value: internal.temporal_location } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🍽️ Preferencias Alimenticias", value: internal.food_preferences } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🔄 Hábitos", value: internal.habits } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎪 Peculiaridades", value: internal.peculiarities } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎮 Pasatiempos", value: internal.hobbies } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💝 Actividades Caritativas", value: internal.charitable_activities } %>
           </div>
         <% else %>
-          <p class="text-gray-500 italic">No hay características internas
-            definidas</p>
+          <p class="text-gray-500 italic">No hay características principales definidas</p>
         <% end %>
       </div>
 
-      <!-- Características Externas -->
-      <div data-tabs-target="panel" data-tab-id="external" class="space-y-6 hidden">
+      <!-- Características Físicas -->
+      <div data-tabs-target="panel" data-tab-id="physical" class="space-y-6 hidden">
         <% external = @character.external_trait %>
         <% if external.present? %>
           <div class="space-y-6">
@@ -137,20 +139,57 @@
             <%= render partial: "characters/trait_field", locals: { label: "👨‍👩‍👧‍👦 Estructura Familiar", value: external.family_structure, full_width: true } %>
           </div>
         <% else %>
-          <p class="text-gray-500 italic">No hay características externas
-            definidas</p>
+          <p class="text-gray-500 italic">No hay características físicas definidas</p>
+        <% end %>
+      </div>
+
+      <!-- Otras Características -->
+      <div data-tabs-target="panel" data-tab-id="other" class="space-y-6 hidden">
+        <% internal = @character.internal_trait %>
+        <% if internal.present? %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <%= render partial: "characters/trait_field", locals: { label: "⏰ Administración del Tiempo", value: internal.time_management } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎨 Inclinaciones Artísticas", value: internal.artistic_inclinations } %>
+            <%= render partial: "characters/trait_field", locals: { label: "📅 Ubicación Temporal", value: internal.temporal_location } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🍽️ Preferencias Alimenticias", value: internal.food_preferences } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🔄 Hábitos", value: internal.habits } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎪 Peculiaridades", value: internal.peculiarities } %>
+            <%= render partial: "characters/trait_field", locals: { label: "🎮 Pasatiempos", value: internal.hobbies } %>
+            <%= render partial: "characters/trait_field", locals: { label: "💝 Actividades Caritativas", value: internal.charitable_activities } %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 italic">No hay otras características definidas</p>
         <% end %>
       </div>
     </div>
   </div>
+
+  <!-- Scroll to Top Button -->
+  <button type="button"
+          data-scroll-to-top-target="button"
+          data-action="click->scroll-to-top#scrollToTop"
+          class="hidden fixed bottom-6 right-6 z-40 p-3 sm:p-4 bg-primary text-white rounded-full shadow-lg hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 opacity-0"
+          aria-label="Scroll to top">
+    <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+  </button>
 </div>
 
 <style>
-    .tab-button {
-        @apply border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300;
+    .tab-card-button {
+        @apply border-gray-200 text-gray-600;
     }
 
-    .tab-button.active {
-        @apply border-primary text-primary;
+    .tab-card-button:hover {
+        @apply border-gray-300 text-gray-800;
+    }
+
+    .tab-card-button.active {
+        @apply border-primary bg-primary-50 text-primary shadow-md;
+    }
+
+    .tab-card-button.active span:first-of-type {
+        @apply drop-shadow-sm;
     }
 </style>

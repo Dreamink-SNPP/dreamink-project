@@ -1,33 +1,44 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<%= render "shared/project_navigation", project: @project %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-controller="scroll-to-top">
   <!-- Header -->
   <div class="mb-8">
-    <div class="flex items-center space-x-3 mb-4">
-      <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500" do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-      <% end %>
-      <h1 class="text-3xl font-bold text-gray-900">
-        Ideas
-      </h1>
-    </div>
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <!-- Título y navegación -->
+      <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+        <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        <% end %>
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">
+            Ideas
+          </h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= @project.title %>
+          </p>
+        </div>
+      </div>
 
-    <div class="flex items-center space-x-3">
-      <%= link_to collection_report_project_ideas_path(@project, format: :pdf),
-                  target: "_blank",
-                  class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-        </svg>
-        Reporte PDF Completo
-      <% end %>
+      <!-- Acciones -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= link_to collection_report_project_ideas_path(@project, format: :pdf),
+                    target: "_blank",
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          Reporte PDF Completo
+        <% end %>
 
-      <%= link_to new_project_idea_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Nueva Idea
-      <% end %>
+        <%= link_to new_project_idea_path(@project), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Nueva Idea
+        <% end %>
+      </div>
     </div>
 
     <!-- Búsqueda -->
@@ -98,10 +109,10 @@
               </div>
 
               <!-- Botones de acción -->
-              <div class="flex space-x-2 ml-4">
+              <div class="flex shrink-0 gap-2 ml-4">
                 <%= link_to report_project_idea_path(@project, idea, format: :pdf),
                             target: "_blank",
-                            class: "text-red-600 hover:text-red-900 p-1",
+                            class: "text-red-600 hover:text-red-700 p-1 transition",
                             title: "Generar PDF" do %>
                   <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
@@ -109,7 +120,8 @@
                 <% end %>
 
                 <%= link_to edit_project_idea_path(@project, idea),
-                            class: "text-primary hover:text-primary-900 p-1" do %>
+                            class: "text-primary hover:text-secondary-dark p-1 transition",
+                            title: "Editar" do %>
                   <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                   </svg>
@@ -118,7 +130,8 @@
                 <%= button_to project_idea_path(@project, idea),
                               method: :delete,
                               data: { turbo_confirm: "¿Estás seguro de eliminar esta idea?" },
-                              class: "text-red-600 hover:text-red-900 p-1" do %>
+                              class: "text-red-600 hover:text-red-700 p-1 transition",
+                              title: "Eliminar" do %>
                   <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                   </svg>
@@ -172,4 +185,15 @@
       <% end %>
     </div>
   <% end %>
+
+  <!-- Scroll to Top Button -->
+  <button type="button"
+          data-scroll-to-top-target="button"
+          data-action="click->scroll-to-top#scrollToTop"
+          class="hidden fixed bottom-6 right-6 z-40 p-3 sm:p-4 bg-primary text-white rounded-full shadow-lg hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 opacity-0"
+          aria-label="Scroll to top">
+    <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+    </svg>
+  </button>
 </div>
