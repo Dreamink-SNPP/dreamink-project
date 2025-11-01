@@ -222,6 +222,14 @@ class ScenesController < ApplicationController
                                    locals: { message: "Escena movida correctamente" })
             ]
 
+            # Add empty state to old sequence if it's now empty
+            if old_sequence.scenes.count == 0
+              streams << turbo_stream.append("sequence_#{old_sequence.id}_scenes",
+                                             html: "<div id=\"sequence_#{old_sequence.id}_empty_state\" class=\"text-center py-4 text-gray-400 text-xs pointer-events-none\">
+                                                      <p>Sin escenas</p>
+                                                    </div>".html_safe)
+            end
+
             # Add scene to new sequence at correct position
             if @scene.position == 1
               # If position is 1, prepend (add to beginning)
