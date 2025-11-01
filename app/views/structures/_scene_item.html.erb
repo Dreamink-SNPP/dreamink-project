@@ -1,6 +1,6 @@
 <!-- Item de Escena -->
 <div id="scene_<%= scene.id %>"
-     class="scene-item bg-white rounded border border-gray-200 p-2"
+     class="scene-item bg-white rounded-md border border-gray-200 p-2.5 shadow-sm hover:shadow-md hover:border-gray-300 transition-all"
      style="<%= "border-left: 3px solid #{scene.color};" if scene.color.present? %>"
      data-sortable-id="<%= scene.id %>">
   <div class="flex items-start justify-between">
@@ -41,6 +41,45 @@
 
     <!-- Acciones -->
     <div class="ml-2 flex space-x-1">
+      <!-- Move to Sequence Dropdown -->
+      <div class="relative" data-controller="dropdown">
+        <button type="button"
+                data-action="click->dropdown#toggle"
+                class="text-gray-400 hover:text-primary"
+                title="Mover a otra secuencia">
+          <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div data-dropdown-target="menu"
+             class="hidden absolute right-0 mt-1 w-56 bg-white rounded-md shadow-lg z-50 border border-gray-200 max-h-60 overflow-y-auto">
+          <div class="py-1">
+            <div class="px-3 py-2 text-xs font-semibold text-gray-500 border-b sticky top-0 bg-white">
+              Mover a Secuencia
+            </div>
+            <% project.acts.order(:position).each do |act| %>
+              <% act_sequences = act.sequences.where.not(id: scene.sequence_id).order(:position) %>
+              <% if act_sequences.any? %>
+                <div class="px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-50">
+                  <%= act.title %>
+                </div>
+                <% act_sequences.each do |sequence| %>
+                  <%= button_to move_to_sequence_project_scene_path(project, scene),
+                                method: :patch,
+                                params: { target_sequence_id: sequence.id, target_position: 1 },
+                                class: "w-full text-left px-5 py-1.5 text-xs text-gray-600 hover:bg-primary-50 hover:text-primary",
+                                data: { turbo: true } do %>
+                    <%= sequence.title.truncate(35) %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
       <button type="button"
               data-action="click->structure#openEditSceneModal"
               data-scene-id="<%= scene.id %>"

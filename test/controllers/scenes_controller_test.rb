@@ -85,7 +85,7 @@ class ScenesControllerTest < ActionDispatch::IntegrationTest
       target_position: 1
     }, as: :turbo_stream
 
-    assert_response :redirect
+    assert_response :success
     @scene.reload
     assert_equal other_sequence.id, @scene.sequence_id
   end

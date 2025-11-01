@@ -47,6 +47,11 @@ export default class extends Controller {
         console.log('   From container:', event.from.id)
         event.item.classList.add('is-dragging')
         document.body.style.cursor = 'grabbing'
+
+        // Setup auto-expand for collapsed sequences when dragging scenes
+        if (this.typeValue === 'scene') {
+          this.setupAutoExpand()
+        }
       },
 
       onEnd: (event) => {
@@ -57,6 +62,11 @@ export default class extends Controller {
 
         event.item.classList.remove('is-dragging')
         document.body.style.cursor = ''
+
+        // Cleanup auto-expand
+        if (this.typeValue === 'scene') {
+          this.cleanupAutoExpand()
+        }
 
         const movedToNewContainer = event.from !== event.to
 
@@ -125,35 +135,25 @@ export default class extends Controller {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': this.getCsrfToken(),
-        'Accept': 'application/json'
+        'Accept': 'text/vnd.turbo-stream.html'
       },
       body: JSON.stringify(payload)
     })
     .then(response => {
       console.log('   ✅ Response status:', response.status)
+      this.element.style.opacity = '1'
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`)
       }
-      return response.json()
+      return response.text()
     })
-    .then(data => {
-      console.log('   ✅ Response data:', data)
-
-      if (data.success) {
-        this.showToast('Escena movida correctamente', 'success')
-        // Reload page to update counters and ensure DOM matches database.
-        // After cross-container moves, parent container counts and nested
-        // element references need to be refreshed for UI consistency.
-        setTimeout(() => {
-          if (typeof Turbo !== 'undefined') {
-            Turbo.visit(window.location.href)
-          } else {
-            window.location.reload()
-          }
-        }, 600)
-      } else {
-        this.element.style.opacity = '1'
-        throw new Error('Server returned success: false')
+    .then(html => {
+      console.log('   ✅ Turbo Stream response received')
+      // Turbo.renderStreamMessage handles the Turbo Stream updates
+      // Note: Toast message is already included in the Turbo Stream response
+      if (typeof Turbo !== 'undefined') {
+        Turbo.renderStreamMessage(html)
       }
     })
     .catch(error => {
@@ -300,5 +300,116 @@ export default class extends Controller {
 
     // Auto-dismiss after 5 seconds
     setTimeout(closeToast, 5000)
+  }
+
+  // Auto-expand collapsed sequences when dragging scenes over them
+  setupAutoExpand() {
+    // Find all sequence cards
+    const sequenceCards = document.querySelectorAll('.sequence-card')
+
+    this.expandTimers = new Map()
+    this.dragoverHandlers = new Map()
+    this.autoExpandedSequences = new Set() // Track which sequences we auto-expanded
+
+    sequenceCards.forEach(card => {
+      const sequenceId = card.id.replace('sequence_', '')
+      const collapsibleContent = document.getElementById(`scenes-${sequenceId}`)
+      const toggleButton = card.querySelector('[data-action*="collapsible#toggle"]')
+
+      if (!collapsibleContent || !toggleButton) return
+
+      // Create dragover handler
+      const dragoverHandler = (e) => {
+        e.preventDefault()
+
+        // Check if sequence is collapsed
+        const isCollapsed = collapsibleContent.classList.contains('hidden')
+
+        if (isCollapsed && !this.autoExpandedSequences.has(sequenceId)) {
+          // Set timer to expand after hovering for 500ms
+          if (!this.expandTimers.has(sequenceId)) {
+            console.log(`⏱️ Hovering over collapsed sequence ${sequenceId}`)
+            const timer = setTimeout(() => {
+              console.log(`🔓 Auto-expanding sequence ${sequenceId}`)
+
+              // Manually expand instead of clicking to ensure proper state
+              const icon = toggleButton.querySelector('svg')
+
+              // Remove hidden and apply expansion animation
+              collapsibleContent.classList.remove('hidden')
+              collapsibleContent.style.maxHeight = '0px'
+              collapsibleContent.style.opacity = '0'
+
+              // Trigger reflow
+              void collapsibleContent.offsetHeight
+
+              // Animate
+              requestAnimationFrame(() => {
+                collapsibleContent.style.transition = 'max-height 0.3s ease-out, opacity 0.3s ease-out'
+                collapsibleContent.style.maxHeight = collapsibleContent.scrollHeight + 'px'
+                collapsibleContent.style.opacity = '1'
+
+                // Rotate icon to expanded state (0deg)
+                if (icon) {
+                  icon.style.transition = 'transform 0.3s ease-out'
+                  icon.style.transform = 'rotate(0deg)'
+                }
+              })
+
+              // Clean up inline styles after animation
+              setTimeout(() => {
+                collapsibleContent.style.maxHeight = ''
+                collapsibleContent.style.opacity = ''
+              }, 300)
+
+              this.autoExpandedSequences.add(sequenceId)
+              this.expandTimers.delete(sequenceId)
+            }, 500)
+            this.expandTimers.set(sequenceId, timer)
+          }
+        }
+      }
+
+      // Create dragleave handler to cancel expansion
+      const dragleaveHandler = (e) => {
+        if (this.expandTimers.has(sequenceId)) {
+          console.log(`❌ Cancelled auto-expand for sequence ${sequenceId}`)
+          clearTimeout(this.expandTimers.get(sequenceId))
+          this.expandTimers.delete(sequenceId)
+        }
+      }
+
+      // Store handlers for cleanup
+      this.dragoverHandlers.set(sequenceId, { dragoverHandler, dragleaveHandler })
+
+      // Add event listeners
+      card.addEventListener('dragover', dragoverHandler)
+      card.addEventListener('dragleave', dragleaveHandler)
+    })
+  }
+
+  cleanupAutoExpand() {
+    // Clear all timers
+    if (this.expandTimers) {
+      this.expandTimers.forEach(timer => clearTimeout(timer))
+      this.expandTimers.clear()
+    }
+
+    // Remove event listeners
+    if (this.dragoverHandlers) {
+      this.dragoverHandlers.forEach((handlers, sequenceId) => {
+        const card = document.getElementById(`sequence_${sequenceId}`)
+        if (card) {
+          card.removeEventListener('dragover', handlers.dragoverHandler)
+          card.removeEventListener('dragleave', handlers.dragleaveHandler)
+        }
+      })
+      this.dragoverHandlers.clear()
+    }
+
+    // Clear auto-expanded sequences tracking
+    if (this.autoExpandedSequences) {
+      this.autoExpandedSequences.clear()
+    }
   }
 }

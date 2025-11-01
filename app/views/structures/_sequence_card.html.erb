@@ -1,6 +1,6 @@
 <!-- Tarjeta de Secuencia -->
 <div id="sequence_<%= sequence.id %>"
-     class="sequence-card bg-gray-50 rounded-lg border border-gray-200"
+     class="sequence-card bg-gray-50 rounded-lg border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow"
      data-controller="collapsible"
      data-collapsible-storage-key-value="sequence">
 
@@ -20,6 +20,17 @@
 
       <!-- Acciones de la secuencia -->
       <div class="ml-2 flex space-x-1">
+        <!-- Add Scene Button -->
+        <button type="button"
+                data-action="click->structure#openNewSceneModal"
+                data-sequence-id="<%= sequence.id %>"
+                class="text-gray-400 hover:text-green-600 p-1"
+                title="Agregar escena">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+
         <!-- Move to Act Dropdown -->
         <div class="relative" data-controller="dropdown">
           <button type="button"
@@ -81,6 +92,13 @@
 
   <!-- Lista de Escenas (colapsable) -->
   <div id="scenes-<%= sequence.id %>" class="hidden">
+    <!-- Header de Escenas -->
+    <div class="px-3 py-2 bg-gray-100 border-t border-gray-200">
+      <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+        Escenas
+      </h5>
+    </div>
+
     <div id="sequence_<%= sequence.id %>_scenes"
          class="p-2 space-y-2 min-h-[100px]"
          data-controller="sortable"
@@ -99,15 +117,6 @@
           <p>Sin escenas</p>
         </div>
       <% end %>
-      </div>
-
-      <div class="p-2 border-t border-gray-100">
-        <button type="button"
-                data-action="click->structure#openNewSceneModal"
-                data-sequence-id="<%= sequence.id %>"
-                class="w-full py-1.5 px-3 border border-dashed border-gray-300 rounded text-xs font-medium text-gray-500 hover:border-primary hover:text-primary transition">
-          + Agregar Escena
-        </button>
-      </div>
     </div>
+  </div>
 </div>
