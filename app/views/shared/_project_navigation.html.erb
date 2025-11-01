@@ -16,7 +16,7 @@
               <% end %>
             </div>
           </div>
-          <%= link_to project_path(project), 
+          <%= link_to project_path(project),
                       class: "shrink-0 text-xs text-primary hover:text-secondary-dark font-medium",
                       title: "Ver tratamiento completo" do %>
             Tratamiento →
@@ -39,7 +39,7 @@
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_characters_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
             <span class="text-base">👤</span>
             <span>Personajes</span>
-            <span class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-medium <%= is_characters_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
+            <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_characters_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
               <%= project.characters.count %>
             </span>
           <% end %>
@@ -48,7 +48,7 @@
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_locations_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
             <span class="text-base">📍</span>
             <span>Locaciones</span>
-            <span class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-medium <%= is_locations_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
+            <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_locations_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
               <%= project.locations.count %>
             </span>
           <% end %>
@@ -57,7 +57,7 @@
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_ideas_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
             <span class="text-base">💡</span>
             <span>Ideas</span>
-            <span class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-xs font-medium <%= is_ideas_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
+            <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_ideas_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
               <%= project.ideas.count %>
             </span>
           <% end %>
