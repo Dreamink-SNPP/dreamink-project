@@ -37,6 +37,25 @@ class ScenesController < ApplicationController
             turbo_stream.update("new_scene_modal_content",
                                 partial: "scenes/success"
             ),
+            # Actualizar contador de la secuencia
+            turbo_stream.update("sequence_#{@sequence.id}_stats",
+                                partial: "structures/sequence_stats",
+                                locals: { sequence: @sequence }
+            ),
+            # Actualizar contador del acto
+            turbo_stream.update("act_#{@sequence.act.id}_stats",
+                                partial: "structures/act_stats",
+                                locals: { act: @sequence.act }
+            ),
+            # Actualizar estadísticas
+            turbo_stream.update("statistics_counters",
+                                partial: "structures/statistics",
+                                locals: {
+                                  acts_count: @project.acts.count,
+                                  sequences_count: @project.sequences.count,
+                                  scenes_count: @project.scenes.count
+                                }
+            ),
             # Mensaje flash
             turbo_stream.prepend("flash_messages",
                                  partial: "shared/flash_notice",
@@ -106,12 +125,33 @@ class ScenesController < ApplicationController
   end
 
   def destroy
+    sequence = @scene.sequence
+    act = sequence.act
     @scene.destroy
 
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.remove("scene_#{@scene.id}"),
+          # Actualizar contador de la secuencia
+          turbo_stream.update("sequence_#{sequence.id}_stats",
+                              partial: "structures/sequence_stats",
+                              locals: { sequence: sequence }
+          ),
+          # Actualizar contador del acto
+          turbo_stream.update("act_#{act.id}_stats",
+                              partial: "structures/act_stats",
+                              locals: { act: act }
+          ),
+          # Actualizar estadísticas
+          turbo_stream.update("statistics_counters",
+                              partial: "structures/statistics",
+                              locals: {
+                                acts_count: @project.acts.count,
+                                sequences_count: @project.sequences.count,
+                                scenes_count: @project.scenes.count
+                              }
+          ),
           turbo_stream.prepend("flash_messages",
                                partial: "shared/flash_notice",
                                locals: { message: "Escena eliminada exitosamente" }
