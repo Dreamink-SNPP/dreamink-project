@@ -20,8 +20,8 @@ module Fountain
       output << "==="
       output << ""
 
-      # Load acts with nested sequences and scenes
-      acts = project.acts.includes(sequences: :scenes).order(position: :asc)
+      # Load acts with nested sequences, scenes, and locations
+      acts = project.acts.includes(sequences: { scenes: :locations }).order(position: :asc)
 
       acts.each do |act|
         export_act(act, output)
@@ -63,12 +63,41 @@ module Fountain
     end
 
     def export_scene(scene, output)
+      # Section heading for organization
       output << "### #{scene.title}"
       output << ""
+
+      # Proper Fountain scene heading if locations are available
+      scene_heading = build_scene_heading(scene)
+      if scene_heading.present?
+        output << scene_heading
+        output << ""
+      end
 
       if scene.description.present?
         export_description(scene.description, output)
       end
+    end
+
+    def build_scene_heading(scene)
+      return nil if scene.locations.empty?
+
+      # Get INT/EXT from locations
+      location_types = scene.locations.map { |l| l.interior? ? "INT" : "EXT" }.uniq
+      int_ext = location_types.join("/")
+
+      # Get location names
+      location_names = scene.locations.map(&:name).join("/")
+
+      # Build heading parts
+      heading_parts = [int_ext, location_names].compact.join(". ")
+
+      # Add time of day if available
+      if scene.time_of_day.present?
+        heading_parts += " - #{scene.time_of_day}"
+      end
+
+      heading_parts
     end
 
     def export_description(description, output)
