@@ -2,19 +2,11 @@
 <div id="sequence_<%= sequence.id %>"
      class="sequence-card bg-gray-50 rounded-lg border border-gray-200"
      data-controller="collapsible"
-     data-collapsible-storage-key-value="sequence"
-     data-sortable-id="<%= sequence.id %>">
+     data-collapsible-storage-key-value="sequence">
 
   <!-- Header de la Secuencia -->
   <div class="p-3 border-b border-gray-200">
     <div class="flex items-start justify-between">
-      <!-- Drag Handle -->
-      <div class="drag-handle mr-2 pt-0.5 text-gray-400 hover:text-gray-600 transition cursor-grab">
-        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
-        </svg>
-      </div>
-
       <div class="flex-1">
         <h4 class="text-sm font-semibold text-gray-900">
           <%= sequence.title %>
