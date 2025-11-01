@@ -18,7 +18,7 @@ class SequencesController < ApplicationController
     respond_to do |format|
       if @sequence.save
         format.turbo_stream do
-          render turbo_stream: [
+          streams = [
             # Agregar la nueva secuencia al acto
             turbo_stream.append("act_#{@act.id}_sequences",
                                 partial: "structures/sequence_card",
@@ -48,6 +48,13 @@ class SequencesController < ApplicationController
                                  locals: { message: "Secuencia creada exitosamente" }
             )
           ]
+
+          # Remover el mensaje "Sin secuencias" si esta es la primera
+          if @act.sequences.count == 1
+            streams << turbo_stream.remove("act_#{@act.id}_empty_state")
+          end
+
+          render turbo_stream: streams
         end
         format.html { redirect_to project_structure_path(@project), notice: "Secuencia creada exitosamente" }
       else

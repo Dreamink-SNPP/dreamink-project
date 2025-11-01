@@ -98,15 +98,15 @@
          data-sortable-parent-id-value="<%= sequence.id %>"
          data-sortable-parent-id="<%= sequence.id %>">
 
-        <% sequence.scenes.each do |scene| %>
-          <%= render "structures/scene_item", scene: scene, project: project %>
-        <% end %>
+      <% sequence.scenes.each do |scene| %>
+        <%= render "structures/scene_item", scene: scene, project: project %>
+      <% end %>
 
-        <% if sequence.scenes.empty? %>
-          <div class="text-center py-4 text-gray-400 text-xs pointer-events-none">
-            <p>Sin escenas</p>
-          </div>
-        <% end %>
+      <% if sequence.scenes.empty? %>
+        <div id="sequence_<%= sequence.id %>_empty_state" class="text-center py-4 text-gray-400 text-xs pointer-events-none">
+          <p>Sin escenas</p>
+        </div>
+      <% end %>
       </div>
 
       <div class="p-2 border-t border-gray-100">

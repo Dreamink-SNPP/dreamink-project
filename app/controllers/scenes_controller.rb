@@ -27,7 +27,7 @@ class ScenesController < ApplicationController
         end
 
         format.turbo_stream do
-          render turbo_stream: [
+          streams = [
             # Agregar la nueva escena a la secuencia
             turbo_stream.append("sequence_#{@sequence.id}_scenes",
                                 partial: "structures/scene_item",
@@ -62,6 +62,13 @@ class ScenesController < ApplicationController
                                  locals: { message: "Escena creada exitosamente" }
             )
           ]
+
+          # Remover el mensaje "Sin escenas" si esta es la primera
+          if @sequence.scenes.count == 1
+            streams << turbo_stream.remove("sequence_#{@sequence.id}_empty_state")
+          end
+
+          render turbo_stream: streams
         end
         format.html { redirect_to project_structure_path(@project), notice: "Escena creada exitosamente" }
       else
