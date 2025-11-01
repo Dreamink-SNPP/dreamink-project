@@ -1,0 +1,29 @@
+// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,
+// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
+{
+  // 1. Explicitly enable Solargraph features
+  "lsp": {
+    "solargraph": {
+      "initialization_options": {
+        "diagnostics": true, // Enable linting/error checks
+        "formatting": true    // Enable code formatting
+      }
+    }
+  },
+
+  // 2. Control which LSPs are active for Ruby files
+  "languages": {
+    "Ruby": {
+      // Prioritize solargraph, disable ruby-lsp
+      "language_servers": [
+        "solargraph",
+        // Use "!" to explicitly disable the default or other listed LSPs
+        "!ruby-lsp",
+        // Keep rubocop, which complements solargraph with better linting
+        "rubocop"
+      ]
+    }
+  }
+}
