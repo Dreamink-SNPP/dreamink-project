@@ -65,9 +65,7 @@
       <!-- Contenedor horizontal con scroll -->
       <div id="acts_container"
            class="flex space-x-4 overflow-x-auto pb-4">
-        <% @acts.each do |act| %>
-          <%= render "structures/act_column", act: act, project: @project %>
-        <% end %>
+        <%= render "structures/acts_list", acts: @acts, project: @project %>
       </div>
     <% else %>
       <!-- Estado vacío -->

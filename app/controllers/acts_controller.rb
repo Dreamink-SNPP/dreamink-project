@@ -129,28 +129,68 @@ class ActsController < ApplicationController
     def move_left
       target_act = @project.acts.find_by(position: @act.position - 1)
 
-      if target_act
-        swap_positions(@act, target_act)
-        flash[:notice] = "Acto movido correctamente"
-      else
-        flash[:alert] = "El acto ya está en la primera posición"
+      respond_to do |format|
+        if target_act
+          swap_positions(@act, target_act)
+          format.turbo_stream do
+            render turbo_stream: [
+              # Reemplazar todo el contenedor de actos para reflejar el nuevo orden
+              turbo_stream.update("acts_container",
+                                  partial: "structures/acts_list",
+                                  locals: { acts: @project.acts.ordered, project: @project }
+              ),
+              # Mensaje flash
+              turbo_stream.prepend("flash_messages",
+                                   partial: "shared/flash_notice",
+                                   locals: { message: "Acto movido correctamente" }
+              )
+            ]
+          end
+          format.html { redirect_to project_structure_path(@project), notice: "Acto movido correctamente" }
+        else
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.prepend("flash_messages",
+                                                      partial: "shared/flash_alert",
+                                                      locals: { message: "El acto ya está en la primera posición" }
+            )
+          end
+          format.html { redirect_to project_structure_path(@project), alert: "El acto ya está en la primera posición" }
+        end
       end
-
-      redirect_to project_structure_path(@project)
     end
 
     # Mover acto a la derecha (incrementar posición)
     def move_right
       target_act = @project.acts.find_by(position: @act.position + 1)
 
-      if target_act
-        swap_positions(@act, target_act)
-        flash[:notice] = "Acto movido correctamente"
-      else
-        flash[:alert] = "El acto ya está en la última posición"
+      respond_to do |format|
+        if target_act
+          swap_positions(@act, target_act)
+          format.turbo_stream do
+            render turbo_stream: [
+              # Reemplazar todo el contenedor de actos para reflejar el nuevo orden
+              turbo_stream.update("acts_container",
+                                  partial: "structures/acts_list",
+                                  locals: { acts: @project.acts.ordered, project: @project }
+              ),
+              # Mensaje flash
+              turbo_stream.prepend("flash_messages",
+                                   partial: "shared/flash_notice",
+                                   locals: { message: "Acto movido correctamente" }
+              )
+            ]
+          end
+          format.html { redirect_to project_structure_path(@project), notice: "Acto movido correctamente" }
+        else
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.prepend("flash_messages",
+                                                      partial: "shared/flash_alert",
+                                                      locals: { message: "El acto ya está en la última posición" }
+            )
+          end
+          format.html { redirect_to project_structure_path(@project), alert: "El acto ya está en la última posición" }
+        end
       end
-
-      redirect_to project_structure_path(@project)
     end
 
   private
