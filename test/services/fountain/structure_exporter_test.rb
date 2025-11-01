@@ -126,5 +126,164 @@ module Fountain
       seq_b_pos = fountain_content.index("## Sequence B")
       assert seq_a_pos < seq_b_pos
     end
+
+    test "should generate proper Fountain scene heading with interior location" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(name: "Coffee Shop", location_type: "interior")
+      scene = sequence.scenes.create!(
+        title: "Opening Scene",
+        description: "Characters meet",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "### Opening Scene"
+      assert_includes fountain_content, "INT. Coffee Shop"
+    end
+
+    test "should generate proper Fountain scene heading with exterior location" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(name: "Downtown Street", location_type: "exterior")
+      scene = sequence.scenes.create!(
+        title: "Chase Scene",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "### Chase Scene"
+      assert_includes fountain_content, "EXT. Downtown Street"
+    end
+
+    test "should generate scene heading with time of day" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(name: "Apartment", location_type: "interior")
+      scene = sequence.scenes.create!(
+        title: "Morning Scene",
+        time_of_day: "MORNING",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "INT. Apartment - MORNING"
+    end
+
+    test "should generate scene heading with multiple locations" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location1 = @project.locations.create!(name: "Living Room", location_type: "interior")
+      location2 = @project.locations.create!(name: "Kitchen", location_type: "interior")
+      scene = sequence.scenes.create!(
+        title: "House Scene",
+        time_of_day: "DAY",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location1
+      scene.locations << location2
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "INT. Living Room/Kitchen - DAY"
+    end
+
+    test "should generate scene heading with mixed interior and exterior locations" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location1 = @project.locations.create!(name: "Apartment", location_type: "interior")
+      location2 = @project.locations.create!(name: "Street", location_type: "exterior")
+      scene = sequence.scenes.create!(
+        title: "Mixed Scene",
+        time_of_day: "NIGHT",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location1
+      scene.locations << location2
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "INT/EXT. Apartment/Street - NIGHT"
+    end
+
+    test "should only show section heading when scene has no locations" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      scene = sequence.scenes.create!(
+        title: "Scene Without Location",
+        description: "Scene description",
+        project: @project,
+        act: act,
+        position: 1
+      )
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "### Scene Without Location"
+      assert_not_includes fountain_content, "INT."
+      assert_not_includes fountain_content, "EXT."
+    end
+
+    test "should validate time_of_day values" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+
+      # Valid time_of_day
+      scene = sequence.scenes.build(
+        title: "Valid Scene",
+        time_of_day: "DAY",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      assert scene.valid?
+
+      # Invalid time_of_day
+      scene_invalid = sequence.scenes.build(
+        title: "Invalid Scene",
+        time_of_day: "INVALID_TIME",
+        project: @project,
+        act: act,
+        position: 2
+      )
+      assert_not scene_invalid.valid?
+      assert_includes scene_invalid.errors[:time_of_day], "INVALID_TIME no es un momento del día válido"
+    end
+
+    test "should allow blank time_of_day" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      scene = sequence.scenes.create!(
+        title: "Scene Without Time",
+        time_of_day: nil,
+        project: @project,
+        act: act,
+        position: 1
+      )
+
+      assert scene.valid?
+    end
   end
 end
