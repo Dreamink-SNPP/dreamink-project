@@ -141,10 +141,10 @@ export default class extends Controller {
     .then(html => {
       console.log('   ✅ Turbo Stream response received')
       // Turbo.renderStreamMessage handles the Turbo Stream updates
+      // Note: Toast message is already included in the Turbo Stream response
       if (typeof Turbo !== 'undefined') {
         Turbo.renderStreamMessage(html)
       }
-      this.showToast('Escena movida correctamente', 'success')
     })
     .catch(error => {
       console.error('   ❌ Error:', error)
