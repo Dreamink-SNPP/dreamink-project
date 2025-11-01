@@ -31,10 +31,21 @@ class Scene < ApplicationRecord
 
       target_position = new_position || (new_sequence.scenes.maximum(:position).to_i + 1)
 
+      # Shift scenes in target sequence using temp negative positions to avoid unique constraint
       if target_position <= new_sequence.scenes.maximum(:position).to_i
-        Scene.where(sequence_id: new_sequence.id)
-             .where("position >= ?", target_position)
-             .update_all("position = position + 1")
+        scenes_to_shift = Scene.where(sequence_id: new_sequence.id)
+                               .where("position >= ?", target_position)
+                               .order(position: :desc)
+
+        # First move to negative temp positions
+        scenes_to_shift.each_with_index do |sc, index|
+          sc.update_columns(position: -(target_position + index + 1000))
+        end
+
+        # Then move to final positions
+        scenes_to_shift.each_with_index do |sc, index|
+          sc.update_columns(position: target_position + index + 1)
+        end
       end
 
       temp_position = 999999
