@@ -17,6 +17,11 @@ module Fountain
       output << "Author: #{project.user&.email || 'Unknown'}"
       output << "Draft date: #{Date.today.strftime('%m/%d/%Y')}"
 
+      # Add genre if available
+      if project.genre.present?
+        output << "Genre: #{project.genre}"
+      end
+
       # Add character list if available
       characters = project.characters.order(:name)
       if characters.any?
