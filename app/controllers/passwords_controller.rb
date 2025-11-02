@@ -10,7 +10,7 @@ class PasswordsController < ApplicationController
       PasswordsMailer.reset(user).deliver_later
     end
 
-    redirect_to login_path, notice: "Password reset instructions sent (if user with that email address exists)."
+    redirect_to login_path, notice: "Si el email existe en nuestro sistema, recibirás instrucciones para restablecer tu contraseña."
   end
 
   def edit
@@ -18,9 +18,9 @@ class PasswordsController < ApplicationController
 
   def update
     if @user.update(params.permit(:password, :password_confirmation))
-      redirect_to login_path, notice: "Password has been reset."
+      redirect_to login_path, notice: "Tu contraseña ha sido restablecida exitosamente."
     else
-      redirect_to reset_password_path(params[:token]), alert: "Passwords did not match."
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -28,6 +28,6 @@ class PasswordsController < ApplicationController
     def set_user_by_token
       @user = User.find_by_password_reset_token!(params[:token])
     rescue ActiveSupport::MessageVerifier::InvalidSignature
-      redirect_to forgot_password_path, alert: "Password reset link is invalid or has expired."
+      redirect_to forgot_password_path, alert: "El enlace de restablecimiento es inválido o ha expirado."
     end
 end
