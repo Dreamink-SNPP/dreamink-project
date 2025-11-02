@@ -84,6 +84,13 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
+    better_html (2.2.0)
+      actionview (>= 7.0)
+      activesupport (>= 7.0)
+      ast (~> 2.0)
+      erubi (~> 1.4)
+      parser (>= 2.4)
+      smart_properties
     bigdecimal (3.3.1)
     bindex (0.8.1)
     bootsnap (1.18.6)
@@ -115,6 +122,13 @@ GEM
     drb (2.2.3)
     ed25519 (1.4.0)
     erb (5.1.3)
+    erb_lint (0.9.0)
+      activesupport
+      better_html (>= 2.0.1)
+      parser (>= 2.7.1.4)
+      rainbow
+      rubocop (>= 1)
+      smart_properties
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
@@ -320,6 +334,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    smart_properties (1.17.0)
     solid_cable (3.0.12)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -406,6 +421,7 @@ DEPENDENCIES
   capybara
   debug
   dotenv-rails (~> 3.1)
+  erb_lint
   jbuilder
   jsbundling-rails
   kamal
