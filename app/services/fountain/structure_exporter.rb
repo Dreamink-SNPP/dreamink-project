@@ -6,6 +6,7 @@ module Fountain
 
     def initialize(project)
       @project = project
+      @seen_locations = Set.new
     end
 
     def generate
@@ -33,6 +34,9 @@ module Fountain
       output << ""
       output << "==="
       output << ""
+
+      # Reset seen locations for this export
+      @seen_locations.clear
 
       # Load acts with nested sequences, scenes, and locations
       acts = project.acts.includes(sequences: { scenes: :locations }).order(position: :asc)
@@ -88,8 +92,29 @@ module Fountain
         output << ""
       end
 
+      # Add location descriptions as notes for first-time appearances
+      export_location_notes(scene, output)
+
       if scene.description.present?
         export_description(scene.description, output)
+      end
+    end
+
+    def export_location_notes(scene, output)
+      return if scene.locations.empty?
+
+      scene.locations.each do |location|
+        # Only add note if this is the first time we're seeing this location
+        next if @seen_locations.include?(location.id)
+
+        # Mark as seen
+        @seen_locations.add(location.id)
+
+        # Add location description as a Fountain note if available
+        if location.description.present?
+          output << "[[#{location.name}: #{location.description}]]"
+          output << ""
+        end
       end
     end
 
