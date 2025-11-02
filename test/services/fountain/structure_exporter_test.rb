@@ -285,5 +285,57 @@ module Fountain
 
       assert scene.valid?
     end
+
+    test "should include character list in title page" do
+      @project.characters.create!(name: "John Doe")
+      @project.characters.create!(name: "Jane Smith")
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "Character: John Doe"
+      assert_includes fountain_content, "Character: Jane Smith"
+    end
+
+    test "should sort characters alphabetically" do
+      @project.characters.create!(name: "Zack")
+      @project.characters.create!(name: "Alice")
+      @project.characters.create!(name: "Bob")
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      # Check that characters appear in alphabetical order
+      alice_pos = fountain_content.index("Character: Alice")
+      bob_pos = fountain_content.index("Character: Bob")
+      zack_pos = fountain_content.index("Character: Zack")
+
+      assert alice_pos < bob_pos
+      assert bob_pos < zack_pos
+    end
+
+    test "should handle project with no characters" do
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_not_nil fountain_content
+      assert_includes fountain_content, "Title: #{@project.title}"
+      # Should still have title page delimiter
+      assert_includes fountain_content, "==="
+    end
+
+    test "should place character list between author and delimiter" do
+      @project.characters.create!(name: "Hero")
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      author_pos = fountain_content.index("Author:")
+      character_pos = fountain_content.index("Character: Hero")
+      delimiter_pos = fountain_content.index("===")
+
+      assert author_pos < character_pos
+      assert character_pos < delimiter_pos
+    end
   end
 end
