@@ -8,6 +8,14 @@
     "sortablejs": "^1.15.6"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "lint:tailwind": "prettier --check 'app/views/**/*.html.erb'",
+    "lint:tailwind:fix": "prettier --write 'app/views/**/*.html.erb'",
+    "lint:erb": "bundle exec erb_lint --lint-all",
+    "lint:erb:fix": "bundle exec erb_lint --lint-all --autocorrect"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.7.1"
   }
 }
