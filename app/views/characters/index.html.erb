@@ -1,117 +1,124 @@
 <%= render "shared/project_navigation", project: @project %>
 
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Header -->
   <div class="mb-8">
     <div class="sm:flex sm:items-center sm:justify-between">
       <!-- Título y navegación -->
-      <div class="mb-4 flex items-center space-x-3 sm:mb-0">
+      <div class="flex items-center space-x-3 mb-4 sm:mb-0">
         <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
         <% end %>
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Personajes</h1>
-          <p class="mt-1 text-sm text-gray-500"><%= @project.title %></p>
+          <h1 class="text-3xl font-bold text-gray-900">
+            Personajes
+          </h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= @project.title %>
+          </p>
         </div>
       </div>
 
       <!-- Acciones -->
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <%= link_to collection_report_project_characters_path(@project, format: :pdf), target: "_blank", class:
-        "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm
-        font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2
-        focus:ring-primary transition" do %>
-        <svg class="mr-2 -ml-1 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-          />
-        </svg>
-        Reporte PDF Completo <% end %> <%= link_to new_project_character_path(@project), class: "inline-flex
-        items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium
-        text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2
-        focus:ring-primary transition" do %>
-        <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Nuevo Personaje <% end %>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= link_to collection_report_project_characters_path(@project, format: :pdf),
+                    target: "_blank",
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          Reporte PDF Completo
+        <% end %>
+
+        <%= link_to new_project_character_path(@project),
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Nuevo Personaje
+        <% end %>
       </div>
     </div>
   </div>
 
   <!-- Lista de personajes -->
   <% if @characters.any? %>
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    <% @characters.each do |character| %>
-    <div class="overflow-hidden rounded-lg bg-white shadow transition duration-150 ease-in-out hover:shadow-lg">
-      <%= link_to project_character_path(@project, character), class: "block p-6" do %>
-      <!-- Avatar y nombre -->
-      <div class="mb-4 flex items-center">
-        <div class="bg-primary-100 flex h-12 w-12 shrink-0 items-center justify-center rounded-full">
-          <span class="text-2xl">👤</span>
-        </div>
-        <div class="ml-4">
-          <h3 class="text-lg font-semibold text-gray-900"><%= character.name %></h3>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <% @characters.each do |character| %>
+        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition duration-150 ease-in-out">
+          <%= link_to project_character_path(@project, character), class: "block p-6" do %>
+            <!-- Avatar y nombre -->
+            <div class="flex items-center mb-4">
+              <div class="shrink-0 h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
+                <span class="text-2xl">👤</span>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  <%= character.name %>
+                </h3>
+              </div>
+            </div>
 
-      <!-- Información rápida -->
-      <div class="space-y-2 text-sm text-gray-600">
-        <% if character.external_trait&.profession.present? %>
-        <div class="flex items-start">
-          <span class="mr-2 font-medium text-gray-700">💼</span>
-          <span><%= character.external_trait.profession %></span>
+            <!-- Información rápida -->
+            <div class="space-y-2 text-sm text-gray-600">
+              <% if character.external_trait&.profession.present? %>
+                <div class="flex items-start">
+                  <span class="font-medium text-gray-700 mr-2">💼</span>
+                  <span><%= character.external_trait.profession %></span>
+                </div>
+              <% end %>
+
+              <% if character.internal_trait&.main_motivation.present? %>
+                <div class="flex items-start">
+                  <span class="font-medium text-gray-700 mr-2">🎯</span>
+                  <span class="line-clamp-2"><%= character.internal_trait.main_motivation %></span>
+                </div>
+              <% end %>
+
+              <% if character.external_trait&.general_appearance.present? %>
+                <div class="flex items-start">
+                  <span class="font-medium text-gray-700 mr-2">👁️</span>
+                  <span class="line-clamp-2"><%= character.external_trait.general_appearance %></span>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Acciones -->
+          <div class="border-t border-gray-100 px-6 py-3 mt-4 flex items-center justify-between gap-3">
+            <%= link_to edit_project_character_path(@project, character),
+                        class: "text-primary hover:text-secondary-dark text-sm font-medium transition" do %>
+              Editar
+            <% end %>
+            <%= button_to project_character_path(@project, character),
+                          method: :delete,
+                          data: { turbo_confirm: "¿Estás seguro de eliminar a #{character.name}?" },
+                          class: "text-red-600 hover:text-red-700 text-sm font-medium transition" do %>
+              Eliminar
+            <% end %>
+          </div>
         </div>
-        <% end %> <% if character.internal_trait&.main_motivation.present? %>
-        <div class="flex items-start">
-          <span class="mr-2 font-medium text-gray-700">🎯</span>
-          <span class="line-clamp-2"><%= character.internal_trait.main_motivation %></span>
-        </div>
-        <% end %> <% if character.external_trait&.general_appearance.present? %>
-        <div class="flex items-start">
-          <span class="mr-2 font-medium text-gray-700">👁️</span>
-          <span class="line-clamp-2"><%= character.external_trait.general_appearance %></span>
-        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Estado vacío -->
+    <div class="text-center py-12 bg-white shadow rounded-lg">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No hay personajes</h3>
+      <p class="mt-1 text-sm text-gray-500">Comienza creando el primer personaje
+        de tu historia.</p>
+      <div class="mt-6">
+        <%= link_to new_project_character_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Crear Personaje
         <% end %>
       </div>
-      <% end %>
-
-      <!-- Acciones -->
-      <div class="mt-4 flex items-center justify-between gap-3 border-t border-gray-100 px-6 py-3">
-        <%= link_to edit_project_character_path(@project, character), class: "text-primary hover:text-secondary-dark
-        text-sm font-medium transition" do %> Editar <% end %> <%= button_to project_character_path(@project,
-        character), method: :delete, data: { turbo_confirm: "¿Estás seguro de eliminar a #{character.name}?" }, class:
-        "text-red-600 hover:text-red-700 text-sm font-medium transition" do %> Eliminar <% end %>
-      </div>
     </div>
-    <% end %>
-  </div>
-  <% else %>
-  <!-- Estado vacío -->
-  <div class="rounded-lg bg-white py-12 text-center shadow">
-    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-      />
-    </svg>
-    <h3 class="mt-2 text-sm font-medium text-gray-900">No hay personajes</h3>
-    <p class="mt-1 text-sm text-gray-500">Comienza creando el primer personaje de tu historia.</p>
-    <div class="mt-6">
-      <%= link_to new_project_character_path(@project), class: "inline-flex items-center px-4 py-2 border
-      border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark
-      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-      <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      Crear Personaje <% end %>
-    </div>
-  </div>
   <% end %>
 </div>

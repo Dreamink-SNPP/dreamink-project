@@ -1,44 +1,44 @@
-<div class="min-h-screen bg-gray-100" data-controller="structure" data-structure-project-id-value="<%= @project.id %>">
+<div class="min-h-screen bg-gray-100"
+     data-controller="structure"
+     data-structure-project-id-value="<%= @project.id %>">
+
   <!-- Header fijo -->
-  <div class="sticky top-0 z-10 bg-white shadow-sm">
-    <div class="mx-auto max-w-full px-4 py-4 sm:px-6 lg:px-8">
+  <div class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="sm:flex sm:items-center sm:justify-between">
         <!-- Título y breadcrumb -->
-        <div class="mb-4 flex min-w-0 items-center space-x-3 sm:mb-0">
+        <div class="flex items-center space-x-3 mb-4 sm:mb-0 min-w-0">
           <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 shrink-0" do %>
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
           <% end %>
           <div class="min-w-0">
-            <h1 class="text-xl font-bold text-gray-900 sm:text-2xl">Estructura Dramática</h1>
-            <p class="truncate text-sm text-gray-600"><%= @project.title %></p>
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
+              Estructura Dramática
+            </h1>
+            <p class="text-sm text-gray-600 truncate">
+              <%= @project.title %>
+            </p>
           </div>
         </div>
 
         <!-- Botones de acción -->
-        <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-          <%= link_to fountain_export_project_path(@project), data: { turbo: false }, class: "inline-flex items-center
-          justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700
-          bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shrink-0" do
-          %>
-          <svg class="mr-2 -ml-1 h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
-            />
-          </svg>
-          Exportar Fountain <% end %>
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <%= link_to fountain_export_project_path(@project),
+                      data: { turbo: false },
+                      class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shrink-0" do %>
+            <svg class="-ml-1 mr-2 h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+            </svg>
+            Exportar Fountain
+          <% end %>
 
-          <button
-            type="button"
-            data-action="click->structure#openNewActModal"
-            class="bg-primary hover:bg-secondary-dark focus:ring-primary inline-flex w-full shrink-0 items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none sm:w-auto"
-          >
-            <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          <button type="button"
+                  data-action="click->structure#openNewActModal"
+                  class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shrink-0">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
             Nuevo Acto
           </button>
@@ -47,65 +47,54 @@
 
       <!-- Estadísticas rápidas -->
       <div id="statistics_counters">
-        <%= render "structures/statistics", acts_count: @acts.count, sequences_count: @project.sequences.count,
-        scenes_count: @project.scenes.count %>
+        <%= render "structures/statistics", acts_count: @acts.count, sequences_count: @project.sequences.count, scenes_count: @project.scenes.count %>
       </div>
 
       <!-- Botones expandir/colapsar - USANDO CONTROLLER -->
       <% if @acts.any? && @project.sequences.any? %>
-      <div class="mt-4 flex space-x-2" data-controller="expand-collapse">
-        <button
-          type="button"
-          data-action="click->expand-collapse#expandAll"
-          class="rounded border border-gray-300 px-3 py-1 text-sm text-gray-700 transition hover:bg-gray-50"
-        >
-          📖 Expandir Todo
-        </button>
-        <button
-          type="button"
-          data-action="click->expand-collapse#collapseAll"
-          class="rounded border border-gray-300 px-3 py-1 text-sm text-gray-700 transition hover:bg-gray-50"
-        >
-          📕 Colapsar Todo
-        </button>
-      </div>
+        <div class="mt-4 flex space-x-2" data-controller="expand-collapse">
+          <button type="button"
+                  data-action="click->expand-collapse#expandAll"
+                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition">
+            📖 Expandir Todo
+          </button>
+          <button type="button"
+                  data-action="click->expand-collapse#collapseAll"
+                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition">
+            📕 Colapsar Todo
+          </button>
+        </div>
       <% end %>
     </div>
   </div>
 
   <!-- Tablero Kanban -->
-  <div class="px-4 py-6 sm:px-6 lg:px-8">
+  <div class="px-4 sm:px-6 lg:px-8 py-6">
     <% if @acts.any? %>
-    <!-- Contenedor horizontal con scroll -->
-    <div id="acts_container" class="flex space-x-4 overflow-x-auto pb-4">
-      <%= render "structures/acts_list", acts: @acts, project: @project %>
-    </div>
-    <% else %>
-    <!-- Estado vacío -->
-    <div class="rounded-lg bg-white py-20 text-center shadow">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-        />
-      </svg>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">Sin estructura</h3>
-      <p class="mt-1 text-sm text-gray-500">Comienza creando el primer acto de tu historia.</p>
-      <div class="mt-6">
-        <button
-          type="button"
-          data-action="click->structure#openNewActModal"
-          class="bg-primary hover:bg-secondary-dark inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm"
-        >
-          <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Crear Primer Acto
-        </button>
+      <!-- Contenedor horizontal con scroll -->
+      <div id="acts_container"
+           class="flex space-x-4 overflow-x-auto pb-4">
+        <%= render "structures/acts_list", acts: @acts, project: @project %>
       </div>
-    </div>
+    <% else %>
+      <!-- Estado vacío -->
+      <div class="text-center py-20 bg-white rounded-lg shadow">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">Sin estructura</h3>
+        <p class="mt-1 text-sm text-gray-500">Comienza creando el primer acto de tu historia.</p>
+        <div class="mt-6">
+          <button type="button"
+                  data-action="click->structure#openNewActModal"
+                  class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Crear Primer Acto
+          </button>
+        </div>
+      </div>
     <% end %>
   </div>
 
@@ -114,56 +103,48 @@
   <!-- ================================================ -->
 
   <!-- Modal para Nuevo Acto -->
-  <div data-structure-target="newActModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        class="bg-opacity-75 modal-overlay fixed inset-0 bg-gray-500 transition-opacity"
-        data-action="click->structure#closeModal"
-      ></div>
-      <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
-      <div
-        class="modal-content relative z-10 inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
-      >
+  <div data-structure-target="newActModal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
+           data-action="click->structure#closeModal"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <div class="mb-4 flex items-start justify-between">
+          <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Nuevo Acto</h3>
-            <button
-              type="button"
-              data-action="click->structure#closeModal"
-              class="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
+            <button type="button"
+                    data-action="click->structure#closeModal"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
-          <div id="new_act_modal_content" data-modal-content><%= render "acts/form", act: @project.acts.build %></div>
+          <div id="new_act_modal_content" data-modal-content>
+            <%= render "acts/form", act: @project.acts.build %>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Modal para Editar Acto -->
-  <div data-structure-target="editActModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        class="bg-opacity-75 modal-overlay fixed inset-0 bg-gray-500 transition-opacity"
-        data-action="click->structure#closeModal"
-      ></div>
-      <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
-      <div
-        class="modal-content relative z-10 inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
-      >
+  <div data-structure-target="editActModal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
+           data-action="click->structure#closeModal"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <div class="mb-4 flex items-start justify-between">
+          <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Editar Acto</h3>
-            <button
-              type="button"
-              data-action="click->structure#closeModal"
-              class="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
+            <button type="button"
+                    data-action="click->structure#closeModal"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
@@ -176,26 +157,21 @@
   </div>
 
   <!-- Modal para Nueva Secuencia -->
-  <div data-structure-target="newSequenceModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        class="bg-opacity-75 modal-overlay fixed inset-0 bg-gray-500 transition-opacity"
-        data-action="click->structure#closeModal"
-      ></div>
-      <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
-      <div
-        class="modal-content relative z-10 inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
-      >
+  <div data-structure-target="newSequenceModal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
+           data-action="click->structure#closeModal"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <div class="mb-4 flex items-start justify-between">
+          <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Nueva Secuencia</h3>
-            <button
-              type="button"
-              data-action="click->structure#closeModal"
-              class="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
+            <button type="button"
+                    data-action="click->structure#closeModal"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
@@ -208,26 +184,21 @@
   </div>
 
   <!-- Modal para Editar Secuencia -->
-  <div data-structure-target="editSequenceModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        class="bg-opacity-75 modal-overlay fixed inset-0 bg-gray-500 transition-opacity"
-        data-action="click->structure#closeModal"
-      ></div>
-      <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
-      <div
-        class="modal-content relative z-10 inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
-      >
+  <div data-structure-target="editSequenceModal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
+           data-action="click->structure#closeModal"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <div class="mb-4 flex items-start justify-between">
+          <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Editar Secuencia</h3>
-            <button
-              type="button"
-              data-action="click->structure#closeModal"
-              class="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
+            <button type="button"
+                    data-action="click->structure#closeModal"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
@@ -240,26 +211,21 @@
   </div>
 
   <!-- Modal para Nueva Escena -->
-  <div data-structure-target="newSceneModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        class="bg-opacity-75 modal-overlay fixed inset-0 bg-gray-500 transition-opacity"
-        data-action="click->structure#closeModal"
-      ></div>
-      <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
-      <div
-        class="modal-content relative z-10 inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
-      >
+  <div data-structure-target="newSceneModal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
+           data-action="click->structure#closeModal"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <div class="mb-4 flex items-start justify-between">
+          <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Nueva Escena</h3>
-            <button
-              type="button"
-              data-action="click->structure#closeModal"
-              class="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
+            <button type="button"
+                    data-action="click->structure#closeModal"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
@@ -272,26 +238,21 @@
   </div>
 
   <!-- Modal para Editar Escena -->
-  <div data-structure-target="editSceneModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        class="bg-opacity-75 modal-overlay fixed inset-0 bg-gray-500 transition-opacity"
-        data-action="click->structure#closeModal"
-      ></div>
-      <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
-      <div
-        class="modal-content relative z-10 inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
-      >
+  <div data-structure-target="editSceneModal"
+       class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"
+           data-action="click->structure#closeModal"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <div class="modal-content relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-          <div class="mb-4 flex items-start justify-between">
+          <div class="flex items-start justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-900">Editar Escena</h3>
-            <button
-              type="button"
-              data-action="click->structure#closeModal"
-              class="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
+            <button type="button"
+                    data-action="click->structure#closeModal"
+                    class="bg-white rounded-md text-gray-400 hover:text-gray-500">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
           </div>
@@ -302,4 +263,5 @@
       </div>
     </div>
   </div>
+
 </div>

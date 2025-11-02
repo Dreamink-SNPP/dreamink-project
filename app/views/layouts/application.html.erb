@@ -2,32 +2,39 @@
 <html>
   <head>
     <title><%= content_for(:title) || "Dreamink" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <%= csrf_meta_tags %> <%= csp_meta_tag %> <%= yield :head %> <%# Enable PWA manifest for installable apps (make sure
-    to enable in config/routes.rb too!) %> <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-    <link rel="icon" href="/icon.png" type="image/png" />
-    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/icon.png" />
+    <%= yield :head %>
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %> <%= stylesheet_link_tag "tailwind",
-    "data-turbo-track": "reload" %> <%= stylesheet_link_tag "custom_colors", "data-turbo-track": "reload" %> <%=
-    javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "custom_colors", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body class="bg-gray-50">
-    <% if user_signed_in? %> <%= render "shared/navbar" %> <% end %>
+  <% if user_signed_in? %>
+    <%= render "shared/navbar" %>
+  <% end %>
 
-    <!-- Toast notifications container -->
-    <div
-      id="flash_messages"
-      class="pointer-events-none fixed top-4 right-4 left-4 z-50 flex max-w-full flex-col gap-2 sm:right-4 sm:left-auto sm:max-w-md sm:gap-3"
-    >
-      <%= render "shared/flash_messages" %>
-    </div>
+  <!-- Toast notifications container -->
+  <div id="flash_messages" class="fixed top-4 left-4 right-4 sm:left-auto sm:right-4 z-50 flex flex-col gap-2 sm:gap-3 max-w-full sm:max-w-md pointer-events-none">
+    <%= render "shared/flash_messages" %>
+  </div>
 
-    <main class="<%= user_signed_in? ? 'pt-16' : '' %>"><%= yield %></main>
+  <main class="<%= user_signed_in? ? 'pt-16' : '' %>">
+    <%= yield %>
+  </main>
   </body>
 </html>

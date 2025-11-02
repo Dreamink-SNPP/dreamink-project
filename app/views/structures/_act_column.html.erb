@@ -1,105 +1,111 @@
 <!-- Columna del Acto -->
-<div
-  id="act_<%= act.id %>"
-  class="act-column w-80 shrink-0 rounded-lg bg-white shadow-sm"
-  data-sortable-id="<%= act.id %>"
->
+<div id="act_<%= act.id %>"
+     class="act-column shrink-0 w-80 bg-white rounded-lg shadow-sm"
+     data-sortable-id="<%= act.id %>">
+
   <!-- Header del Acto -->
   <div class="bg-gradient-primary rounded-t-lg p-4">
     <div class="flex items-start justify-between">
       <div class="flex-1">
-        <h3 class="text-lg font-semibold text-white"><%= act.title %></h3>
+        <h3 class="text-lg font-semibold text-white">
+          <%= act.title %>
+        </h3>
         <% if act.description.present? %>
-        <p class="text-primary-100 mt-1 line-clamp-2 text-sm"><%= act.description %></p>
+          <p class="mt-1 text-sm text-primary-100 line-clamp-2">
+            <%= act.description %>
+          </p>
         <% end %>
       </div>
 
       <!-- Menú de acciones del acto -->
       <div class="ml-2 flex space-x-1">
         <!-- Botones de navegación -->
-        <% unless act.position == 1 %> <%= button_to move_left_project_act_path(project, act), method: :patch, class:
-        "text-white hover:text-primary-100 p-1 transition", title: "Mover a la izquierda", form: { class: "inline-block"
-        } do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        <% end %> <% end %> <% unless act.position == project.acts.count %> <%= button_to
-        move_right_project_act_path(project, act), method: :patch, class: "text-white hover:text-primary-100 p-1
-        transition", title: "Mover a la derecha", form: { class: "inline-block" } do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-        <% end %> <% end %>
+        <% unless act.position == 1 %>
+          <%= button_to move_left_project_act_path(project, act),
+                        method: :patch,
+                        class: "text-white hover:text-primary-100 p-1 transition",
+                        title: "Mover a la izquierda",
+                        form: { class: "inline-block" } do %>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          <% end %>
+        <% end %>
 
-        <button
-          type="button"
-          data-action="click->structure#openEditActModal"
-          data-act-id="<%= act.id %>"
-          class="hover:text-primary-100 p-1 text-white transition"
-          title="Editar acto"
-        >
+        <% unless act.position == project.acts.count %>
+          <%= button_to move_right_project_act_path(project, act),
+                        method: :patch,
+                        class: "text-white hover:text-primary-100 p-1 transition",
+                        title: "Mover a la derecha",
+                        form: { class: "inline-block" } do %>
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          <% end %>
+        <% end %>
+
+        <button type="button"
+                data-action="click->structure#openEditActModal"
+                data-act-id="<%= act.id %>"
+                class="text-white hover:text-primary-100 p-1 transition"
+                title="Editar acto">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
           </svg>
         </button>
 
-        <%= button_to project_act_path(project, act), method: :delete, data: { turbo_confirm: "¿Eliminar este acto y
-        todo su contenido?" }, class: "text-white hover:text-red-200 p-1 transition", title: "Eliminar acto", form: {
-        class: "inline-block" } do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-          />
-        </svg>
+        <%= button_to project_act_path(project, act),
+                      method: :delete,
+                      data: { turbo_confirm: "¿Eliminar este acto y todo su contenido?" },
+                      class: "text-white hover:text-red-200 p-1 transition",
+                      title: "Eliminar acto",
+                      form: { class: "inline-block" } do %>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
         <% end %>
       </div>
     </div>
 
     <!-- Contador de secuencias -->
-    <div id="act_<%= act.id %>_stats"><%= render "structures/act_stats", act: act %></div>
+    <div id="act_<%= act.id %>_stats">
+      <%= render "structures/act_stats", act: act %>
+    </div>
   </div>
 
   <!-- Sección de Secuencias -->
-  <div class="border-b border-gray-100 px-4 pt-3 pb-2">
-    <h4 class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Secuencias</h4>
+  <div class="px-4 pt-3 pb-2 border-b border-gray-100">
+    <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+      Secuencias
+    </h4>
   </div>
 
   <!-- Lista de Secuencias -->
-  <div id="act_<%= act.id %>_sequences" class="max-h-[calc(100vh-350px)] min-h-[150px] space-y-3 overflow-y-auto p-4">
-    <% act.sequences.each do |sequence| %> <%= render "structures/sequence_card", sequence: sequence, project: project
-    %> <% end %> <% if act.sequences.empty? %>
-    <div id="act_<%= act.id %>_empty_state" class="pointer-events-none py-8 text-center text-sm text-gray-400">
-      <svg class="mx-auto mb-2 h-8 w-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-        />
-      </svg>
-      <p>Sin secuencias</p>
+  <div id="act_<%= act.id %>_sequences"
+       class="p-4 space-y-3 min-h-[150px] max-h-[calc(100vh-350px)] overflow-y-auto">
+
+      <% act.sequences.each do |sequence| %>
+        <%= render "structures/sequence_card", sequence: sequence, project: project %>
+      <% end %>
+
+      <% if act.sequences.empty? %>
+        <div id="act_<%= act.id %>_empty_state" class="text-center py-8 text-gray-400 text-sm pointer-events-none">
+          <svg class="mx-auto h-8 w-8 mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p>Sin secuencias</p>
+        </div>
+      <% end %>
     </div>
-    <% end %>
-  </div>
 
   <!-- Botón para agregar secuencia -->
-  <div class="border-t border-gray-100 p-4">
-    <button
-      type="button"
-      data-action="click->structure#openNewSequenceModal"
-      data-act-id="<%= act.id %>"
-      class="hover:border-primary hover:text-primary w-full rounded-md border-2 border-dashed border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 transition"
-    >
-      <svg class="mr-2 -ml-1 inline-block h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+  <div class="p-4 border-t border-gray-100">
+    <button type="button"
+            data-action="click->structure#openNewSequenceModal"
+            data-act-id="<%= act.id %>"
+            class="w-full py-2 px-4 border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-600 hover:border-primary hover:text-primary transition">
+      <svg class="inline-block -ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
       </svg>
       Agregar Secuencia
     </button>

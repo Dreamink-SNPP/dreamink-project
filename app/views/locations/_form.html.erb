@@ -1,57 +1,63 @@
-<%= form_with(model: [ location.project, location ], class: "space-y-6") do |form| %> <%= render "shared/form_errors",
-object: location %>
+<%= form_with(model: [ location.project, location ], class: "space-y-6") do |form| %>
+  <%= render "shared/form_errors", object: location %>
 
-<div class="space-y-6 rounded-lg bg-white p-6 shadow">
-  <!-- Nombre -->
-  <div>
-    <%= form.label :name, "Nombre de la Locación *", class: "block text-sm font-medium text-gray-700" %> <%=
-    form.text_field :name, required: true, maxlength: 100, class: "mt-1 block w-full rounded-md border-gray-300
-    shadow-sm focus:border-primary focus:ring-primary sm:text-sm", placeholder: "Ej: Oficina de Detectives, Plaza
-    Central, Casa de María" %>
-    <p class="mt-1 text-xs text-gray-500">Máximo 100 caracteres</p>
-  </div>
+  <div class="bg-white shadow rounded-lg p-6 space-y-6">
+    <!-- Nombre -->
+    <div>
+      <%= form.label :name, "Nombre de la Locación *", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name,
+                          required: true,
+                          maxlength: 100,
+                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                          placeholder: "Ej: Oficina de Detectives, Plaza Central, Casa de María" %>
+      <p class="mt-1 text-xs text-gray-500">Máximo 100 caracteres</p>
+    </div>
 
-  <!-- Tipo -->
-  <div>
-    <%= form.label :location_type, "Tipo", class: "block text-sm font-medium text-gray-700" %>
-    <div class="mt-2 space-y-2">
-      <div class="flex items-center">
-        <%= form.radio_button :location_type, "interior", class: "h-4 w-4 text-primary border-gray-300
-        focus:ring-primary" %> <%= form.label :location_type_interior, class: "ml-3 block text-sm font-medium
-        text-gray-700" do %> 🏠 Interior
-        <span class="font-normal text-gray-500">- Espacios cerrados (casas, oficinas, etc.)</span>
-        <% end %>
+    <!-- Tipo -->
+    <div>
+      <%= form.label :location_type, "Tipo", class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-2 space-y-2">
+        <div class="flex items-center">
+          <%= form.radio_button :location_type, "interior",
+                                class: "h-4 w-4 text-primary border-gray-300 focus:ring-primary" %>
+          <%= form.label :location_type_interior, class: "ml-3 block text-sm font-medium text-gray-700" do %>
+            🏠 Interior
+            <span class="text-gray-500 font-normal">- Espacios cerrados (casas, oficinas, etc.)</span>
+          <% end %>
+        </div>
+
+        <div class="flex items-center">
+          <%= form.radio_button :location_type, "exterior",
+                                class: "h-4 w-4 text-primary border-gray-300 focus:ring-primary" %>
+          <%= form.label :location_type_exterior, class: "ml-3 block text-sm font-medium text-gray-700" do %>
+            🌳 Exterior
+            <span class="text-gray-500 font-normal">- Espacios abiertos (calles, parques, etc.)</span>
+          <% end %>
+        </div>
       </div>
+    </div>
 
-      <div class="flex items-center">
-        <%= form.radio_button :location_type, "exterior", class: "h-4 w-4 text-primary border-gray-300
-        focus:ring-primary" %> <%= form.label :location_type_exterior, class: "ml-3 block text-sm font-medium
-        text-gray-700" do %> 🌳 Exterior
-        <span class="font-normal text-gray-500">- Espacios abiertos (calles, parques, etc.)</span>
-        <% end %>
-      </div>
+    <!-- Descripción -->
+    <div>
+      <%= form.label :description, "Descripción Detallada", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :description,
+                         rows: 8,
+                         class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
+                         placeholder: "Describe la locación en detalle: arquitectura, iluminación, ambiente, decoración, elementos importantes, etc." %>
+      <p class="mt-1 text-xs text-gray-500">
+        Sé lo más descriptivo posible. Esta información será útil para la
+        dirección de arte y fotografía.
+      </p>
     </div>
   </div>
 
-  <!-- Descripción -->
-  <div>
-    <%= form.label :description, "Descripción Detallada", class: "block text-sm font-medium text-gray-700" %> <%=
-    form.text_area :description, rows: 8, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm
-    focus:border-primary focus:ring-primary sm:text-sm", placeholder: "Describe la locación en detalle: arquitectura,
-    iluminación, ambiente, decoración, elementos importantes, etc." %>
-    <p class="mt-1 text-xs text-gray-500">
-      Sé lo más descriptivo posible. Esta información será útil para la dirección de arte y fotografía.
-    </p>
-  </div>
-</div>
+  <!-- Botones de Acción -->
+  <div class="flex items-center justify-end space-x-3 bg-gray-50 px-4 py-3 rounded-lg">
+    <%= link_to "Cancelar",
+                project_locations_path(@project),
+                class: "inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" %>
 
-<!-- Botones de Acción -->
-<div class="flex items-center justify-end space-x-3 rounded-lg bg-gray-50 px-4 py-3">
-  <%= link_to "Cancelar", project_locations_path(@project), class: "inline-flex justify-center rounded-md border
-  border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none
-  focus:ring-2 focus:ring-primary focus:ring-offset-2" %> <%= form.submit (location.persisted? ? "Actualizar Locación" :
-  "Crear Locación"), class: "inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2
-  text-sm font-medium text-white shadow-sm hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-primary
-  focus:ring-offset-2 cursor-pointer" %>
-</div>
+    <%= form.submit (location.persisted? ? "Actualizar Locación" : "Crear Locación"),
+                    class: "inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer" %>
+  </div>
 <% end %>

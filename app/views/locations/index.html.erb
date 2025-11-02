@@ -1,158 +1,148 @@
 <%= render "shared/project_navigation", project: @project %>
 
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Header -->
   <div class="mb-8">
     <div class="sm:flex sm:items-center sm:justify-between">
       <!-- Título y navegación -->
-      <div class="mb-4 flex items-center space-x-3 sm:mb-0">
+      <div class="flex items-center space-x-3 mb-4 sm:mb-0">
         <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
         <% end %>
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Locaciones</h1>
-          <p class="mt-1 text-sm text-gray-500"><%= @project.title %></p>
+          <h1 class="text-3xl font-bold text-gray-900">
+            Locaciones
+          </h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= @project.title %>
+          </p>
         </div>
       </div>
 
       <!-- Acciones -->
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <%= link_to collection_report_project_locations_path(@project, format: :pdf), target: "_blank", class:
-        "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm
-        font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2
-        focus:ring-primary transition" do %>
-        <svg class="mr-2 -ml-1 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-          />
-        </svg>
-        Reporte PDF Completo <% end %> <%= link_to new_project_location_path(@project), class: "inline-flex items-center
-        justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white
-        bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
-        transition" do %>
-        <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Nueva Locación <% end %>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= link_to collection_report_project_locations_path(@project, format: :pdf),
+                    target: "_blank",
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          Reporte PDF Completo
+        <% end %>
+
+        <%= link_to new_project_location_path(@project),
+                    class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Nueva Locación
+        <% end %>
       </div>
     </div>
 
     <!-- Filtros -->
     <div class="mt-6 flex flex-wrap gap-3">
-      <%= link_to project_locations_path(@project), class: "inline-flex items-center px-3 py-2 border rounded-md text-sm
-      font-medium transition #{params[:type].blank? ? 'border-primary text-secondary-dark bg-primary-50' :
-      'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %> 📋 Todas (<%= @project.locations.count %>) <%
-      end %> <%= link_to project_locations_path(@project, type: 'interior'), class: "inline-flex items-center px-3 py-2
-      border rounded-md text-sm font-medium transition #{params[:type] == 'interior' ? 'border-green-500 text-green-700
-      bg-green-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %> 🏠 Interiores (<%=
-      @project.locations.interiors.count %>) <% end %> <%= link_to project_locations_path(@project, type: 'exterior'),
-      class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] ==
-      'exterior' ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-gray-300 text-gray-700 bg-white
-      hover:bg-gray-50'}" do %> 🌳 Exteriores (<%= @project.locations.exteriors.count %>) <% end %>
+      <%= link_to project_locations_path(@project),
+                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type].blank? ? 'border-primary text-secondary-dark bg-primary-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+        📋 Todas (<%= @project.locations.count %>)
+      <% end %>
+
+      <%= link_to project_locations_path(@project, type: 'interior'),
+                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] == 'interior' ? 'border-green-500 text-green-700 bg-green-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+        🏠 Interiores (<%= @project.locations.interiors.count %>)
+      <% end %>
+
+      <%= link_to project_locations_path(@project, type: 'exterior'),
+                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] == 'exterior' ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+        🌳 Exteriores (<%= @project.locations.exteriors.count %>)
+      <% end %>
     </div>
   </div>
 
   <!-- Lista de locaciones -->
   <% if @locations.any? %>
-  <div class="overflow-hidden bg-white shadow sm:rounded-md">
-    <ul class="divide-y divide-gray-200">
-      <% @locations.each do |location| %>
-      <li>
-        <%= link_to project_location_path(@project, location), class: "block hover:bg-gray-50 transition duration-150
-        ease-in-out" do %>
-        <div class="px-4 py-4 sm:px-6">
-          <div class="flex items-center justify-between">
-            <div class="flex min-w-0 flex-1 items-center">
-              <!-- Icono según tipo -->
-              <div class="flex h-12 w-12 shrink-0 items-center justify-center">
-                <% if location.interior? %>
-                <span class="text-2xl">🏠</span>
-                <% elsif location.exterior? %>
-                <span class="text-2xl">🌳</span>
-                <% else %>
-                <span class="text-2xl">📍</span>
-                <% end %>
-              </div>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul class="divide-y divide-gray-200">
+        <% @locations.each do |location| %>
+          <li>
+            <%= link_to project_location_path(@project, location), class: "block hover:bg-gray-50 transition duration-150 ease-in-out" do %>
+              <div class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center flex-1 min-w-0">
+                    <!-- Icono según tipo -->
+                    <div class="shrink-0 h-12 w-12 flex items-center justify-center">
+                      <% if location.interior? %>
+                        <span class="text-2xl">🏠</span>
+                      <% elsif location.exterior? %>
+                        <span class="text-2xl">🌳</span>
+                      <% else %>
+                        <span class="text-2xl">📍</span>
+                      <% end %>
+                    </div>
 
-              <div class="ml-4 min-w-0 flex-1">
-                <div class="flex items-center space-x-3">
-                  <p class="truncate text-lg font-semibold text-gray-900"><%= location.name %></p>
-                  <% if location.location_type.present? %>
-                  <span
-                    class="<%= location.interior? ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' %> inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                  >
-                    <%= location.location_type.capitalize %>
-                  </span>
-                  <% end %>
+                    <div class="ml-4 flex-1 min-w-0">
+                      <div class="flex items-center space-x-3">
+                        <p class="text-lg font-semibold text-gray-900 truncate">
+                          <%= location.name %>
+                        </p>
+                        <% if location.location_type.present? %>
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= location.interior? ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' %>">
+                            <%= location.location_type.capitalize %>
+                          </span>
+                        <% end %>
+                      </div>
+
+                      <% if location.description.present? %>
+                        <p class="mt-2 text-sm text-gray-600 line-clamp-2">
+                          <%= location.description %>
+                        </p>
+                      <% end %>
+
+                      <!-- Cantidad de escenas -->
+                      <div class="mt-2 flex items-center text-xs text-gray-500">
+                        <svg class="shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+                        </svg>
+                        Usada
+                        en <%= pluralize(location.scenes.count, "escena") %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ml-5 shrink-0">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </div>
                 </div>
-
-                <% if location.description.present? %>
-                <p class="mt-2 line-clamp-2 text-sm text-gray-600"><%= location.description %></p>
-                <% end %>
-
-                <!-- Cantidad de escenas -->
-                <div class="mt-2 flex items-center text-xs text-gray-500">
-                  <svg
-                    class="mr-1.5 h-4 w-4 shrink-0 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
-                    />
-                  </svg>
-                  Usada en <%= pluralize(location.scenes.count, "escena") %>
-                </div>
               </div>
-            </div>
-
-            <div class="ml-5 shrink-0">
-              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </div>
+            <% end %>
+          </li>
         <% end %>
-      </li>
-      <% end %>
-    </ul>
-  </div>
-  <% else %>
-  <!-- Estado vacío -->
-  <div class="rounded-lg bg-white py-12 text-center shadow">
-    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-      />
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-    <h3 class="mt-2 text-sm font-medium text-gray-900">
-      <%= params[:type].present? ? "No hay locaciones #{params[:type] == 'interior' ? 'interiores' : 'exteriores'}" :
-      "No hay locaciones" %>
-    </h3>
-    <p class="mt-1 text-sm text-gray-500">Comienza agregando las locaciones donde se desarrolla tu historia.</p>
-    <div class="mt-6">
-      <%= link_to new_project_location_path(@project), class: "inline-flex items-center px-4 py-2 border
-      border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark
-      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-      <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      Crear Locación <% end %>
+      </ul>
     </div>
-  </div>
+  <% else %>
+    <!-- Estado vacío -->
+    <div class="text-center py-12 bg-white shadow rounded-lg">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">
+        <%= params[:type].present? ? "No hay locaciones #{params[:type] == 'interior' ? 'interiores' : 'exteriores'}" : "No hay locaciones" %>
+      </h3>
+      <p class="mt-1 text-sm text-gray-500">Comienza agregando las locaciones
+        donde se desarrolla tu historia.</p>
+      <div class="mt-6">
+        <%= link_to new_project_location_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Crear Locación
+        <% end %>
+      </div>
+    </div>
   <% end %>
 </div>

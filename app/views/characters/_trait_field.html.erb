@@ -1,6 +1,11 @@
-<% full_width ||= false %> <% if value.present? %>
-<div class="<%= full_width ? 'col-span-full' : '' %>">
-  <dt class="mb-2 text-sm font-medium text-gray-700"><%= label %></dt>
-  <dd class="rounded-md bg-gray-50 p-3 text-sm whitespace-pre-wrap text-gray-900"><%= value %></dd>
-</div>
+<% full_width ||= false %>
+<% if value.present? %>
+  <div class="<%= full_width ? 'col-span-full' : '' %>">
+    <dt class="text-sm font-medium text-gray-700 mb-2">
+      <%= label %>
+    </dt>
+    <dd class="text-sm text-gray-900 bg-gray-50 rounded-md p-3 whitespace-pre-wrap">
+      <%= value %>
+    </dd>
+  </div>
 <% end %>
