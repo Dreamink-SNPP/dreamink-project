@@ -1,5 +1,2 @@
-<% flash.each do |type, message| %>
-  <% if [:notice, :alert, :error].include?(type.to_sym) %>
-    <%= render "shared/flash_#{type == 'notice' ? 'notice' : 'alert'}", message: message %>
-  <% end %>
-<% end %>
+<% flash.each do |type, message| %> <% if [:notice, :alert, :error].include?(type.to_sym) %> <%= render
+"shared/flash_#{type == 'notice' ? 'notice' : 'alert'}", message: message %> <% end %> <% end %>

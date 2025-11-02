@@ -1,100 +1,87 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
   <!-- Header -->
-  <div class="md:flex md:items-center md:justify-between mb-8">
-    <div class="flex-1 min-w-0">
-      <h1 class="text-3xl font-bold text-gray-900">
-        Mis Proyectos
-      </h1>
-      <p class="mt-1 text-sm text-gray-500">
-        Gestiona tus guiones y obras audiovisuales
-      </p>
+  <div class="mb-8 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h1 class="text-3xl font-bold text-gray-900">Mis Proyectos</h1>
+      <p class="mt-1 text-sm text-gray-500">Gestiona tus guiones y obras audiovisuales</p>
     </div>
     <div class="mt-4 flex md:mt-0 md:ml-4">
-      <%= link_to new_project_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Nuevo Proyecto
-      <% end %>
+      <%= link_to new_project_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md
+      shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2
+      focus:ring-offset-2 focus:ring-primary" do %>
+      <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Nuevo Proyecto <% end %>
     </div>
   </div>
 
   <!-- Lista de proyectos -->
   <% if @projects.any? %>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <% @projects.each do |project| %>
-        <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200">
-          <%= link_to project_path(project), class: "block p-6" do %>
-            <div class="flex items-start justify-between gap-3 mb-4">
-              <h3 class="text-lg font-semibold text-gray-900 line-clamp-2 flex-1">
-                <%= project.title %>
-              </h3>
-              <span class="shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                <%= project.genre || "Sin género" %>
-              </span>
-            </div>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <% @projects.each do |project| %>
+    <div class="overflow-hidden rounded-lg bg-white shadow transition-shadow duration-200 hover:shadow-lg">
+      <%= link_to project_path(project), class: "block p-6" do %>
+      <div class="mb-4 flex items-start justify-between gap-3">
+        <h3 class="line-clamp-2 flex-1 text-lg font-semibold text-gray-900"><%= project.title %></h3>
+        <span
+          class="bg-primary-100 text-primary-800 inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+        >
+          <%= project.genre || "Sin género" %>
+        </span>
+      </div>
 
-            <% if project.logline.present? %>
-              <p class="text-sm text-gray-600 line-clamp-3 mb-4">
-                <%= project.logline %>
-              </p>
-            <% else %>
-              <p class="text-sm text-gray-400 italic mb-4">
-                Sin logline
-              </p>
-            <% end %>
-
-            <div class="flex items-center justify-between text-xs text-gray-500">
-              <div class="flex gap-4">
-                <span title="Actos">📑 <%= project.acts.count %></span>
-                <span title="Personajes">👥 <%= project.characters.count %></span>
-                <span title="Locaciones">📍 <%= project.locations.count %></span>
-              </div>
-              <span class="text-right">
-                <%= time_ago_in_words(project.updated_at) %>
-              </span>
-            </div>
-          <% end %>
-
-          <!-- Acciones -->
-          <div class="border-t border-gray-100 px-6 py-3 mt-4 flex items-center justify-between gap-3">
-            <div class="flex items-center gap-4">
-              <%= link_to edit_project_path(project),
-                          class: "text-primary hover:text-secondary-dark text-sm font-medium transition" do %>
-                Editar
-              <% end %>
-              <%= link_to project_structure_path(project),
-                          class: "text-green-600 hover:text-green-700 text-sm font-medium transition" do %>
-                Estructura
-              <% end %>
-            </div>
-            <%= button_to project_path(project),
-                          method: :delete,
-                          data: { turbo_confirm: "¿Estás seguro de eliminar este proyecto?" },
-                          class: "text-red-600 hover:text-red-700 text-sm font-medium transition" do %>
-              Eliminar
-            <% end %>
-          </div>
-        </div>
+      <% if project.logline.present? %>
+      <p class="mb-4 line-clamp-3 text-sm text-gray-600"><%= project.logline %></p>
+      <% else %>
+      <p class="mb-4 text-sm text-gray-400 italic">Sin logline</p>
       <% end %>
-    </div>
-  <% else %>
-    <!-- Estado vacío -->
-    <div class="text-center py-12">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-      </svg>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">No hay proyectos</h3>
-      <p class="mt-1 text-sm text-gray-500">Comienza creando tu primer
-        proyecto.</p>
-      <div class="mt-6">
-        <%= link_to new_project_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
-          Crear Proyecto
-        <% end %>
+
+      <div class="flex items-center justify-between text-xs text-gray-500">
+        <div class="flex gap-4">
+          <span title="Actos">📑 <%= project.acts.count %></span>
+          <span title="Personajes">👥 <%= project.characters.count %></span>
+          <span title="Locaciones">📍 <%= project.locations.count %></span>
+        </div>
+        <span class="text-right"><%= time_ago_in_words(project.updated_at) %></span>
+      </div>
+      <% end %>
+
+      <!-- Acciones -->
+      <div class="mt-4 flex items-center justify-between gap-3 border-t border-gray-100 px-6 py-3">
+        <div class="flex items-center gap-4">
+          <%= link_to edit_project_path(project), class: "text-primary hover:text-secondary-dark text-sm font-medium
+          transition" do %> Editar <% end %> <%= link_to project_structure_path(project), class: "text-green-600
+          hover:text-green-700 text-sm font-medium transition" do %> Estructura <% end %>
+        </div>
+        <%= button_to project_path(project), method: :delete, data: { turbo_confirm: "¿Estás seguro de eliminar este
+        proyecto?" }, class: "text-red-600 hover:text-red-700 text-sm font-medium transition" do %> Eliminar <% end %>
       </div>
     </div>
+    <% end %>
+  </div>
+  <% else %>
+  <!-- Estado vacío -->
+  <div class="py-12 text-center">
+    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+      />
+    </svg>
+    <h3 class="mt-2 text-sm font-medium text-gray-900">No hay proyectos</h3>
+    <p class="mt-1 text-sm text-gray-500">Comienza creando tu primer proyecto.</p>
+    <div class="mt-6">
+      <%= link_to new_project_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm
+      text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2
+      focus:ring-offset-2 focus:ring-primary" do %>
+      <svg class="mr-2 -ml-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Crear Proyecto <% end %>
+    </div>
+  </div>
   <% end %>
 </div>

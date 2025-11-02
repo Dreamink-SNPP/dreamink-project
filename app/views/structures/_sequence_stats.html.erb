@@ -1,29 +1,33 @@
 <!-- Toggle para mostrar/ocultar escenas -->
-<button type="button"
-        data-action="click->collapsible#toggle"
-        data-target-id="scenes-<%= sequence.id %>"
-        data-sequence-toggle="<%= sequence.id %>"
-        class="mt-2 text-xs text-gray-500 hover:text-gray-700 flex items-center transition">
-  <svg class="h-4 w-4 mr-1 transform transition-transform"
-       data-sequence-icon="<%= sequence.id %>"
-       fill="none"
-       stroke="currentColor"
-       viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+<button
+  type="button"
+  data-action="click->collapsible#toggle"
+  data-target-id="scenes-<%= sequence.id %>"
+  data-sequence-toggle="<%= sequence.id %>"
+  class="mt-2 flex items-center text-xs text-gray-500 transition hover:text-gray-700"
+>
+  <svg
+    class="mr-1 h-4 w-4 transform transition-transform"
+    data-sequence-icon="<%= sequence.id %>"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
   </svg>
   <%= pluralize(sequence.scenes.count, "escena") %>
 </button>
 
 <script>
   // Restore icon state immediately after partial renders
-  (function() {
-    const targetId = 'scenes-<%= sequence.id %>';
+  (function () {
+    const targetId = "scenes-<%= sequence.id %>";
     const icon = document.querySelector('[data-sequence-icon="<%= sequence.id %>"]');
     const content = document.getElementById(targetId);
 
     if (icon && content) {
-      const isExpanded = !content.classList.contains('hidden');
-      icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)';
+      const isExpanded = !content.classList.contains("hidden");
+      icon.style.transform = isExpanded ? "rotate(0deg)" : "rotate(-90deg)";
     }
   })();
 </script>

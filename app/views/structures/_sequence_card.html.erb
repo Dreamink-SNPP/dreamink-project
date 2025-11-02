@@ -1,121 +1,128 @@
 <!-- Tarjeta de Secuencia -->
-<div id="sequence_<%= sequence.id %>"
-     class="sequence-card bg-gray-50 rounded-lg border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow"
-     data-controller="collapsible"
-     data-collapsible-storage-key-value="sequence">
-
+<div
+  id="sequence_<%= sequence.id %>"
+  class="sequence-card rounded-lg border-2 border-gray-200 bg-gray-50 shadow-sm transition-shadow hover:shadow-md"
+  data-controller="collapsible"
+  data-collapsible-storage-key-value="sequence"
+>
   <!-- Header de la Secuencia -->
-  <div class="p-3 border-b border-gray-200">
+  <div class="border-b border-gray-200 p-3">
     <div class="flex items-start justify-between">
       <div class="flex-1">
-        <h4 class="text-sm font-semibold text-gray-900">
-          <%= sequence.title %>
-        </h4>
+        <h4 class="text-sm font-semibold text-gray-900"><%= sequence.title %></h4>
         <% if sequence.description.present? %>
-          <p class="mt-1 text-xs text-gray-600 line-clamp-2">
-            <%= sequence.description %>
-          </p>
+        <p class="mt-1 line-clamp-2 text-xs text-gray-600"><%= sequence.description %></p>
         <% end %>
       </div>
 
       <!-- Acciones de la secuencia -->
       <div class="ml-2 flex space-x-1">
         <!-- Add Scene Button -->
-        <button type="button"
-                data-action="click->structure#openNewSceneModal"
-                data-sequence-id="<%= sequence.id %>"
-                class="text-gray-400 hover:text-green-600 p-1"
-                title="Agregar escena">
+        <button
+          type="button"
+          data-action="click->structure#openNewSceneModal"
+          data-sequence-id="<%= sequence.id %>"
+          class="p-1 text-gray-400 hover:text-green-600"
+          title="Agregar escena"
+        >
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
         </button>
 
         <!-- Move to Act Dropdown -->
         <div class="relative" data-controller="dropdown">
-          <button type="button"
-                  data-action="click->dropdown#toggle"
-                  class="text-gray-400 hover:text-primary p-1"
-                  title="Mover a otro acto">
+          <button
+            type="button"
+            data-action="click->dropdown#toggle"
+            class="hover:text-primary p-1 text-gray-400"
+            title="Mover a otro acto"
+          >
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+              />
             </svg>
           </button>
 
           <!-- Dropdown Menu -->
-          <div data-dropdown-target="menu"
-               class="hidden absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+          <div
+            data-dropdown-target="menu"
+            class="absolute right-0 z-50 mt-1 hidden w-48 rounded-md border border-gray-200 bg-white shadow-lg"
+          >
             <div class="py-1">
-              <div class="px-3 py-2 text-xs font-semibold text-gray-500 border-b">
-                Mover a Acto
-              </div>
-              <% project.acts.where.not(id: sequence.act_id).each do |act| %>
-                <%= button_to move_to_act_project_sequence_path(project, sequence),
-                              method: :patch,
-                              params: { target_act_id: act.id, target_position: 1 },
-                              class: "w-full text-left px-3 py-2 text-xs text-gray-700 hover:bg-primary-50 hover:text-primary",
-                              data: { turbo: true } do %>
-                  <%= act.title %>
-                <% end %>
-              <% end %>
+              <div class="border-b px-3 py-2 text-xs font-semibold text-gray-500">Mover a Acto</div>
+              <% project.acts.where.not(id: sequence.act_id).each do |act| %> <%= button_to
+              move_to_act_project_sequence_path(project, sequence), method: :patch, params: { target_act_id: act.id,
+              target_position: 1 }, class: "w-full text-left px-3 py-2 text-xs text-gray-700 hover:bg-primary-50
+              hover:text-primary", data: { turbo: true } do %> <%= act.title %> <% end %> <% end %>
             </div>
           </div>
         </div>
 
-        <button type="button"
-                data-action="click->structure#openEditSequenceModal"
-                data-sequence-id="<%= sequence.id %>"
-                class="text-gray-400 hover:text-primary p-1"
-                title="Editar secuencia">
+        <button
+          type="button"
+          data-action="click->structure#openEditSequenceModal"
+          data-sequence-id="<%= sequence.id %>"
+          class="hover:text-primary p-1 text-gray-400"
+          title="Editar secuencia"
+        >
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
           </svg>
         </button>
 
-        <%= button_to project_sequence_path(project, sequence),
-                      method: :delete,
-                      data: { turbo_confirm: "¿Eliminar esta secuencia y sus escenas?" },
-                      class: "text-gray-400 hover:text-red-600 p-1",
-                      title: "Eliminar secuencia" do %>
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-          </svg>
+        <%= button_to project_sequence_path(project, sequence), method: :delete, data: { turbo_confirm: "¿Eliminar esta
+        secuencia y sus escenas?" }, class: "text-gray-400 hover:text-red-600 p-1", title: "Eliminar secuencia" do %>
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
         <% end %>
       </div>
     </div>
 
     <!-- Toggle para mostrar/ocultar escenas -->
-    <div id="sequence_<%= sequence.id %>_stats">
-      <%= render "structures/sequence_stats", sequence: sequence %>
-    </div>
+    <div id="sequence_<%= sequence.id %>_stats"><%= render "structures/sequence_stats", sequence: sequence %></div>
   </div>
 
   <!-- Lista de Escenas (colapsable) -->
   <div id="scenes-<%= sequence.id %>" class="hidden">
     <!-- Header de Escenas -->
-    <div class="px-3 py-2 bg-gray-100 border-t border-gray-200">
-      <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-        Escenas
-      </h5>
+    <div class="border-t border-gray-200 bg-gray-100 px-3 py-2">
+      <h5 class="text-xs font-semibold tracking-wide text-gray-600 uppercase">Escenas</h5>
     </div>
 
-    <div id="sequence_<%= sequence.id %>_scenes"
-         class="p-2 space-y-2 min-h-[100px]"
-         data-controller="sortable"
-         data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
-         data-sortable-type-value="scene"
-         data-sortable-group-value="scenes"
-         data-sortable-parent-id-value="<%= sequence.id %>"
-         data-sortable-parent-id="<%= sequence.id %>">
-
-      <% sequence.scenes.each do |scene| %>
-        <%= render "structures/scene_item", scene: scene, project: project %>
-      <% end %>
-
-      <% if sequence.scenes.empty? %>
-        <div id="sequence_<%= sequence.id %>_empty_state" class="text-center py-4 text-gray-400 text-xs pointer-events-none">
-          <p>Sin escenas</p>
-        </div>
+    <div
+      id="sequence_<%= sequence.id %>_scenes"
+      class="min-h-[100px] space-y-2 p-2"
+      data-controller="sortable"
+      data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
+      data-sortable-type-value="scene"
+      data-sortable-group-value="scenes"
+      data-sortable-parent-id-value="<%= sequence.id %>"
+      data-sortable-parent-id="<%= sequence.id %>"
+    >
+      <% sequence.scenes.each do |scene| %> <%= render "structures/scene_item", scene: scene, project: project %> <% end
+      %> <% if sequence.scenes.empty? %>
+      <div
+        id="sequence_<%= sequence.id %>_empty_state"
+        class="pointer-events-none py-4 text-center text-xs text-gray-400"
+      >
+        <p>Sin escenas</p>
+      </div>
       <% end %>
     </div>
   </div>

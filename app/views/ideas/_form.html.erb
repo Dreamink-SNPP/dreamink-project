@@ -1,71 +1,61 @@
-<%= form_with(model: [ idea.project, idea ], class: "space-y-6", data: { controller: "tag-input" }) do |form| %>
-  <%= render "shared/form_errors", object: idea %>
+<%= form_with(model: [ idea.project, idea ], class: "space-y-6", data: { controller: "tag-input" }) do |form| %> <%=
+render "shared/form_errors", object: idea %>
 
-  <div class="bg-white shadow rounded-lg p-6 space-y-6">
-    <!-- Título -->
-    <div>
-      <%= form.label :title, "Título / Nombre Corto *", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :title,
-                          required: true,
-                          maxlength: 100,
-                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                          placeholder: "Ej: Giro argumental del acto 2, Idea para el clímax" %>
-      <p class="mt-1 text-xs text-gray-500">Máximo 100 caracteres</p>
-    </div>
-
-    <!-- Descripción -->
-    <div>
-      <%= form.label :description, "Descripción *", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_area :description,
-                         required: true,
-                         rows: 10,
-                         class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                         placeholder: "Describe tu idea en detalle. No te preocupes por la estructura, esto es para capturar ideas que luego puedes organizar..." %>
-      <p class="mt-1 text-xs text-gray-500">
-        Sin límite de caracteres. Este es tu espacio libre para ideas sueltas.
-      </p>
-    </div>
-
-    <!-- Tags -->
-    <div>
-      <%= form.label :tags, "Etiquetas (opcional)", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :tags,
-                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                          placeholder: "personaje, trama, diálogo, escena" %>
-      <p class="mt-1 text-xs text-gray-500">
-        Separa las etiquetas con comas. Ej: personaje, trama, giro, conflicto
-      </p>
-
-      <!-- Tags existentes (sugerencias) -->
-      <%
-        existing_tags = idea.project.ideas.flat_map(&:tag_list).compact.uniq.sort
-        if existing_tags.any? && idea.new_record?
-      %>
-        <div class="mt-3">
-          <p class="text-xs font-medium text-gray-700 mb-2">Etiquetas existentes
-            (click para agregar):</p>
-          <div class="flex flex-wrap gap-2">
-            <% existing_tags.each do |tag| %>
-              <button type="button"
-                      data-action="click->tag-input#addTag"
-                      data-tag="<%= tag %>"
-                      class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 hover:bg-primary-100 hover:text-primary-800 transition cursor-pointer">
-                #<%= tag %>
-              </button>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+<div class="space-y-6 rounded-lg bg-white p-6 shadow">
+  <!-- Título -->
+  <div>
+    <%= form.label :title, "Título / Nombre Corto *", class: "block text-sm font-medium text-gray-700" %> <%=
+    form.text_field :title, required: true, maxlength: 100, class: "mt-1 block w-full rounded-md border-gray-300
+    shadow-sm focus:border-primary focus:ring-primary sm:text-sm", placeholder: "Ej: Giro argumental del acto 2, Idea
+    para el clímax" %>
+    <p class="mt-1 text-xs text-gray-500">Máximo 100 caracteres</p>
   </div>
 
-  <!-- Botones de Acción -->
-  <div class="flex items-center justify-end space-x-3 bg-gray-50 px-4 py-3 rounded-lg">
-    <%= link_to "Cancelar",
-                project_ideas_path(@project),
-                class: "inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" %>
-
-    <%= form.submit (idea.persisted? ? "Actualizar Idea" : "Guardar Idea"),
-                    class: "inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer" %>
+  <!-- Descripción -->
+  <div>
+    <%= form.label :description, "Descripción *", class: "block text-sm font-medium text-gray-700" %> <%= form.text_area
+    :description, required: true, rows: 10, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm
+    focus:border-primary focus:ring-primary sm:text-sm", placeholder: "Describe tu idea en detalle. No te preocupes por
+    la estructura, esto es para capturar ideas que luego puedes organizar..." %>
+    <p class="mt-1 text-xs text-gray-500">Sin límite de caracteres. Este es tu espacio libre para ideas sueltas.</p>
   </div>
+
+  <!-- Tags -->
+  <div>
+    <%= form.label :tags, "Etiquetas (opcional)", class: "block text-sm font-medium text-gray-700" %> <%=
+    form.text_field :tags, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary
+    focus:ring-primary sm:text-sm", placeholder: "personaje, trama, diálogo, escena" %>
+    <p class="mt-1 text-xs text-gray-500">Separa las etiquetas con comas. Ej: personaje, trama, giro, conflicto</p>
+
+    <!-- Tags existentes (sugerencias) -->
+    <% existing_tags = idea.project.ideas.flat_map(&:tag_list).compact.uniq.sort if existing_tags.any? &&
+    idea.new_record? %>
+    <div class="mt-3">
+      <p class="mb-2 text-xs font-medium text-gray-700">Etiquetas existentes (click para agregar):</p>
+      <div class="flex flex-wrap gap-2">
+        <% existing_tags.each do |tag| %>
+        <button
+          type="button"
+          data-action="click->tag-input#addTag"
+          data-tag="<%= tag %>"
+          class="hover:bg-primary-100 hover:text-primary-800 inline-flex cursor-pointer items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-800 transition"
+        >
+          #<%= tag %>
+        </button>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Botones de Acción -->
+<div class="flex items-center justify-end space-x-3 rounded-lg bg-gray-50 px-4 py-3">
+  <%= link_to "Cancelar", project_ideas_path(@project), class: "inline-flex justify-center rounded-md border
+  border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none
+  focus:ring-2 focus:ring-primary focus:ring-offset-2" %> <%= form.submit (idea.persisted? ? "Actualizar Idea" :
+  "Guardar Idea"), class: "inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm
+  font-medium text-white shadow-sm hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-primary
+  focus:ring-offset-2 cursor-pointer" %>
+</div>
 <% end %>

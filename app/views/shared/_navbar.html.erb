@@ -1,39 +1,39 @@
-<nav class="bg-white shadow-sm fixed w-full top-0 z-50" data-controller="mobile-menu">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
+<nav class="fixed top-0 z-50 w-full bg-white shadow-sm" data-controller="mobile-menu">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 justify-between">
       <!-- Logo y nombre -->
       <div class="flex">
         <%= link_to root_path, class: "flex items-center" do %>
-          <span class="text-2xl font-bold text-primary">🎬</span>
-          <span class="ml-2 text-xl font-semibold text-gray-900">Dreamink</span>
+        <span class="text-primary text-2xl font-bold">🎬</span>
+        <span class="ml-2 text-xl font-semibold text-gray-900">Dreamink</span>
         <% end %>
 
         <!-- Navegación principal (desktop) -->
         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          <%= link_to "Proyectos", projects_path,
-                      class: "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium #{current_page?(projects_path) ? 'border-primary text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}" %>
+          <%= link_to "Proyectos", projects_path, class: "inline-flex items-center px-1 pt-1 border-b-2 text-sm
+          font-medium #{current_page?(projects_path) ? 'border-primary text-gray-900' : 'border-transparent
+          text-gray-500 hover:border-gray-300 hover:text-gray-700'}" %>
         </div>
       </div>
 
       <!-- Usuario y logout (desktop) -->
       <div class="hidden sm:flex sm:items-center sm:space-x-4">
-        <span class="text-sm text-gray-700">
-          <%= current_user.email %>
-        </span>
-        <%= button_to "Cerrar Sesión",
-                      session_path,
-                      method: :delete,
-                      class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+        <span class="text-sm text-gray-700"><%= current_user.email %></span>
+        <%= button_to "Cerrar Sesión", session_path, method: :delete, class: "inline-flex items-center px-4 py-2 border
+        border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
       </div>
 
       <!-- Mobile menu button -->
       <div class="flex items-center sm:hidden">
-        <button type="button"
-                data-action="click->mobile-menu#toggle"
-                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
-                aria-label="Menu">
+        <button
+          type="button"
+          data-action="click->mobile-menu#toggle"
+          class="focus:ring-primary inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:outline-none focus:ring-inset"
+          aria-label="Menu"
+        >
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
@@ -42,19 +42,17 @@
 
   <!-- Mobile menu -->
   <div data-mobile-menu-target="menu" class="hidden sm:hidden">
-    <div class="pt-2 pb-3 space-y-1">
-      <%= link_to "Proyectos", projects_path,
-                  class: "block pl-3 pr-4 py-2 border-l-4 text-base font-medium #{current_page?(projects_path) ? 'bg-primary-50 border-primary text-primary' : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'}" %>
+    <div class="space-y-1 pt-2 pb-3">
+      <%= link_to "Proyectos", projects_path, class: "block pl-3 pr-4 py-2 border-l-4 text-base font-medium
+      #{current_page?(projects_path) ? 'bg-primary-50 border-primary text-primary' : 'border-transparent text-gray-600
+      hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'}" %>
     </div>
-    <div class="pt-4 pb-3 border-t border-gray-200">
+    <div class="border-t border-gray-200 pt-4 pb-3">
       <div class="px-4">
-        <div class="text-sm text-gray-500 mb-3">
-          <%= current_user.email %>
-        </div>
-        <%= button_to "Cerrar Sesión",
-                      session_path,
-                      method: :delete,
-                      class: "w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+        <div class="mb-3 text-sm text-gray-500"><%= current_user.email %></div>
+        <%= button_to "Cerrar Sesión", session_path, method: :delete, class: "w-full inline-flex items-center
+        justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary
+        hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
       </div>
     </div>
   </div>

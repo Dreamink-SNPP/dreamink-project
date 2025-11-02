@@ -1,86 +1,73 @@
-<%= form_with(model: [ scene.sequence.act.project, scene ],
-              id: "scene_form",
-              html: { data: { turbo_frame: "_top" } },
-              class: "space-y-4") do |form| %>
-  <%= render "shared/form_errors", object: scene %>
+<%= form_with(model: [ scene.sequence.act.project, scene ], id: "scene_form", html: { data: { turbo_frame: "_top" } },
+class: "space-y-4") do |form| %> <%= render "shared/form_errors", object: scene %>
 
-  <!-- Secuencia (hidden si ya existe) -->
-  <% if scene.new_record? %>
-    <%= form.hidden_field :sequence_id, value: scene.sequence_id %>
-    <div class="bg-primary-50 border border-primary-200 rounded-md p-3">
-      <p class="text-sm text-primary-800">
-        <span class="font-medium">Acto:</span> <%= scene.sequence.act.title %> ›
-        <span class="font-medium">Secuencia:</span> <%= scene.sequence.title %>
-      </p>
+<!-- Secuencia (hidden si ya existe) -->
+<% if scene.new_record? %> <%= form.hidden_field :sequence_id, value: scene.sequence_id %>
+<div class="bg-primary-50 border-primary-200 rounded-md border p-3">
+  <p class="text-primary-800 text-sm">
+    <span class="font-medium">Acto:</span>
+    <%= scene.sequence.act.title %> ›
+    <span class="font-medium">Secuencia:</span>
+    <%= scene.sequence.title %>
+  </p>
+</div>
+<% end %>
+
+<!-- Título -->
+<div>
+  <%= form.label :title, "Título de la Escena *", class: "block text-sm font-medium text-gray-700" %> <%=
+  form.text_field :title, required: true, maxlength: 200, autofocus: true, class: "mt-1 block w-full rounded-md
+  border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm", placeholder: "Ej: INT. OFICINA - DÍA,
+  EXT. CALLE - NOCHE..." %>
+</div>
+
+<!-- Descripción -->
+<div>
+  <%= form.label :description, "Descripción", class: "block text-sm font-medium text-gray-700" %> <%= form.text_area
+  :description, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary
+  focus:ring-primary sm:text-sm", placeholder: "Describe qué sucede en esta escena..." %>
+</div>
+
+<!-- Color -->
+<div>
+  <%= form.label :color, "Color (opcional)", class: "block text-sm font-medium text-gray-700" %>
+  <div class="mt-2 flex items-center space-x-2">
+    <%= form.color_field :color, value: scene.color || "#FFFFFF", class: "h-10 w-20 rounded border border-gray-300
+    cursor-pointer" %>
+    <span class="text-xs text-gray-500">Usa colores para organizar visualmente tus escenas</span>
+  </div>
+</div>
+
+<!-- Locaciones -->
+<div>
+  <%= form.label :location_ids, "Locaciones", class: "block text-sm font-medium text-gray-700" %> <% project =
+  scene.sequence.act.project %> <% locations = @locations || project.locations.order(:name) %> <% if locations.any? %>
+  <div class="mt-2 max-h-40 overflow-y-auto rounded-md border border-gray-300 p-2">
+    <%= form.collection_check_boxes :location_ids, locations, :id, :name do |b| %>
+    <div class="flex items-center py-1">
+      <%= b.check_box class: "h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" %> <%= b.label class:
+      "ml-2 text-sm text-gray-700" do %> <%= b.object.interior? ? "🏠" : "🌳" %> <%= b.text %> <% end %>
     </div>
-  <% end %>
-
-  <!-- Título -->
-  <div>
-    <%= form.label :title, "Título de la Escena *", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_field :title,
-                        required: true,
-                        maxlength: 200,
-                        autofocus: true,
-                        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                        placeholder: "Ej: INT. OFICINA - DÍA, EXT. CALLE - NOCHE..." %>
-  </div>
-
-  <!-- Descripción -->
-  <div>
-    <%= form.label :description, "Descripción", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :description,
-                       rows: 4,
-                       class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm",
-                       placeholder: "Describe qué sucede en esta escena..." %>
-  </div>
-
-  <!-- Color -->
-  <div>
-    <%= form.label :color, "Color (opcional)", class: "block text-sm font-medium text-gray-700" %>
-    <div class="mt-2 flex items-center space-x-2">
-      <%= form.color_field :color,
-                           value: scene.color || "#FFFFFF",
-                           class: "h-10 w-20 rounded border border-gray-300 cursor-pointer" %>
-      <span class="text-xs text-gray-500">Usa colores para organizar visualmente tus escenas</span>
-    </div>
-  </div>
-
-  <!-- Locaciones -->
-  <div>
-    <%= form.label :location_ids, "Locaciones", class: "block text-sm font-medium text-gray-700" %>
-    <% project = scene.sequence.act.project %>
-    <% locations = @locations || project.locations.order(:name) %>
-    <% if locations.any? %>
-      <div class="mt-2 max-h-40 overflow-y-auto border border-gray-300 rounded-md p-2">
-        <%= form.collection_check_boxes :location_ids,
-                                        locations,
-                                        :id,
-                                        :name do |b| %>
-          <div class="flex items-center py-1">
-            <%= b.check_box class: "h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" %>
-            <%= b.label class: "ml-2 text-sm text-gray-700" do %>
-              <%= b.object.interior? ? "🏠" : "🌳" %> <%= b.text %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="mt-1 text-sm text-gray-500">
-        No hay locaciones creadas.
-        <%= link_to "Crear locación", new_project_location_path(project), class: "text-primary hover:text-primary-900", target: "_blank" %>
-      </p>
     <% end %>
   </div>
+  <% else %>
+  <p class="mt-1 text-sm text-gray-500">
+    No hay locaciones creadas. <%= link_to "Crear locación", new_project_location_path(project), class: "text-primary
+    hover:text-primary-900", target: "_blank" %>
+  </p>
+  <% end %>
+</div>
 
-  <!-- Botones -->
-  <div class="flex items-center justify-end space-x-3 pt-4 border-t">
-    <button type="button"
-            data-action="click->structure#closeModal"
-            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-      Cancelar
-    </button>
-    <%= form.submit (scene.persisted? ? "Actualizar Escena" : "Crear Escena"),
-                    class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark cursor-pointer" %>
-  </div>
+<!-- Botones -->
+<div class="flex items-center justify-end space-x-3 border-t pt-4">
+  <button
+    type="button"
+    data-action="click->structure#closeModal"
+    class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+  >
+    Cancelar
+  </button>
+  <%= form.submit (scene.persisted? ? "Actualizar Escena" : "Crear Escena"), class: "px-4 py-2 border border-transparent
+  rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark cursor-pointer" %>
+</div>
 <% end %>

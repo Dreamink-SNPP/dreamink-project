@@ -1,74 +1,67 @@
-<%# Sticky project navigation for quick access to all sections %>
-<% if local_assigns[:project].present? %>
-  <div class="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Project info header (mobile collapsible, always visible on desktop) -->
-      <div class="py-3 border-b border-gray-100">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2 min-w-0 flex-1">
-            <span class="text-lg shrink-0">🎬</span>
-            <div class="min-w-0 flex-1">
-              <h2 class="text-sm font-semibold text-gray-900 truncate">
-                <%= project.title %>
-              </h2>
-              <% if project.genre.present? %>
-                <p class="text-xs text-gray-500"><%= project.genre %></p>
-              <% end %>
-            </div>
+<%# Sticky project navigation for quick access to all sections %> <% if local_assigns[:project].present? %>
+<div class="sticky top-16 z-30 border-b border-gray-200 bg-white shadow-sm">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Project info header (mobile collapsible, always visible on desktop) -->
+    <div class="border-b border-gray-100 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex min-w-0 flex-1 items-center gap-2">
+          <span class="shrink-0 text-lg">🎬</span>
+          <div class="min-w-0 flex-1">
+            <h2 class="truncate text-sm font-semibold text-gray-900"><%= project.title %></h2>
+            <% if project.genre.present? %>
+            <p class="text-xs text-gray-500"><%= project.genre %></p>
+            <% end %>
           </div>
-          <%= link_to project_path(project),
-                      class: "shrink-0 text-xs text-primary hover:text-secondary-dark font-medium",
-                      title: "Ver tratamiento completo" do %>
-            Tratamiento →
-          <% end %>
         </div>
+        <%= link_to project_path(project), class: "shrink-0 text-xs text-primary hover:text-secondary-dark font-medium",
+        title: "Ver tratamiento completo" do %> Tratamiento → <% end %>
       </div>
-
-      <!-- Section navigation tabs -->
-      <nav class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0" aria-label="Project sections">
-        <div class="flex space-x-4 sm:space-x-6 min-w-max py-3">
-          <%
-            # Helper to check if we're in the characters section
-            is_characters_section = controller_name == 'characters'
-            is_locations_section = controller_name == 'locations'
-            is_ideas_section = controller_name == 'ideas'
-            is_structure_section = current_page?(project_structure_path(project))
-          %>
-
-          <%= link_to project_characters_path(project),
-                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_characters_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">👤</span>
-            <span>Personajes</span>
-            <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_characters_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
-              <%= project.characters.count %>
-            </span>
-          <% end %>
-
-          <%= link_to project_locations_path(project),
-                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_locations_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">📍</span>
-            <span>Locaciones</span>
-            <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_locations_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
-              <%= project.locations.count %>
-            </span>
-          <% end %>
-
-          <%= link_to project_ideas_path(project),
-                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_ideas_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">💡</span>
-            <span>Ideas</span>
-            <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_ideas_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
-              <%= project.ideas.count %>
-            </span>
-          <% end %>
-
-          <%= link_to project_structure_path(project),
-                      class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_structure_section ? 'bg-green-600 text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">🎬</span>
-            <span>Estructura</span>
-          <% end %>
-        </div>
-      </nav>
     </div>
+
+    <!-- Section navigation tabs -->
+    <nav class="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0" aria-label="Project sections">
+      <div class="flex min-w-max space-x-4 py-3 sm:space-x-6">
+        <% # Helper to check if we're in the characters section is_characters_section = controller_name == 'characters'
+        is_locations_section = controller_name == 'locations' is_ideas_section = controller_name == 'ideas'
+        is_structure_section = current_page?(project_structure_path(project)) %> <%= link_to
+        project_characters_path(project), class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm
+        font-medium transition #{is_characters_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100
+        hover:text-gray-900'}" do %>
+        <span class="text-base">👤</span>
+        <span>Personajes</span>
+        <span
+          class="<%= is_characters_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %> inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-medium"
+        >
+          <%= project.characters.count %>
+        </span>
+        <% end %> <%= link_to project_locations_path(project), class: "inline-flex items-center gap-2 px-3 py-2
+        rounded-md text-sm font-medium transition #{is_locations_section ? 'bg-primary text-white' : 'text-gray-600
+        hover:bg-gray-100 hover:text-gray-900'}" do %>
+        <span class="text-base">📍</span>
+        <span>Locaciones</span>
+        <span
+          class="<%= is_locations_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %> inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-medium"
+        >
+          <%= project.locations.count %>
+        </span>
+        <% end %> <%= link_to project_ideas_path(project), class: "inline-flex items-center gap-2 px-3 py-2 rounded-md
+        text-sm font-medium transition #{is_ideas_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100
+        hover:text-gray-900'}" do %>
+        <span class="text-base">💡</span>
+        <span>Ideas</span>
+        <span
+          class="<%= is_ideas_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %> inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-medium"
+        >
+          <%= project.ideas.count %>
+        </span>
+        <% end %> <%= link_to project_structure_path(project), class: "inline-flex items-center gap-2 px-3 py-2
+        rounded-md text-sm font-medium transition #{is_structure_section ? 'bg-green-600 text-white' : 'text-gray-600
+        hover:bg-gray-100 hover:text-gray-900'}" do %>
+        <span class="text-base">🎬</span>
+        <span>Estructura</span>
+        <% end %>
+      </div>
+    </nav>
   </div>
+</div>
 <% end %>
