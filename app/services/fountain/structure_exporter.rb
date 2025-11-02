@@ -129,7 +129,7 @@ module Fountain
       location_names = scene.locations.map(&:name).join("/")
 
       # Build heading parts
-      heading_parts = [int_ext, location_names].compact.join(". ")
+      heading_parts = [ int_ext, location_names ].compact.join(". ")
 
       # Add time of day if available
       if scene.time_of_day.present?
