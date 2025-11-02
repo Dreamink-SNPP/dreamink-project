@@ -1,4 +1,8 @@
 es:
+  sessions:
+    rate_limit: "Intenta de nuevo más tarde."
+    invalid_credentials: "Prueba con otro email o contraseña."
+
   activerecord:
     attributes:
       user:
