@@ -175,11 +175,26 @@
       </div>
     <% end %>
 
+    <!-- Divider -->
+    <div class="relative">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <span class="px-3 bg-gray-50 text-sm text-gray-500">Estructura Dramática</span>
+      </div>
+    </div>
+
     <!-- Resumen de Estructura -->
     <% if @project.acts.any? %>
       <div class="bg-white shadow rounded-lg p-6">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-900">Estructura</h2>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-semibold text-gray-900">Estructura</h2>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+              Vista Resumida
+            </span>
+          </div>
           <%= link_to project_structure_path(@project), class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
             Ver tablero completo →
           <% end %>
