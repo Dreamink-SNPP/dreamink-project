@@ -3,78 +3,81 @@
   <div class="mb-8">
     <!-- Título y acciones -->
     <div class="mb-6">
-      <div class="flex items-center space-x-3 mb-3">
-        <%= link_to projects_path, class: "text-gray-400 hover:text-gray-500 transition" do %>
+      <div class="flex items-center gap-2 sm:gap-3 mb-3 flex-wrap">
+        <%= link_to projects_path, class: "text-gray-400 hover:text-gray-500 transition shrink-0" do %>
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
         <% end %>
-        <h1 class="text-3xl font-bold text-gray-900">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 break-word min-w-0">
           <%= @project.title %>
         </h1>
         <% if @project.genre.present? %>
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800 shrink-0">
+          <span class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-primary-100 text-primary-800 shrink-0">
             <%= @project.genre %>
           </span>
         <% end %>
       </div>
-      <p class="ml-8 text-sm text-gray-500">
+      <p class="ml-0 sm:ml-8 text-sm text-gray-500">
         Última actualización: <%= time_ago_in_words(@project.updated_at) %>
       </p>
     </div>
 
     <!-- Menú de acciones -->
-    <div class="flex flex-col sm:flex-row gap-3 mb-6">
-      <%= link_to report_project_path(@project, format: :pdf),
-                  target: "_blank",
-                  class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-        </svg>
-        Generar PDF
-      <% end %>
-
-      <%= link_to fountain_export_project_path(@project),
-                  data: { turbo: false },
-                  class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
-        </svg>
-        Exportar Fountain
-      <% end %>
-
-      <%= link_to edit_project_path(@project), class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 mb-6">
+      <!-- Primary action: Edit -->
+      <%= link_to edit_project_path(@project), class: "inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs sm:text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition whitespace-nowrap" do %>
+        <svg class="-ml-0.5 sm:-ml-1 mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
         </svg>
         Editar
       <% end %>
 
-      <%= link_to project_structure_path(@project), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Secondary action: Structure -->
+      <%= link_to project_structure_path(@project), class: "inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs sm:text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition whitespace-nowrap" do %>
+        <svg class="-ml-0.5 sm:-ml-1 mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
         </svg>
         Estructura
       <% end %>
+
+      <!-- Utility actions: Export group -->
+      <%= link_to report_project_path(@project, format: :pdf),
+                  target: "_blank",
+                  class: "inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition whitespace-nowrap" do %>
+        <svg class="-ml-0.5 sm:-ml-1 mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </svg>
+        <span class="hidden sm:inline">Generar</span> PDF
+      <% end %>
+
+      <%= link_to fountain_export_project_path(@project),
+                  data: { turbo: false },
+                  class: "inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition whitespace-nowrap" do %>
+        <svg class="-ml-0.5 sm:-ml-1 mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+        </svg>
+        <span class="hidden sm:inline">Exportar</span> Fountain
+      <% end %>
     </div>
 
     <!-- Navegación de tabs -->
-    <div class="border-b border-gray-200 -mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto">
-      <nav class="-mb-px flex space-x-6 sm:space-x-8 min-w-max sm:min-w-0">
-        <a href="#tratamiento" class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+    <div class="border-b border-gray-200 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-x-visible">
+      <nav class="-mb-px flex space-x-3 sm:space-x-6 md:space-x-8 min-w-max sm:min-w-0">
+        <a href="#tratamiento" class="border-primary text-primary whitespace-nowrap py-3 sm:py-4 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm">
           Tratamiento
         </a>
-        <%= link_to project_characters_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition" do %>
+        <%= link_to project_characters_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-3 sm:py-4 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm transition" do %>
           Personajes
-          <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs"><%= @project.characters.count %></span>
+          <span class="ml-1 sm:ml-2 bg-gray-100 text-gray-900 py-0.5 px-1 sm:px-2.5 rounded-full text-xs"><%= @project.characters.count %></span>
         <% end %>
-        <%= link_to project_locations_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition" do %>
+        <%= link_to project_locations_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-3 sm:py-4 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm transition" do %>
           Locaciones
-          <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs"><%= @project.locations.count %></span>
+          <span class="ml-1 sm:ml-2 bg-gray-100 text-gray-900 py-0.5 px-1 sm:px-2.5 rounded-full text-xs"><%= @project.locations.count %></span>
         <% end %>
-        <%= link_to project_ideas_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition" do %>
+        <%= link_to project_ideas_path(@project), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-3 sm:py-4 px-0.5 sm:px-1 border-b-2 font-medium text-xs sm:text-sm transition" do %>
           Ideas
-          <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs"><%= @project.ideas.count %></span>
+          <span class="ml-1 sm:ml-2 bg-gray-100 text-gray-900 py-0.5 px-1 sm:px-2.5 rounded-full text-xs"><%= @project.ideas.count %></span>
         <% end %>
       </nav>
     </div>
@@ -159,11 +162,41 @@
       </div>
     <% end %>
 
+    <!-- Estado vacío si no hay información -->
+    <% if @project.tone.blank? && @project.logline.blank? && @project.idea.blank? && @project.storyline.blank? && @project.short_synopsis.blank? && @project.long_synopsis.blank? && @project.world.blank? && @project.themes.blank? && @project.characters_summary.blank? %>
+      <div class="text-center py-12 bg-white shadow rounded-lg">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">Sin información de
+          tratamiento</h3>
+        <p class="mt-1 text-sm text-gray-500">Empieza con un logline, idea o storyline para definir tu proyecto.</p>
+        <div class="mt-6">
+          <%= link_to "Agregar Información", edit_project_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Divider -->
+    <div class="relative">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <span class="px-3 bg-gray-50 text-sm text-gray-500">Estructura Dramática</span>
+      </div>
+    </div>
+
     <!-- Resumen de Estructura -->
     <% if @project.acts.any? %>
       <div class="bg-white shadow rounded-lg p-6">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-900">Estructura</h2>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-semibold text-gray-900">Estructura</h2>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+              Vista Resumida
+            </span>
+          </div>
           <%= link_to project_structure_path(@project), class: "text-primary hover:text-primary-900 text-sm font-medium" do %>
             Ver tablero completo →
           <% end %>
@@ -186,20 +219,22 @@
           <% end %>
         </div>
       </div>
-    <% end %>
-
-    <!-- Estado vacío si no hay información -->
-    <% if @project.logline.blank? && @project.idea.blank? && @project.storyline.blank? %>
-      <div class="text-center py-12 bg-white shadow rounded-lg">
-        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900">Sin información de
-          tratamiento</h3>
-        <p class="mt-1 text-sm text-gray-500">Comienza agregando información
-          sobre tu proyecto.</p>
-        <div class="mt-6">
-          <%= link_to "Editar Proyecto", edit_project_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" %>
+    <% else %>
+      <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-8">
+        <div class="text-center">
+          <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+          </svg>
+          <h3 class="mt-3 text-sm font-medium text-gray-900">Sin estructura dramática</h3>
+          <p class="mt-2 text-sm text-gray-500">Organiza tu narrativa creando actos, secuencias y escenas.</p>
+          <div class="mt-4">
+            <%= link_to project_structure_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition" do %>
+              <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              Ir a Estructura
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>
