@@ -337,5 +337,52 @@ module Fountain
       assert author_pos < character_pos
       assert character_pos < delimiter_pos
     end
+
+    test "should include genre in title page when present" do
+      @project.update!(genre: "Science Fiction")
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "Genre: Science Fiction"
+    end
+
+    test "should not include genre when blank" do
+      @project.update!(genre: nil)
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_not_includes fountain_content, "Genre:"
+    end
+
+    test "should place genre after draft date and before characters" do
+      @project.update!(genre: "Drama")
+      @project.characters.create!(name: "Hero")
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      draft_date_pos = fountain_content.index("Draft date:")
+      genre_pos = fountain_content.index("Genre: Drama")
+      character_pos = fountain_content.index("Character: Hero")
+
+      assert draft_date_pos < genre_pos
+      assert genre_pos < character_pos
+    end
+
+    test "should place genre after draft date when no characters" do
+      @project.update!(genre: "Thriller")
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      draft_date_pos = fountain_content.index("Draft date:")
+      genre_pos = fountain_content.index("Genre: Thriller")
+      delimiter_pos = fountain_content.index("===")
+
+      assert draft_date_pos < genre_pos
+      assert genre_pos < delimiter_pos
+    end
   end
 end
