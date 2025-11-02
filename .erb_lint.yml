@@ -35,7 +35,6 @@ linters:
     enabled: true
     only:
       - Layout/TrailingWhitespace
-      - Layout/InitialIndentation
 
   # Detect self-closing tags
   SelfClosingTag:

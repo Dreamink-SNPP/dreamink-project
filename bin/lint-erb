@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "📝 Linting ERB templates..."
+echo ""
+echo "Running ERB Lint to check template quality..."
+npm run lint:erb
+
+echo ""
+echo "✅ ERB template linting passed!"

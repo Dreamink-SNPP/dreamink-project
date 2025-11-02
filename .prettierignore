@@ -1,5 +1,0 @@
-# Prettier ignore file
-# Files with complex ERB syntax that Prettier cannot parse
-
-# Scene item has multi-line ERB tags that confuse the HTML parser
-app/views/structures/_scene_item.html.erb

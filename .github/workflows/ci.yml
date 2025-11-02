@@ -47,7 +47,7 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
-  lint_tailwind:
+  lint_erb:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -67,8 +67,8 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: Lint Tailwind CSS classes and ERB templates
-        run: bin/lint-tailwind
+      - name: Lint ERB templates
+        run: bin/lint-erb
 
   test:
     runs-on: ubuntu-latest
