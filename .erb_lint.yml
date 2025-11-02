@@ -6,8 +6,9 @@ glob: "**/*.html.erb"
 
 linters:
   # Enforce proper HTML structure
+  # Note: ClosingErbTagIndent has a buggy autocorrect that can break Ruby code
   ClosingErbTagIndent:
-    enabled: true
+    enabled: false
 
   # Detect deprecated HTML tags
   DeprecatedClasses:
