@@ -1,0 +1,55 @@
+---
+# ERB Lint configuration for Rails + Tailwind CSS
+# See: https://github.com/Shopify/erb-lint
+
+glob: "**/*.html.erb"
+
+linters:
+  # Enforce proper HTML structure
+  ClosingErbTagIndent:
+    enabled: true
+
+  # Detect deprecated HTML tags
+  DeprecatedClasses:
+    enabled: true
+    addendum: "See Tailwind CSS documentation for migration guide"
+
+  # Ensure ERB tags are properly formatted
+  ErbSafety:
+    enabled: false  # Disabled to avoid configuration complexity
+
+  # Enforce no JavaScript in onclick/etc attributes
+  NoJavascriptTagHelper:
+    enabled: true
+
+  # Require alternative text for images
+  RequireInputAutocomplete:
+    enabled: false
+
+  # Detect hardcoded strings that should be internationalized
+  RequireScriptNonce:
+    enabled: false
+
+  # RuboCop integration for Ruby code in ERB
+  Rubocop:
+    enabled: true
+    only:
+      - Layout/TrailingWhitespace
+      - Layout/InitialIndentation
+
+  # Detect self-closing tags
+  SelfClosingTag:
+    enabled: true
+
+  # Enforce proper indentation
+  SpaceIndentation:
+    enabled: false
+
+  # Detect trailing whitespace
+  TrailingWhitespace:
+    enabled: true
+
+  # Enforce final newline
+  FinalNewline:
+    enabled: true
+    present: true
