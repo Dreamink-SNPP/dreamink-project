@@ -66,7 +66,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     clear_authentication
 
     get projects_path
-    assert_redirected_to new_session_path
+    assert_redirected_to login_path
   end
 
   test "should not access other user's project" do

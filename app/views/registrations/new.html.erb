@@ -15,7 +15,7 @@
 
     <!-- Formulario de registro -->
     <div class="mt-8 bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
-      <%= form_with model: @user, url: registration_path, class: "space-y-6" do |form| %>
+      <%= form_with model: @user, url: register_path, class: "space-y-6" do |form| %>
         <!-- Errores -->
         <% if @user.errors.any? %>
           <div class="rounded-md bg-red-50 p-4 border border-red-200">
@@ -91,7 +91,7 @@
         <div class="text-center">
           <p class="text-sm text-gray-600">
             ¿Ya tenés una cuenta?
-            <%= link_to "Iniciar sesión", new_session_path, class: "font-medium text-primary hover:text-primary" %>
+            <%= link_to "Iniciar sesión", login_path, class: "font-medium text-primary hover:text-primary" %>
           </p>
         </div>
       <% end %>

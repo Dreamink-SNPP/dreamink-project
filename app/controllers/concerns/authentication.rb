@@ -47,7 +47,7 @@ module Authentication
 
   def request_authentication
     session[:return_to_after_authenticating] = request.url
-    redirect_to new_session_path, alert: "Debes iniciar sesión para continuar"
+    redirect_to login_path, alert: "Debes iniciar sesión para continuar"
   end
 
   def after_authentication_url

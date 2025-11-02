@@ -1,8 +1,20 @@
 Rails.application.routes.draw do
   # Authentication (Rails 8)
-  resource :session, only: [ :new, :create, :destroy ]
-  resource :registration, only: [ :new, :create ]
-  resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
+  # Session routes
+  get "/login", to: "sessions#new", as: :login
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy", as: :logout
+
+  # Registration routes
+  get "/register", to: "registrations#new", as: :register
+  post "/register", to: "registrations#create"
+
+  # Password reset routes
+  get "/forgot-password", to: "passwords#new", as: :forgot_password
+  post "/forgot-password", to: "passwords#create"
+  get "/reset-password/:token", to: "passwords#edit", as: :reset_password
+  patch "/reset-password/:token", to: "passwords#update"
+  put "/reset-password/:token", to: "passwords#update"
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
