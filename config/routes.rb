@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :projects do
     member do
       get :report
+      get :fountain_export
     end
 
     # Nested resources inside a project
