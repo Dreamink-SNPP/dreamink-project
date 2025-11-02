@@ -16,6 +16,15 @@ module Fountain
       output << "Credit: written by"
       output << "Author: #{project.user&.email || 'Unknown'}"
       output << "Draft date: #{Date.today.strftime('%m/%d/%Y')}"
+
+      # Add character list if available
+      characters = project.characters.order(:name)
+      if characters.any?
+        characters.each do |character|
+          output << "Character: #{character.name}"
+        end
+      end
+
       output << ""
       output << "==="
       output << ""
