@@ -384,5 +384,188 @@ module Fountain
       assert draft_date_pos < genre_pos
       assert genre_pos < delimiter_pos
     end
+
+    test "should add location description as note on first appearance" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(
+        name: "Coffee Shop",
+        location_type: "interior",
+        description: "A cozy neighborhood spot with vintage furniture and exposed brick walls"
+      )
+      scene = sequence.scenes.create!(
+        title: "First Scene",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "[[Coffee Shop: A cozy neighborhood spot with vintage furniture and exposed brick walls]]"
+    end
+
+    test "should not add location note on subsequent appearances" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(
+        name: "Coffee Shop",
+        location_type: "interior",
+        description: "A cozy spot"
+      )
+
+      # First scene with location
+      scene1 = sequence.scenes.create!(
+        title: "First Visit",
+        description: "First time here",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene1.locations << location
+
+      # Second scene with same location
+      scene2 = sequence.scenes.create!(
+        title: "Second Visit",
+        description: "Back again",
+        project: @project,
+        act: act,
+        position: 2
+      )
+      scene2.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      # Note should appear only once
+      assert_equal 1, fountain_content.scan(/\[\[Coffee Shop:/).count
+    end
+
+    test "should add notes for multiple locations on first appearance" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location1 = @project.locations.create!(
+        name: "Apartment",
+        location_type: "interior",
+        description: "A modern loft with high ceilings"
+      )
+      location2 = @project.locations.create!(
+        name: "Street",
+        location_type: "exterior",
+        description: "Busy downtown street corner"
+      )
+      scene = sequence.scenes.create!(
+        title: "Mixed Scene",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location1
+      scene.locations << location2
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_includes fountain_content, "[[Apartment: A modern loft with high ceilings]]"
+      assert_includes fountain_content, "[[Street: Busy downtown street corner]]"
+    end
+
+    test "should not add note for location without description" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(
+        name: "Generic Room",
+        location_type: "interior",
+        description: nil
+      )
+      scene = sequence.scenes.create!(
+        title: "Scene",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      assert_not_includes fountain_content, "[[Generic Room:"
+      assert_not_includes fountain_content, "[["
+    end
+
+    test "should place location note after scene heading and before description" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence = act.sequences.create!(title: "Opening", project: @project, position: 1)
+      location = @project.locations.create!(
+        name: "Library",
+        location_type: "interior",
+        description: "Old dusty library"
+      )
+      scene = sequence.scenes.create!(
+        title: "Research Scene",
+        description: "The protagonist searches for clues",
+        time_of_day: "NIGHT",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      scene_heading_pos = fountain_content.index("INT. Library - NIGHT")
+      note_pos = fountain_content.index("[[Library: Old dusty library]]")
+      description_pos = fountain_content.index("= The protagonist searches for clues")
+
+      assert scene_heading_pos < note_pos
+      assert note_pos < description_pos
+    end
+
+    test "should handle location appearing in different scenes across sequences" do
+      act = @project.acts.create!(title: "Act One", position: 1)
+      sequence1 = act.sequences.create!(title: "Sequence A", project: @project, position: 1)
+      sequence2 = act.sequences.create!(title: "Sequence B", project: @project, position: 2)
+
+      location = @project.locations.create!(
+        name: "Home",
+        location_type: "interior",
+        description: "Cozy home"
+      )
+
+      # First appearance in sequence 1
+      scene1 = sequence1.scenes.create!(
+        title: "Morning at Home",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene1.locations << location
+
+      # Second appearance in sequence 2
+      scene2 = sequence2.scenes.create!(
+        title: "Evening at Home",
+        project: @project,
+        act: act,
+        position: 1
+      )
+      scene2.locations << location
+
+      exporter = Fountain::StructureExporter.new(@project)
+      fountain_content = exporter.generate
+
+      # Note should appear only once (in first sequence)
+      assert_equal 1, fountain_content.scan(/\[\[Home:/).count
+
+      # Should appear in sequence A section
+      seq_a_pos = fountain_content.index("## Sequence A")
+      note_pos = fountain_content.index("[[Home: Cozy home]]")
+      seq_b_pos = fountain_content.index("## Sequence B")
+
+      assert seq_a_pos < note_pos
+      assert note_pos < seq_b_pos
+    end
   end
 end
