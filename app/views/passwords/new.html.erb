@@ -1,8 +1,61 @@
-<h1>Forgot your password?</h1>
+<div class="min-h-screen flex items-center justify-center bg-gradient-auth py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Logo y título -->
+    <div>
+      <div class="flex justify-center">
+        <span class="text-6xl">🎬</span>
+      </div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        ¿Olvidaste tu contraseña?
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Ingresá tu email y te enviaremos instrucciones para recuperarla
+      </p>
+    </div>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+    <!-- Formulario de recuperación -->
+    <div class="mt-8 bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
+      <%= form_with url: forgot_password_path, class: "space-y-6" do |form| %>
+        <!-- Email -->
+        <div>
+          <%= form.label :email_address, "Email", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= form.email_field :email_address,
+                                 required: true,
+                                 autofocus: true,
+                                 autocomplete: "username",
+                                 value: params[:email_address],
+                                 class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm",
+                                 placeholder: "tu@email.com" %>
+          </div>
+        </div>
 
-<%= form_with url: forgot_password_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.submit "Email reset instructions" %>
-<% end %>
+        <!-- Submit -->
+        <div>
+          <%= form.submit "Enviar instrucciones",
+                          class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150 ease-in-out cursor-pointer" %>
+        </div>
+
+        <!-- Links de navegación -->
+        <div class="flex items-center justify-between text-sm">
+          <div>
+            <%= link_to "← Volver al inicio de sesión", login_path, class: "font-medium text-primary hover:text-primary" %>
+          </div>
+        </div>
+
+        <!-- Link a Registro -->
+        <div class="text-center border-t border-gray-200 pt-4">
+          <p class="text-sm text-gray-600">
+            ¿No tenés una cuenta?
+            <%= link_to "Crear cuenta", register_path, class: "font-medium text-primary hover:text-primary" %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Footer -->
+    <p class="mt-2 text-center text-sm text-gray-600">
+      Proyecto de código abierto con fines educativos
+    </p>
+  </div>
+</div>
