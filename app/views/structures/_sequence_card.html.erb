@@ -1,6 +1,6 @@
 <!-- Tarjeta de Secuencia -->
 <div id="sequence_<%= sequence.id %>"
-     class="sequence-card bg-gray-50 rounded-lg border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+     class="sequence-card bg-gray-50 rounded-lg border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow w-full lg:w-72 lg:shrink-0 lg:flex lg:flex-col lg:h-[calc(100vh-400px)]"
      data-controller="collapsible"
      data-collapsible-storage-key-value="sequence">
 
@@ -91,7 +91,7 @@
   </div>
 
   <!-- Lista de Escenas (colapsable) -->
-  <div id="scenes-<%= sequence.id %>" class="hidden">
+  <div id="scenes-<%= sequence.id %>" class="hidden lg:flex-1 lg:flex lg:flex-col lg:overflow-hidden">
     <!-- Header de Escenas -->
     <div class="px-3 py-2 bg-gray-100 border-t border-gray-200">
       <h5 class="text-xs font-semibold text-gray-600 uppercase tracking-wide">
@@ -100,7 +100,7 @@
     </div>
 
     <div id="sequence_<%= sequence.id %>_scenes"
-         class="p-2 space-y-2 min-h-[100px]"
+         class="p-2 space-y-2 min-h-[100px] lg:flex-1 lg:overflow-y-auto"
          data-controller="sortable"
          data-sortable-url-value="<%= project_reorder_structure_path(@project) %>"
          data-sortable-type-value="scene"
