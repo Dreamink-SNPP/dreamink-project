@@ -1,6 +1,6 @@
 <!-- Columna del Acto -->
 <div id="act_<%= act.id %>"
-     class="act-column shrink-0 w-80 bg-white rounded-lg shadow-sm"
+     class="act-column shrink-0 w-80 lg:w-auto lg:min-w-[600px] bg-white rounded-lg shadow-sm"
      data-sortable-id="<%= act.id %>">
 
   <!-- Header del Acto -->
@@ -82,7 +82,13 @@
 
   <!-- Lista de Secuencias -->
   <div id="act_<%= act.id %>_sequences"
-       class="p-4 space-y-3 min-h-[150px] max-h-[calc(100vh-350px)] overflow-y-auto">
+       class="p-4 space-y-3 lg:space-y-0 lg:space-x-3 lg:flex lg:items-start min-h-[150px] max-h-[calc(100vh-350px)] overflow-y-auto lg:overflow-y-hidden lg:overflow-x-auto"
+       data-controller="sortable"
+       data-sortable-url-value="<%= project_reorder_structure_path(project) %>"
+       data-sortable-type-value="sequence"
+       data-sortable-group-value="sequences"
+       data-sortable-parent-id-value="<%= act.id %>"
+       data-sortable-parent-id="<%= act.id %>">
 
       <% act.sequences.each do |sequence| %>
         <%= render "structures/sequence_card", sequence: sequence, project: project %>
