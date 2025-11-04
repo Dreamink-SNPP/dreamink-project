@@ -200,6 +200,26 @@
 }
 
 /* ========================================
+   TAB CARD BUTTONS
+   ======================================== */
+
+.tab-card-button {
+    @apply border-gray-200 text-gray-600;
+}
+
+.tab-card-button:hover {
+    @apply border-gray-300 text-gray-800;
+}
+
+.tab-card-button.active {
+    @apply border-primary bg-primary-50 text-primary shadow-md;
+}
+
+.tab-card-button.active span:first-of-type {
+    @apply drop-shadow-sm;
+}
+
+/* ========================================
    ACCESIBILIDAD
    ======================================== */
 
