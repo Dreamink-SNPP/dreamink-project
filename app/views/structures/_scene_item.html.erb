@@ -24,7 +24,7 @@
         <div class="mt-1 flex flex-wrap gap-1">
           <% scene.locations.first(2).each do |location| %>
             <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-xs bg-gray-100 text-gray-600">
-              <%= heroicon(location.interior? ? "home" : "globe-americas", size: "2.5", class: location.interior? ? "text-blue-600" : "text-green-600") %>
+              <%= heroicon(location.interior? ? "home" : "globe-americas", class: "h-2 w-2 #{location.interior? ? 'text-blue-600' : 'text-green-600'}") %>
               <%= location.name.truncate(15) %>
             </span>
           <% end %>
