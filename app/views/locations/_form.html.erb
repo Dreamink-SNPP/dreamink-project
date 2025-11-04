@@ -20,8 +20,9 @@
         <div class="flex items-center">
           <%= form.radio_button :location_type, "interior",
                                 class: "h-4 w-4 text-primary border-gray-300 focus:ring-primary" %>
-          <%= form.label :location_type_interior, class: "ml-3 block text-sm font-medium text-gray-700" do %>
-            🏠 Interior
+          <%= form.label :location_type_interior, class: "ml-3 flex items-center gap-2 text-sm font-medium text-gray-700" do %>
+            <%= heroicon "home", size: "5", class: "text-blue-600" %>
+            <span>Interior</span>
             <span class="text-gray-500 font-normal">- Espacios cerrados (casas, oficinas, etc.)</span>
           <% end %>
         </div>
@@ -29,8 +30,9 @@
         <div class="flex items-center">
           <%= form.radio_button :location_type, "exterior",
                                 class: "h-4 w-4 text-primary border-gray-300 focus:ring-primary" %>
-          <%= form.label :location_type_exterior, class: "ml-3 block text-sm font-medium text-gray-700" do %>
-            🌳 Exterior
+          <%= form.label :location_type_exterior, class: "ml-3 flex items-center gap-2 text-sm font-medium text-gray-700" do %>
+            <%= heroicon "globe-americas", size: "5", class: "text-green-600" %>
+            <span>Exterior</span>
             <span class="text-gray-500 font-normal">- Espacios abiertos (calles, parques, etc.)</span>
           <% end %>
         </div>
