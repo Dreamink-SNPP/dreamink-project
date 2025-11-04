@@ -9,9 +9,7 @@
         <!-- Título y breadcrumb -->
         <div class="flex items-center space-x-3 mb-4 sm:mb-0 min-w-0">
           <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 shrink-0" do %>
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
+            <%= heroicon "chevron-left", size: "5" %>
           <% end %>
           <div class="min-w-0">
             <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
@@ -28,18 +26,14 @@
           <%= link_to fountain_export_project_path(@project),
                       data: { turbo: false },
                       class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shrink-0" do %>
-            <svg class="-ml-1 mr-2 h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
-            </svg>
+            <%= heroicon "arrow-down-tray", class: "-ml-1 mr-2 h-5 w-5 text-blue-600" %>
             Exportar Fountain
           <% end %>
 
           <button type="button"
                   data-action="click->structure#openNewActModal"
                   class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shrink-0">
-            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
+            <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
             Nuevo Acto
           </button>
         </div>
@@ -55,13 +49,13 @@
         <div class="mt-4 flex space-x-2" data-controller="expand-collapse">
           <button type="button"
                   data-action="click->expand-collapse#expandAll"
-                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition">
-            📖 Expandir Todo
+                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition inline-flex items-center gap-1">
+            <%= heroicon "chevron-down", size: "4", class: "inline" %> Expandir Todo
           </button>
           <button type="button"
                   data-action="click->expand-collapse#collapseAll"
-                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition">
-            📕 Colapsar Todo
+                  class="text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 text-gray-700 transition inline-flex items-center gap-1">
+            <%= heroicon "chevron-up", size: "4", class: "inline" %> Colapsar Todo
           </button>
         </div>
       <% end %>
@@ -79,18 +73,14 @@
     <% else %>
       <!-- Estado vacío -->
       <div class="text-center py-20 bg-white rounded-lg shadow">
-        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
+        <%= heroicon "document-text", size: "12", class: "mx-auto text-gray-400" %>
         <h3 class="mt-2 text-sm font-medium text-gray-900">Sin estructura</h3>
         <p class="mt-1 text-sm text-gray-500">Comienza creando el primer acto de tu historia.</p>
         <div class="mt-6">
           <button type="button"
                   data-action="click->structure#openNewActModal"
                   class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark">
-            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
+            <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
             Crear Primer Acto
           </button>
         </div>
@@ -116,9 +106,7 @@
             <button type="button"
                     data-action="click->structure#closeModal"
                     class="bg-white rounded-md text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
+              <%= heroicon "x-mark", size: "6" %>
             </button>
           </div>
           <div id="new_act_modal_content" data-modal-content>
@@ -143,9 +131,7 @@
             <button type="button"
                     data-action="click->structure#closeModal"
                     class="bg-white rounded-md text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
+              <%= heroicon "x-mark", size: "6" %>
             </button>
           </div>
           <div id="edit_act_modal_content" data-modal-content>
@@ -170,9 +156,7 @@
             <button type="button"
                     data-action="click->structure#closeModal"
                     class="bg-white rounded-md text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
+              <%= heroicon "x-mark", size: "6" %>
             </button>
           </div>
           <div id="new_sequence_modal_content" data-modal-content>
@@ -197,9 +181,7 @@
             <button type="button"
                     data-action="click->structure#closeModal"
                     class="bg-white rounded-md text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
+              <%= heroicon "x-mark", size: "6" %>
             </button>
           </div>
           <div id="edit_sequence_modal_content" data-modal-content>
@@ -224,9 +206,7 @@
             <button type="button"
                     data-action="click->structure#closeModal"
                     class="bg-white rounded-md text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
+              <%= heroicon "x-mark", size: "6" %>
             </button>
           </div>
           <div id="new_scene_modal_content" data-modal-content>
@@ -251,9 +231,7 @@
             <button type="button"
                     data-action="click->structure#closeModal"
                     class="bg-white rounded-md text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
+              <%= heroicon "x-mark", size: "6" %>
             </button>
           </div>
           <div id="edit_scene_modal_content" data-modal-content>

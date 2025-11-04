@@ -7,9 +7,7 @@
       <!-- Título y navegación -->
       <div class="flex items-center space-x-3 mb-4 sm:mb-0">
         <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
+          <%= heroicon "chevron-left", size: "5" %>
         <% end %>
         <div>
           <h1 class="text-3xl font-bold text-gray-900">
@@ -26,17 +24,13 @@
         <%= link_to collection_report_project_characters_path(@project, format: :pdf),
                     target: "_blank",
                     class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-          </svg>
+          <%= heroicon "document-text", class: "-ml-1 mr-2 h-5 w-5 text-red-600" %>
           Reporte PDF Completo
         <% end %>
 
         <%= link_to new_project_character_path(@project),
                     class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
+          <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
           Nuevo Personaje
         <% end %>
       </div>
@@ -52,7 +46,7 @@
             <!-- Avatar y nombre -->
             <div class="flex items-center mb-4">
               <div class="shrink-0 h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
-                <span class="text-2xl">👤</span>
+                <%= heroicon "user", size: "8", class: "text-primary-600" %>
               </div>
               <div class="ml-4">
                 <h3 class="text-lg font-semibold text-gray-900">
@@ -65,21 +59,21 @@
             <div class="space-y-2 text-sm text-gray-600">
               <% if character.external_trait&.profession.present? %>
                 <div class="flex items-start">
-                  <span class="font-medium text-gray-700 mr-2">💼</span>
+                  <%= heroicon "briefcase", size: "5", class: "text-gray-700 mr-2 shrink-0" %>
                   <span><%= character.external_trait.profession %></span>
                 </div>
               <% end %>
 
               <% if character.internal_trait&.main_motivation.present? %>
                 <div class="flex items-start">
-                  <span class="font-medium text-gray-700 mr-2">🎯</span>
+                  <%= heroicon "check-circle", size: "5", class: "text-gray-700 mr-2 shrink-0" %>
                   <span class="line-clamp-2"><%= character.internal_trait.main_motivation %></span>
                 </div>
               <% end %>
 
               <% if character.external_trait&.general_appearance.present? %>
                 <div class="flex items-start">
-                  <span class="font-medium text-gray-700 mr-2">👁️</span>
+                  <%= heroicon "eye", size: "5", class: "text-gray-700 mr-2 shrink-0" %>
                   <span class="line-clamp-2"><%= character.external_trait.general_appearance %></span>
                 </div>
               <% end %>
@@ -105,17 +99,13 @@
   <% else %>
     <!-- Estado vacío -->
     <div class="text-center py-12 bg-white shadow rounded-lg">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-      </svg>
+      <%= heroicon "user-group", size: "12", class: "mx-auto text-gray-400" %>
       <h3 class="mt-2 text-sm font-medium text-gray-900">No hay personajes</h3>
       <p class="mt-1 text-sm text-gray-500">Comienza creando el primer personaje
         de tu historia.</p>
       <div class="mt-6">
         <%= link_to new_project_character_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
+          <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
           Crear Personaje
         <% end %>
       </div>

@@ -6,17 +6,15 @@
     <!-- Título y navegación -->
     <div class="flex items-center space-x-3 mb-6">
       <%= link_to project_locations_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
+        <%= heroicon "chevron-left", size: "5" %>
       <% end %>
       <div class="shrink-0 h-12 w-12 flex items-center justify-center">
         <% if @location.interior? %>
-          <span class="text-2xl">🏠</span>
+          <%= heroicon "home", size: "8", class: "text-green-600" %>
         <% elsif @location.exterior? %>
-          <span class="text-2xl">🌳</span>
+          <%= heroicon "globe-americas", size: "8", class: "text-blue-600" %>
         <% else %>
-          <span class="text-2xl">📍</span>
+          <%= heroicon "map-pin", size: "8", class: "text-primary-600" %>
         <% end %>
       </div>
       <div>
@@ -41,17 +39,13 @@
       <%= link_to report_project_location_path(@project, @location, format: :pdf),
                   target: "_blank",
                   class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-        </svg>
+        <%= heroicon "document-text", class: "-ml-1 mr-2 h-5 w-5 text-red-600" %>
         Generar Reporte
       <% end %>
 
       <%= link_to edit_project_location_path(@project, @location),
                   class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-        </svg>
+        <%= heroicon "pencil", class: "-ml-1 mr-2 h-5 w-5 text-gray-500" %>
         Editar
       <% end %>
 
@@ -59,9 +53,7 @@
                     method: :delete,
                     data: { turbo_confirm: "¿Estás seguro de eliminar esta locación?" },
                     class: "inline-flex items-center justify-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition" do %>
-        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-        </svg>
+        <%= heroicon "trash", class: "-ml-1 mr-2 h-5 w-5" %>
         Eliminar
       <% end %>
     </div>
@@ -103,9 +95,7 @@
                     › <%= scene.sequence.title %>
                   </p>
                 </div>
-                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
+                <%= heroicon "chevron-right", size: "5", class: "text-gray-400" %>
               </div>
             <% end %>
           </div>
@@ -113,9 +103,7 @@
       </div>
     <% else %>
       <div class="text-center py-8">
-        <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
-        </svg>
+        <%= heroicon "film", size: "10", class: "mx-auto text-gray-400" %>
         <p class="mt-2 text-sm text-gray-500">
           Esta locación aún no se usa en ninguna escena
         </p>
@@ -134,8 +122,6 @@
           data-action="click->scroll-to-top#scrollToTop"
           class="hidden fixed bottom-6 right-6 z-40 p-3 sm:p-4 bg-primary text-white rounded-full shadow-lg hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 opacity-0"
           aria-label="Scroll to top">
-    <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-    </svg>
+    <%= heroicon "arrow-up", size: "6", class: "sm:h-6 sm:w-6" %>
   </button>
 </div>

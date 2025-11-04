@@ -6,7 +6,9 @@
       <div class="py-3 border-b border-gray-100">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2 min-w-0 flex-1">
-            <span class="text-lg shrink-0">🎬</span>
+            <span class="shrink-0">
+              <%= heroicon "film", size: "5", class: "text-primary" %>
+            </span>
             <div class="min-w-0 flex-1">
               <h2 class="text-sm font-semibold text-gray-900 truncate">
                 <%= project.title %>
@@ -37,7 +39,7 @@
 
           <%= link_to project_characters_path(project),
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_characters_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">👤</span>
+            <%= heroicon "user", size: "5" %>
             <span>Personajes</span>
             <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_characters_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
               <%= project.characters.count %>
@@ -46,7 +48,7 @@
 
           <%= link_to project_locations_path(project),
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_locations_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">📍</span>
+            <%= heroicon "map-pin", size: "5" %>
             <span>Locaciones</span>
             <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_locations_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
               <%= project.locations.count %>
@@ -55,7 +57,7 @@
 
           <%= link_to project_ideas_path(project),
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_ideas_section ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">💡</span>
+            <%= heroicon "light-bulb", size: "5" %>
             <span>Ideas</span>
             <span class="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full text-xs font-medium <%= is_ideas_section ? 'bg-white text-primary' : 'bg-gray-200 text-gray-700' %>">
               <%= project.ideas.count %>
@@ -64,7 +66,7 @@
 
           <%= link_to project_structure_path(project),
                       class: "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition #{is_structure_section ? 'bg-green-600 text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" do %>
-            <span class="text-base">🎬</span>
+            <%= heroicon "film", size: "5" %>
             <span>Estructura</span>
           <% end %>
         </div>
