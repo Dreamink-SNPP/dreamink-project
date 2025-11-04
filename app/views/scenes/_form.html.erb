@@ -59,8 +59,9 @@
                                         :name do |b| %>
           <div class="flex items-center py-1">
             <%= b.check_box class: "h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" %>
-            <%= b.label class: "ml-2 text-sm text-gray-700" do %>
-              <%= b.object.interior? ? "🏠" : "🌳" %> <%= b.text %>
+            <%= b.label class: "ml-2 flex items-center gap-1 text-sm text-gray-700" do %>
+              <%= heroicon(b.object.interior? ? "home" : "globe-americas", size: "4", class: b.object.interior? ? "text-blue-600" : "text-green-600") %>
+              <%= b.text %>
             <% end %>
           </div>
         <% end %>

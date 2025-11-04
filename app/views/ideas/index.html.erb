@@ -7,9 +7,7 @@
       <!-- Título y navegación -->
       <div class="flex items-center space-x-3 mb-4 sm:mb-0">
         <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
+          <%= heroicon "chevron-left", size: "5" %>
         <% end %>
         <div>
           <h1 class="text-3xl font-bold text-gray-900">
@@ -26,16 +24,12 @@
         <%= link_to collection_report_project_ideas_path(@project, format: :pdf),
                     target: "_blank",
                     class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-          </svg>
+          <%= heroicon "document-text", class: "-ml-1 mr-2 h-5 w-5 text-red-600" %>
           Reporte PDF Completo
         <% end %>
 
         <%= link_to new_project_idea_path(@project), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
+          <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
           Nueva Idea
         <% end %>
       </div>
@@ -82,9 +76,7 @@
           Filtrando por: <span class="font-semibold">#<%= params[:tag] %></span>
         </span>
         <%= link_to project_ideas_path(@project), class: "ml-2 text-primary hover:text-primary-900" do %>
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
+          <%= heroicon "x-mark", size: "4" %>
         <% end %>
       </div>
     <% end %>
@@ -99,8 +91,9 @@
             <!-- Header con fecha -->
             <div class="flex items-start justify-between mb-3">
               <div class="flex-1">
-                <h3 class="text-lg font-semibold text-gray-900 mb-1">
-                  💡 <%= idea.title %>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
+                  <%= heroicon "light-bulb", size: "5", class: "text-yellow-500 shrink-0" %>
+                  <%= idea.title %>
                 </h3>
                 <p class="text-xs text-gray-500">
                   <%= time_ago_in_words(idea.created_at) %> •
@@ -114,17 +107,13 @@
                             target: "_blank",
                             class: "text-red-600 hover:text-red-700 p-1 transition",
                             title: "Generar PDF" do %>
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                  </svg>
+                  <%= heroicon "document-text", size: "5" %>
                 <% end %>
 
                 <%= link_to edit_project_idea_path(@project, idea),
                             class: "text-primary hover:text-secondary-dark p-1 transition",
                             title: "Editar" do %>
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                  </svg>
+                  <%= heroicon "pencil", size: "5" %>
                 <% end %>
 
                 <%= button_to project_idea_path(@project, idea),
@@ -132,9 +121,7 @@
                               data: { turbo_confirm: "¿Estás seguro de eliminar esta idea?" },
                               class: "text-red-600 hover:text-red-700 p-1 transition",
                               title: "Eliminar" do %>
-                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                  </svg>
+                  <%= heroicon "trash", size: "5" %>
                 <% end %>
               </div>
             </div>
@@ -164,9 +151,7 @@
   <% else %>
     <!-- Estado vacío -->
     <div class="text-center py-12 bg-white shadow rounded-lg">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-      </svg>
+      <%= heroicon "light-bulb", size: "12", class: "mx-auto text-gray-400" %>
       <h3 class="mt-2 text-sm font-medium text-gray-900">
         <%= params[:q].present? || params[:tag].present? ? "No se encontraron ideas" : "No hay ideas" %>
       </h3>
@@ -176,9 +161,7 @@
       <% if params[:q].blank? && params[:tag].blank? %>
         <div class="mt-6">
           <%= link_to new_project_idea_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
+            <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
             Crear Idea
           <% end %>
         </div>
@@ -192,8 +175,6 @@
           data-action="click->scroll-to-top#scrollToTop"
           class="hidden fixed bottom-6 right-6 z-40 p-3 sm:p-4 bg-primary text-white rounded-full shadow-lg hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 opacity-0"
           aria-label="Scroll to top">
-    <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-    </svg>
+    <%= heroicon "arrow-up", class: "h-5 w-5 sm:h-6 sm:w-6" %>
   </button>
 </div>

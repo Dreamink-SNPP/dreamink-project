@@ -7,9 +7,7 @@
       <!-- Título y navegación -->
       <div class="flex items-center space-x-3 mb-4 sm:mb-0">
         <%= link_to project_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
+          <%= heroicon "chevron-left", size: "5" %>
         <% end %>
         <div>
           <h1 class="text-3xl font-bold text-gray-900">
@@ -26,17 +24,13 @@
         <%= link_to collection_report_project_locations_path(@project, format: :pdf),
                     target: "_blank",
                     class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-          </svg>
+          <%= heroicon "document-text", class: "-ml-1 mr-2 h-5 w-5 text-red-600" %>
           Reporte PDF Completo
         <% end %>
 
         <%= link_to new_project_location_path(@project),
                     class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
+          <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
           Nueva Locación
         <% end %>
       </div>
@@ -45,18 +39,18 @@
     <!-- Filtros -->
     <div class="mt-6 flex flex-wrap gap-3">
       <%= link_to project_locations_path(@project),
-                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type].blank? ? 'border-primary text-secondary-dark bg-primary-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
-        📋 Todas (<%= @project.locations.count %>)
+                  class: "inline-flex items-center gap-1 px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type].blank? ? 'border-primary text-secondary-dark bg-primary-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+        <%= heroicon "clipboard", size: "5", class: "inline" %> Todas (<%= @project.locations.count %>)
       <% end %>
 
       <%= link_to project_locations_path(@project, type: 'interior'),
-                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] == 'interior' ? 'border-green-500 text-green-700 bg-green-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
-        🏠 Interiores (<%= @project.locations.interiors.count %>)
+                  class: "inline-flex items-center gap-1 px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] == 'interior' ? 'border-green-500 text-green-700 bg-green-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+        <%= heroicon "home", size: "5", class: "inline" %> Interiores (<%= @project.locations.interiors.count %>)
       <% end %>
 
       <%= link_to project_locations_path(@project, type: 'exterior'),
-                  class: "inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] == 'exterior' ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
-        🌳 Exteriores (<%= @project.locations.exteriors.count %>)
+                  class: "inline-flex items-center gap-1 px-3 py-2 border rounded-md text-sm font-medium transition #{params[:type] == 'exterior' ? 'border-blue-500 text-blue-700 bg-blue-50' : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}" do %>
+        <%= heroicon "globe-americas", size: "5", class: "inline" %> Exteriores (<%= @project.locations.exteriors.count %>)
       <% end %>
     </div>
   </div>
@@ -74,11 +68,11 @@
                     <!-- Icono según tipo -->
                     <div class="shrink-0 h-12 w-12 flex items-center justify-center">
                       <% if location.interior? %>
-                        <span class="text-2xl">🏠</span>
+                        <%= heroicon "home", size: "8", class: "text-green-600" %>
                       <% elsif location.exterior? %>
-                        <span class="text-2xl">🌳</span>
+                        <%= heroicon "globe-americas", size: "8", class: "text-blue-600" %>
                       <% else %>
-                        <span class="text-2xl">📍</span>
+                        <%= heroicon "map-pin", size: "8", class: "text-primary-600" %>
                       <% end %>
                     </div>
 
@@ -102,9 +96,7 @@
 
                       <!-- Cantidad de escenas -->
                       <div class="mt-2 flex items-center text-xs text-gray-500">
-                        <svg class="shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
-                        </svg>
+                        <%= heroicon "film", size: "4", class: "shrink-0 mr-1.5 text-gray-400" %>
                         Usada
                         en <%= pluralize(location.scenes.count, "escena") %>
                       </div>
@@ -112,9 +104,7 @@
                   </div>
 
                   <div class="ml-5 shrink-0">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
+                    <%= heroicon "chevron-right", size: "5", class: "text-gray-400" %>
                   </div>
                 </div>
               </div>
@@ -126,10 +116,7 @@
   <% else %>
     <!-- Estado vacío -->
     <div class="text-center py-12 bg-white shadow rounded-lg">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-      </svg>
+      <%= heroicon "map-pin", size: "12", class: "mx-auto text-gray-400" %>
       <h3 class="mt-2 text-sm font-medium text-gray-900">
         <%= params[:type].present? ? "No hay locaciones #{params[:type] == 'interior' ? 'interiores' : 'exteriores'}" : "No hay locaciones" %>
       </h3>
@@ -137,9 +124,7 @@
         donde se desarrolla tu historia.</p>
       <div class="mt-6">
         <%= link_to new_project_location_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
+          <%= heroicon "plus", class: "-ml-1 mr-2 h-5 w-5" %>
           Crear Locación
         <% end %>
       </div>

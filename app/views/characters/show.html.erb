@@ -7,12 +7,10 @@
       <!-- Título y navegación -->
       <div class="flex items-center space-x-3 mb-4 sm:mb-0">
         <%= link_to project_characters_path(@project), class: "text-gray-400 hover:text-gray-500 transition" do %>
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
+          <%= heroicon "chevron-left", size: "5" %>
         <% end %>
         <div class="shrink-0 h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center">
-          <span class="text-2xl">👤</span>
+          <%= heroicon "user", size: "8", class: "text-primary-600" %>
         </div>
         <div>
           <h1 class="text-3xl font-bold text-gray-900">
@@ -29,17 +27,13 @@
         <%= link_to report_project_character_path(@project, @character, format: :pdf),
                     target: "_blank",
                     class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-          </svg>
+          <%= heroicon "document-text", class: "-ml-1 mr-2 h-5 w-5 text-red-600" %>
           Generar Reporte
         <% end %>
 
         <%= link_to edit_project_character_path(@project, @character),
                     class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition" do %>
-          <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-          </svg>
+          <%= heroicon "pencil", class: "-ml-1 mr-2 h-5 w-5 text-gray-500" %>
           Editar
         <% end %>
       </div>
@@ -56,7 +50,7 @@
                 data-tabs-target="button"
                 data-tab-id="main"
                 class="tab-card-button active group relative flex items-center justify-center sm:justify-start gap-3 px-4 py-4 sm:py-5 rounded-lg border-2 transition-all duration-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-          <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-200">🎭</span>
+          <%= heroicon "sparkles", size: "10", class: "text-primary group-hover:scale-110 transition-transform duration-200" %>
           <span class="font-semibold text-sm sm:text-base text-center sm:text-left">Características<br class="hidden sm:inline">Principales</span>
         </button>
         <button type="button"
@@ -64,7 +58,7 @@
                 data-tabs-target="button"
                 data-tab-id="physical"
                 class="tab-card-button group relative flex items-center justify-center sm:justify-start gap-3 px-4 py-4 sm:py-5 rounded-lg border-2 transition-all duration-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-          <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-200">👁️</span>
+          <%= heroicon "eye", size: "10", class: "text-blue-600 group-hover:scale-110 transition-transform duration-200" %>
           <span class="font-semibold text-sm sm:text-base text-center sm:text-left">Características<br class="hidden sm:inline">Físicas</span>
         </button>
         <button type="button"
@@ -72,7 +66,7 @@
                 data-tabs-target="button"
                 data-tab-id="other"
                 class="tab-card-button group relative flex items-center justify-center sm:justify-start gap-3 px-4 py-4 sm:py-5 rounded-lg border-2 transition-all duration-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-          <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-200">⭐</span>
+          <%= heroicon "star", size: "10", class: "text-purple-600 group-hover:scale-110 transition-transform duration-200" %>
           <span class="font-semibold text-sm sm:text-base text-center sm:text-left">Otras<br class="hidden sm:inline">Características</span>
         </button>
       </nav>
@@ -85,29 +79,29 @@
         <% internal = @character.internal_trait %>
         <% if internal.present? %>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <%= render partial: "characters/trait_field", locals: { label: "🎯 Motivación Principal", value: internal.main_motivation } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💪 Habilidades", value: internal.skills } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🧠 Identidad", value: internal.identity } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💫 Sexualidad", value: internal.sexuality } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🙏 Religión", value: internal.religion } %>
-            <%= render partial: "characters/trait_field", locals: { label: "✨ Espiritualidad", value: internal.spirituality } %>
-            <%= render partial: "characters/trait_field", locals: { label: "⚖️ Ética", value: internal.ethics } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🧩 Programas Mentales", value: internal.mental_programs } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('check-circle', size: '5', class: 'inline')} Motivación Principal".html_safe, value: internal.main_motivation } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('bolt', size: '5', class: 'inline')} Habilidades".html_safe, value: internal.skills } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('academic-cap', size: '5', class: 'inline')} Identidad".html_safe, value: internal.identity } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('sparkles', size: '5', class: 'inline')} Sexualidad".html_safe, value: internal.sexuality } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('hand-raised', size: '5', class: 'inline')} Religión".html_safe, value: internal.religion } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('sparkles', size: '5', class: 'inline')} Espiritualidad".html_safe, value: internal.spirituality } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('shield-check', size: '5', class: 'inline')} Ética".html_safe, value: internal.ethics } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('puzzle-piece', size: '5', class: 'inline')} Programas Mentales".html_safe, value: internal.mental_programs } %>
           </div>
 
           <div class="pt-6 border-t border-gray-200 space-y-6">
-            <%= render partial: "characters/trait_field", locals: { label: "💭 Creencias", value: internal.beliefs, full_width: true } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💎 Valores y Prioridades", value: internal.values_priorities, full_width: true } %>
-            <%= render partial: "characters/trait_field", locals: { label: "👥 Relaciones de Amistad", value: internal.friendship_relations, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('chat-bubble-left', size: '5', class: 'inline')} Creencias".html_safe, value: internal.beliefs, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('star', size: '5', class: 'inline')} Valores y Prioridades".html_safe, value: internal.values_priorities, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('user-group', size: '5', class: 'inline')} Relaciones de Amistad".html_safe, value: internal.friendship_relations, full_width: true } %>
           </div>
 
           <div class="pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <%= render partial: "characters/trait_field", locals: { label: "💬 Focos de Conversación", value: internal.conversation_focus } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎭 Nivel de Autoconciencia", value: internal.self_awareness_level } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🌟 Héroes y Modelos", value: internal.heroes_models } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🏛️ Ideas Políticas", value: internal.political_ideas } %>
-            <%= render partial: "characters/trait_field", locals: { label: "👮 Relación con Autoridad", value: internal.authority_relationship } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🚬 Vicios", value: internal.vices } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('chat-bubble-left-right', size: '5', class: 'inline')} Focos de Conversación".html_safe, value: internal.conversation_focus } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('sparkles', size: '5', class: 'inline')} Nivel de Autoconciencia".html_safe, value: internal.self_awareness_level } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('star', size: '5', class: 'inline')} Héroes y Modelos".html_safe, value: internal.heroes_models } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('shield-check', size: '5', class: 'inline')} Ideas Políticas".html_safe, value: internal.political_ideas } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('shield-check', size: '5', class: 'inline')} Relación con Autoridad".html_safe, value: internal.authority_relationship } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('bolt', size: '5', class: 'inline')} Vicios".html_safe, value: internal.vices } %>
           </div>
         <% else %>
           <p class="text-gray-500 italic">No hay características principales definidas</p>
@@ -119,24 +113,24 @@
         <% external = @character.external_trait %>
         <% if external.present? %>
           <div class="space-y-6">
-            <%= render partial: "characters/trait_field", locals: { label: "👁️ Apariencia General", value: external.general_appearance, full_width: true } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎭 Apariencia Detallada", value: external.detailed_appearance, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('eye', size: '5', class: 'inline')} Apariencia General".html_safe, value: external.general_appearance, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('sparkles', size: '5', class: 'inline')} Apariencia Detallada".html_safe, value: external.detailed_appearance, full_width: true } %>
           </div>
 
           <div class="pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <%= render partial: "characters/trait_field", locals: { label: "🏥 Historial Médico", value: external.medical_history } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎓 Educación", value: external.education } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💼 Profesión", value: external.profession } %>
-            <%= render partial: "characters/trait_field", locals: { label: "⚖️ Situación Legal", value: external.legal_situation } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💰 Situación Económica", value: external.economic_situation } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💎 Posesiones Importantes", value: external.important_possessions } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🏠 Tipo de Residencia", value: external.residence_type } %>
-            <%= render partial: "characters/trait_field", locals: { label: "📍 Locación Habitual", value: external.usual_location } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🐾 Mascotas", value: external.pets } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('heart', size: '5', class: 'inline')} Historial Médico".html_safe, value: external.medical_history } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('academic-cap', size: '5', class: 'inline')} Educación".html_safe, value: external.education } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('briefcase', size: '5', class: 'inline')} Profesión".html_safe, value: external.profession } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('shield-check', size: '5', class: 'inline')} Situación Legal".html_safe, value: external.legal_situation } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('currency-dollar', size: '5', class: 'inline')} Situación Económica".html_safe, value: external.economic_situation } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('star', size: '5', class: 'inline')} Posesiones Importantes".html_safe, value: external.important_possessions } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('home', size: '5', class: 'inline')} Tipo de Residencia".html_safe, value: external.residence_type } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('map-pin', size: '5', class: 'inline')} Locación Habitual".html_safe, value: external.usual_location } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('heart', size: '5', class: 'inline')} Mascotas".html_safe, value: external.pets } %>
           </div>
 
           <div class="pt-6 border-t border-gray-200">
-            <%= render partial: "characters/trait_field", locals: { label: "👨‍👩‍👧‍👦 Estructura Familiar", value: external.family_structure, full_width: true } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('user-group', size: '5', class: 'inline')} Estructura Familiar".html_safe, value: external.family_structure, full_width: true } %>
           </div>
         <% else %>
           <p class="text-gray-500 italic">No hay características físicas definidas</p>
@@ -148,14 +142,14 @@
         <% internal = @character.internal_trait %>
         <% if internal.present? %>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <%= render partial: "characters/trait_field", locals: { label: "⏰ Administración del Tiempo", value: internal.time_management } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎨 Inclinaciones Artísticas", value: internal.artistic_inclinations } %>
-            <%= render partial: "characters/trait_field", locals: { label: "📅 Ubicación Temporal", value: internal.temporal_location } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🍽️ Preferencias Alimenticias", value: internal.food_preferences } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🔄 Hábitos", value: internal.habits } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎪 Peculiaridades", value: internal.peculiarities } %>
-            <%= render partial: "characters/trait_field", locals: { label: "🎮 Pasatiempos", value: internal.hobbies } %>
-            <%= render partial: "characters/trait_field", locals: { label: "💝 Actividades Caritativas", value: internal.charitable_activities } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('clock', size: '5', class: 'inline')} Administración del Tiempo".html_safe, value: internal.time_management } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('paint-brush', size: '5', class: 'inline')} Inclinaciones Artísticas".html_safe, value: internal.artistic_inclinations } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('calendar', size: '5', class: 'inline')} Ubicación Temporal".html_safe, value: internal.temporal_location } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('cake', size: '5', class: 'inline')} Preferencias Alimenticias".html_safe, value: internal.food_preferences } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('arrow-path', size: '5', class: 'inline')} Hábitos".html_safe, value: internal.habits } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('sparkles', size: '5', class: 'inline')} Peculiaridades".html_safe, value: internal.peculiarities } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('puzzle-piece', size: '5', class: 'inline')} Pasatiempos".html_safe, value: internal.hobbies } %>
+            <%= render partial: "characters/trait_field", locals: { label: "#{heroicon('heart', size: '5', class: 'inline')} Actividades Caritativas".html_safe, value: internal.charitable_activities } %>
           </div>
         <% else %>
           <p class="text-gray-500 italic">No hay otras características definidas</p>
@@ -170,8 +164,6 @@
           data-action="click->scroll-to-top#scrollToTop"
           class="hidden fixed bottom-6 right-6 z-40 p-3 sm:p-4 bg-primary text-white rounded-full shadow-lg hover:bg-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 opacity-0"
           aria-label="Scroll to top">
-    <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-    </svg>
+    <%= heroicon "arrow-up", size: "6", class: "sm:h-6 sm:w-6" %>
   </button>
 </div>
