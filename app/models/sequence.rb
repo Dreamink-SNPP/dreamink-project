@@ -26,12 +26,7 @@ class Sequence < ApplicationRecord
 
       target_position = new_position || (new_act.sequences.maximum(:position).to_i + 1)
 
-      if target_position <= new_act.sequences.maximum(:position).to_i
-        Sequence.where(act_id: new_act.id)
-                .where("position >= ?", target_position)
-                .update_all("position = position + 1")
-      end
-
+      # Move this sequence to a temporary position first to avoid conflicts
       temp_position = 999999
       update_columns(
         act_id: new_act.id,
@@ -39,22 +34,42 @@ class Sequence < ApplicationRecord
         position: temp_position
       )
 
+      # Make space in target act using temp negative positions to avoid constraint violations
+      if target_position <= new_act.sequences.where.not(id: self.id).maximum(:position).to_i
+        sequences_to_shift_down = Sequence.where(act_id: new_act.id)
+                                          .where.not(id: self.id)
+                                          .where("position >= ?", target_position)
+                                          .order(:position)
+
+        # First shift to temporary negative positions
+        sequences_to_shift_down.each_with_index do |seq, index|
+          seq.update_columns(position: -(target_position + index + 1000))
+        end
+
+        # Then shift to final positions (shifted up by 1)
+        sequences_to_shift_down.each_with_index do |seq, index|
+          seq.update_columns(position: target_position + index + 1)
+        end
+      end
+
       # Close gap in source act using temp negative positions
       # This avoids unique constraint violations during the shift
-      sequences_to_shift = Sequence.where(act_id: old_act_id)
-                                   .where("position > ?", old_position)
-                                   .order(:position)
+      sequences_to_shift_up = Sequence.where(act_id: old_act_id)
+                                      .where("position > ?", old_position)
+                                      .order(:position)
 
-      sequences_to_shift.each_with_index do |seq, index|
+      sequences_to_shift_up.each_with_index do |seq, index|
         seq.update_columns(position: -(old_position + index + 1000))
       end
 
-      sequences_to_shift.each_with_index do |seq, index|
+      sequences_to_shift_up.each_with_index do |seq, index|
         seq.update_columns(position: old_position + index)
       end
 
+      # Finally, place this sequence in its target position
       update_columns(position: target_position)
 
+      # Move associated scenes to the new act and project
       scenes.update_all(
         act_id: new_act.id,
         project_id: new_act.project_id
