@@ -1,0 +1,114 @@
+@startuml Dreamink Estructura Dramática
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Dominio de Estructura Dramática (Detallado)
+
+' Proyecto Central (Referencia simplificada)
+class Project {
+    - id: Long
+    - userId: Long
+    - title: String
+    --
+    + getActsSummary(): String
+    + getSequencesSummary(): String
+}
+
+' Estructura Dramática
+package "Estructura Dramática" {
+    class Act {
+        - id: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + setPosition(): void
+        + validatePosition(): Boolean
+    }
+
+    class Sequence {
+        - id: Long
+        - actId: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + moveToAct(newAct: Act, newPosition: Integer): Boolean
+        + setPosition(): void
+        + syncProjectReference(): void
+    }
+
+    class Scene {
+        - id: Long
+        - sequenceId: Long
+        - actId: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - color: String
+        - timeOfDay: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + moveToSequence(newSequence: Sequence, newPosition: Integer): Boolean
+        + setPosition(): void
+        + setDefaultColor(): void
+        + syncReferences(): void
+    }
+}
+
+' Relaciones - Proyecto a Estructura
+Project "1" *-- "0..*" Act : contiene >
+Project "1" -- "0..*" Sequence : tiene >
+Project "1" -- "0..*" Scene : tiene >
+
+' Relaciones - Jerarquía de Estructura Dramática
+Act "1" *-- "0..*" Sequence : contiene >
+Sequence "1" *-- "0..*" Scene : contiene >
+
+note top of Act
+    Representa una división mayor
+    en la estructura dramática.
+    Ordenado por posición dentro del Proyecto.
+    Cada Acto contiene Secuencias.
+end note
+
+note top of Sequence
+    Unidad estructural de nivel medio.
+    Pertenece a un Acto y contiene Escenas.
+    Puede moverse entre Actos mientras
+    mantiene la integridad de posición.
+end note
+
+note bottom of Scene
+    Unidad fundamental del guion.
+    Soporta código de color y
+    especificaciones de momento del día.
+    Puede moverse entre Secuencias
+    manteniendo la integridad de posición.
+    Mantiene referencias a Acto y Proyecto
+    para consultas eficientes.
+end note
+
+note as N1
+    **Jerarquía**: Proyecto > Acto > Secuencia > Escena
+
+    Cada nivel mantiene integridad referencial:
+    - Escenas referencian Secuencia, Acto y Proyecto
+    - Secuencias referencian Acto y Proyecto
+    - Actos referencian solo Proyecto
+
+    Esta desnormalización permite consultas
+    eficientes en cualquier nivel estructural.
+end note
+
+@enduml

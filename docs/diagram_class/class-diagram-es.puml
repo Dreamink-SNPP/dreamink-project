@@ -4,7 +4,20 @@ skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
 skinparam linetype ortho
 
-title Dreamink - Diagrama de Clases (UML 2.5)
+title Dreamink - Diagrama de Clases (UML 2.5) - Vista Completa
+
+note as DiagramNote
+    **Este es el diagrama de clases completo.**
+
+    Para mejorar la legibilidad, este diagrama ha sido dividido en subsecciones temáticas:
+
+    • **Vista General** (Alto nivel): class-diagram-overview-es.puml
+    • **Estructura Dramática**: class-diagram-structure-es.puml
+    • **Gestión de Personajes**: class-diagram-characters-es.puml
+    • **Gestión de Locaciones**: class-diagram-locations-es.puml
+
+    Cada subsección proporciona vistas detalladas específicas del dominio.
+end note
 
 ' Autenticación y Gestión de Usuarios
 package "Autenticación" {

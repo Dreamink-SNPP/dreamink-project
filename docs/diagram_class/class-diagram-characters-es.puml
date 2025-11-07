@@ -1,0 +1,140 @@
+@startuml Dreamink Gestión de Personajes
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Dominio de Gestión de Personajes (Detallado)
+
+' Proyecto Central (Referencia simplificada)
+class Project {
+    - id: Long
+    - userId: Long
+    - title: String
+    --
+    + getCharactersSummary(): String
+}
+
+' Gestión de Personajes
+package "Gestión de Personajes" {
+    class Character {
+        - id: Long
+        - projectId: Long
+        - name: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + createDefaultTraits(): void
+        + validateUniqueName(): Boolean
+    }
+
+    class CharacterInternalTrait {
+        - id: Long
+        - characterId: Long
+        - skills: Text
+        - religion: String
+        - spirituality: Text
+        - identity: Text
+        - mentalPrograms: Text
+        - ethics: Text
+        - sexuality: String
+        - mainMotivation: Text
+        - conversationFocus: Text
+        - selfAwarenessLevel: String
+        - timeManagement: String
+        - artisticInclinations: Text
+        - heroesModels: Text
+        - politicalIdeas: Text
+        - authorityRelationship: String
+        - vices: Text
+        - temporalLocation: String
+        - foodPreferences: String
+        - habits: Text
+        - peculiarities: Text
+        - hobbies: Text
+        - charitableActivities: String
+        - beliefs: Text
+        - friendshipRelations: Text
+        - valuesPriorities: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+
+    class CharacterExternalTrait {
+        - id: Long
+        - characterId: Long
+        - generalAppearance: Text
+        - detailedAppearance: Text
+        - medicalHistory: Text
+        - education: Text
+        - profession: String
+        - legalSituation: String
+        - economicSituation: String
+        - importantPossessions: Text
+        - residenceType: String
+        - usualLocation: String
+        - pets: String
+        - familyStructure: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+}
+
+' Relaciones
+Project "1" *-- "0..*" Character : contiene >
+
+' Composición de Personaje
+Character "1" *-- "1" CharacterInternalTrait : tiene >
+Character "1" *-- "1" CharacterExternalTrait : tiene >
+
+note top of Character
+    Crea automáticamente rasgos internos
+    y externos al crearse. La relación de
+    composición asegura que el ciclo de vida
+    de los rasgos esté vinculado al Personaje.
+
+    Los nombres deben ser únicos dentro del Proyecto.
+end note
+
+note left of CharacterInternalTrait
+    **Rasgos Internos** definen los aspectos
+    psicológicos y conductuales del personaje:
+
+    - Motivaciones y valores
+    - Creencias y ética
+    - Habilidades y talentos
+    - Hábitos y peculiaridades personales
+    - Patrones de relación
+
+    Este modelo integral permite
+    un desarrollo profundo del personaje.
+end note
+
+note right of CharacterExternalTrait
+    **Rasgos Externos** definen los aspectos
+    observables y físicos del personaje:
+
+    - Apariencia física
+    - Estado socioeconómico
+    - Formación educativa
+    - Vida profesional
+    - Situación de vivienda
+
+    Estos rasgos moldean cómo el personaje
+    interactúa con el mundo.
+end note
+
+note as N1
+    **Patrón de Composición de Personaje**
+
+    Cada Personaje tiene exactamente una instancia
+    de rasgos Internos y Externos (composición 1:1).
+
+    Esto asegura:
+    - Creación automática de rasgos
+    - Gestión del ciclo de vida
+    - Integridad de datos
+    - Desarrollo organizado del personaje
+end note
+
+@enduml
