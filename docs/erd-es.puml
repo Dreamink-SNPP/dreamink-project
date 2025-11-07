@@ -1,0 +1,266 @@
+@startuml Diagrama de Relación de Entidades Dreamink
+!theme plain
+skinparam linetype ortho
+
+title Dreamink - Diagrama de Relación de Entidades (UML 2.5)
+
+' Autenticación y Gestión de Usuarios
+entity "users" as users {
+  * id : bigint <<PK>>
+  --
+  * email_address : varchar(255) <<UNIQUE>>
+  * password_digest : varchar(255)
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "sessions" as sessions {
+  * id : bigint <<PK>>
+  --
+  * user_id : bigint <<FK>>
+  ip_address : varchar(255)
+  user_agent : varchar(255)
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+' Gestión de Proyectos
+entity "projects" as projects {
+  * id : bigint <<PK>>
+  --
+  * user_id : bigint <<FK>>
+  title : varchar(255)
+  genre : varchar(255)
+  logline : varchar(255)
+  idea : text
+  themes : text
+  tone : text
+  world : text
+  storyline : text
+  short_synopsis : text
+  long_synopsis : text
+  characters_summary : text
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "ideas" as ideas {
+  * id : bigint <<PK>>
+  --
+  * project_id : bigint <<FK>>
+  title : varchar(255)
+  description : text
+  tags : text
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+' Estructura Dramática
+entity "acts" as acts {
+  * id : bigint <<PK>>
+  --
+  * project_id : bigint <<FK>>
+  title : varchar(255)
+  description : text
+  position : integer
+  * created_at : timestamp
+  * updated_at : timestamp
+  --
+  <<UNIQUE>> (project_id, position)
+}
+
+entity "sequences" as sequences {
+  * id : bigint <<PK>>
+  --
+  * act_id : bigint <<FK>>
+  project_id : bigint <<FK>>
+  title : varchar(255)
+  description : text
+  position : integer
+  * created_at : timestamp
+  * updated_at : timestamp
+  --
+  <<UNIQUE>> (act_id, position)
+}
+
+entity "scenes" as scenes {
+  * id : bigint <<PK>>
+  --
+  * sequence_id : bigint <<FK>>
+  act_id : bigint <<FK>>
+  project_id : bigint <<FK>>
+  title : varchar(255)
+  description : text
+  position : integer
+  color : varchar(255)
+  time_of_day : varchar(20)
+  * created_at : timestamp
+  * updated_at : timestamp
+  --
+  <<UNIQUE>> (sequence_id, position)
+}
+
+' Gestión de Personajes
+entity "characters" as characters {
+  * id : bigint <<PK>>
+  --
+  * project_id : bigint <<FK>>
+  name : varchar(255)
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "character_internal_traits" as character_internal_traits {
+  * id : bigint <<PK>>
+  --
+  * character_id : bigint <<FK>>
+  skills : text
+  religion : varchar(255)
+  spirituality : text
+  identity : text
+  mental_programs : text
+  ethics : text
+  sexuality : varchar(255)
+  main_motivation : text
+  conversation_focus : text
+  self_awareness_level : varchar(255)
+  time_management : varchar(255)
+  artistic_inclinations : text
+  heroes_models : text
+  political_ideas : text
+  authority_relationship : varchar(255)
+  vices : text
+  temporal_location : varchar(255)
+  food_preferences : varchar(255)
+  habits : text
+  peculiarities : text
+  hobbies : text
+  charitable_activities : varchar(255)
+  beliefs : text
+  friendship_relations : text
+  values_priorities : text
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "character_external_traits" as character_external_traits {
+  * id : bigint <<PK>>
+  --
+  * character_id : bigint <<FK>>
+  general_appearance : text
+  detailed_appearance : text
+  medical_history : text
+  education : text
+  profession : varchar(255)
+  legal_situation : varchar(255)
+  economic_situation : varchar(255)
+  important_possessions : text
+  residence_type : varchar(255)
+  usual_location : varchar(255)
+  pets : varchar(255)
+  family_structure : text
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+' Gestión de Locaciones
+entity "locations" as locations {
+  * id : bigint <<PK>>
+  --
+  * project_id : bigint <<FK>>
+  name : varchar(255)
+  description : text
+  location_type : varchar(255)
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "scene_locations" as scene_locations {
+  * id : bigint <<PK>>
+  --
+  * scene_id : bigint <<FK>>
+  * location_id : bigint <<FK>>
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+' Relaciones - Autenticación y Gestión de Usuarios
+users ||--o{ sessions : "tiene"
+users ||--o{ projects : "posee"
+
+' Relaciones - Proyecto a Recursos
+projects ||--o{ acts : "contiene"
+projects ||--o{ sequences : "referencia"
+projects ||--o{ scenes : "referencia"
+projects ||--o{ characters : "contiene"
+projects ||--o{ locations : "contiene"
+projects ||--o{ ideas : "contiene"
+
+' Relaciones - Jerarquía de Estructura Dramática
+acts ||--o{ sequences : "contiene"
+sequences ||--o{ scenes : "contiene"
+
+' Relaciones - Referencias de Escenas
+acts ||--o{ scenes : "referencia"
+
+' Relaciones - Composición de Personajes
+characters ||--|| character_internal_traits : "tiene"
+characters ||--|| character_external_traits : "tiene"
+
+' Relaciones - Escena-Locación (Muchos a Muchos)
+scenes ||--o{ scene_locations : "usa"
+locations ||--o{ scene_locations : "usada en"
+
+note top of users
+  Entidad primaria de autenticación.
+  Cada usuario puede poseer múltiples proyectos.
+  La dirección de correo debe ser única.
+end note
+
+note top of projects
+  Entidad central que representa
+  un proyecto de guion.
+  Contiene todos los elementos narrativos,
+  personajes y locaciones.
+end note
+
+note bottom of acts
+  División mayor en la estructura dramática.
+  La posición es única dentro de un proyecto.
+  Contiene secuencias.
+end note
+
+note bottom of sequences
+  Segundo nivel de estructura narrativa.
+  La posición es única dentro de un acto.
+  Referencia al proyecto por desnormalización.
+end note
+
+note bottom of scenes
+  Unidad más pequeña de estructura dramática.
+  La posición es única dentro de una secuencia.
+  Referencia tanto al acto como al proyecto
+  para optimización de consultas.
+end note
+
+note top of characters
+  Crea automáticamente rasgos internos
+  y externos al momento de su creación.
+  La relación uno a uno asegura que
+  el ciclo de vida de los rasgos esté
+  vinculado al personaje.
+end note
+
+note bottom of scene_locations
+  Tabla de unión que habilita la relación
+  muchos a muchos entre escenas
+  y locaciones.
+end note
+
+note bottom of ideas
+  Almacena ideas creativas y notas
+  relacionadas con el proyecto.
+  Soporta etiquetas para organización.
+end note
+
+@enduml
