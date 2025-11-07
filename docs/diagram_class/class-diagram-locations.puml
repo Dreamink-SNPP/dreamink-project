@@ -1,0 +1,107 @@
+@startuml Dreamink Location Management
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Location Management Domain (Detailed)
+
+' Core Project (Simplified reference)
+class Project {
+    - id: Long
+    - userId: Long
+    - title: String
+}
+
+' Scene from Dramatic Structure (Simplified reference)
+class Scene {
+    - id: Long
+    - sequenceId: Long
+    - projectId: Long
+    - title: String
+    - position: Integer
+}
+
+' Location Management
+package "Location Management" {
+    class Location {
+        - id: Long
+        - projectId: Long
+        - name: String
+        - description: Text
+        - locationType: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + isInterior(): Boolean
+        + isExterior(): Boolean
+        + validateType(): Boolean
+    }
+
+    class SceneLocation {
+        - id: Long
+        - sceneId: Long
+        - locationId: Long
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + validateUniqueness(): Boolean
+    }
+}
+
+' Relationships
+Project "1" *-- "0..*" Location : contains >
+
+' Scene-Location Many-to-Many Relationship
+Scene "0..*" -- "0..*" Location : uses >
+(Scene, Location) .. SceneLocation
+
+note top of Location
+    **Location Types:**
+    - Interior (INT)
+    - Exterior (EXT)
+
+    Locations can be reused across
+    multiple scenes in a project.
+
+    Helper methods validate and
+    check location type.
+end note
+
+note bottom of SceneLocation
+    **Association Class** enabling
+    many-to-many relationship
+    between Scenes and Locations.
+
+    Key features:
+    - Tracks which scenes use which locations
+    - Prevents duplicate scene-location pairs
+    - Enables efficient querying:
+      * All locations used in a scene
+      * All scenes filmed at a location
+end note
+
+note as N1
+    **Many-to-Many Pattern**
+
+    A Scene can use multiple Locations (e.g., chase scene)
+    A Location can appear in multiple Scenes
+
+    SceneLocation join table benefits:
+    - Flexible scene composition
+    - Efficient location reuse
+    - Clear data model
+    - Supports complex screenplay requirements
+end note
+
+note as N2
+    **Usage Examples:**
+
+    Scene: "Car Chase"
+    → Locations: Highway, City Street, Parking Garage
+
+    Location: "Coffee Shop"
+    → Scenes: Opening Scene, Confrontation, Finale
+end note
+
+@enduml

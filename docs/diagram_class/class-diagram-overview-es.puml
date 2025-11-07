@@ -1,0 +1,135 @@
+@startuml Diagrama de Clases Dreamink - Vista General
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Diagrama de Clases - Vista General (Alto Nivel)
+
+' Autenticación y Gestión de Usuarios
+package "Autenticación" {
+    class User {
+        - id: Long
+        - emailAddress: String
+        - passwordDigest: String
+        --
+        + authenticate(): Boolean
+    }
+
+    class Session {
+        - id: Long
+        - userId: Long
+        - ipAddress: String
+    }
+}
+
+' Gestión de Proyectos
+package "Gestión de Proyectos" {
+    class Project {
+        - id: Long
+        - userId: Long
+        - title: String
+        - genre: String
+        - logline: String
+        --
+        + getActsSummary(): String
+    }
+
+    class Idea {
+        - id: Long
+        - projectId: Long
+        - title: String
+        - tags: String
+    }
+}
+
+' Estructura Dramática
+package "Estructura Dramática" <<Rectangle>> {
+    class Act {
+        - id: Long
+        - title: String
+        - position: Integer
+    }
+
+    class Sequence {
+        - id: Long
+        - title: String
+        - position: Integer
+    }
+
+    class Scene {
+        - id: Long
+        - title: String
+        - position: Integer
+    }
+}
+
+' Gestión de Personajes
+package "Gestión de Personajes" <<Rectangle>> {
+    class Character {
+        - id: Long
+        - name: String
+    }
+
+    class CharacterInternalTrait {
+        - id: Long
+        - skills: Text
+        - mainMotivation: Text
+    }
+
+    class CharacterExternalTrait {
+        - id: Long
+        - generalAppearance: Text
+        - profession: String
+    }
+}
+
+' Gestión de Locaciones
+package "Gestión de Locaciones" <<Rectangle>> {
+    class Location {
+        - id: Long
+        - name: String
+        - locationType: String
+    }
+
+    class SceneLocation {
+        - id: Long
+        - sceneId: Long
+        - locationId: Long
+    }
+}
+
+' Relaciones de Alto Nivel
+User "1" -- "0..*" Session
+User "1" -- "0..*" Project
+
+Project "1" *-- "0..*" Act
+Project "1" *-- "0..*" Character
+Project "1" *-- "0..*" Location
+Project "1" *-- "0..*" Idea
+
+Act "1" *-- "0..*" Sequence
+Sequence "1" *-- "0..*" Scene
+
+Character "1" *-- "1" CharacterInternalTrait
+Character "1" *-- "1" CharacterExternalTrait
+
+Scene "0..*" -- "0..*" Location
+(Scene, Location) .. SceneLocation
+
+note right of "Estructura Dramática"
+    Diagrama detallado disponible en:
+    class-diagram-structure-es.puml
+end note
+
+note right of "Gestión de Personajes"
+    Diagrama detallado disponible en:
+    class-diagram-characters-es.puml
+end note
+
+note right of "Gestión de Locaciones"
+    Diagrama detallado disponible en:
+    class-diagram-locations-es.puml
+end note
+
+@enduml

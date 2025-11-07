@@ -1,0 +1,140 @@
+@startuml Dreamink Character Management
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Character Management Domain (Detailed)
+
+' Core Project (Simplified reference)
+class Project {
+    - id: Long
+    - userId: Long
+    - title: String
+    --
+    + getCharactersSummary(): String
+}
+
+' Character Management
+package "Character Management" {
+    class Character {
+        - id: Long
+        - projectId: Long
+        - name: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + createDefaultTraits(): void
+        + validateUniqueName(): Boolean
+    }
+
+    class CharacterInternalTrait {
+        - id: Long
+        - characterId: Long
+        - skills: Text
+        - religion: String
+        - spirituality: Text
+        - identity: Text
+        - mentalPrograms: Text
+        - ethics: Text
+        - sexuality: String
+        - mainMotivation: Text
+        - conversationFocus: Text
+        - selfAwarenessLevel: String
+        - timeManagement: String
+        - artisticInclinations: Text
+        - heroesModels: Text
+        - politicalIdeas: Text
+        - authorityRelationship: String
+        - vices: Text
+        - temporalLocation: String
+        - foodPreferences: String
+        - habits: Text
+        - peculiarities: Text
+        - hobbies: Text
+        - charitableActivities: String
+        - beliefs: Text
+        - friendshipRelations: Text
+        - valuesPriorities: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+
+    class CharacterExternalTrait {
+        - id: Long
+        - characterId: Long
+        - generalAppearance: Text
+        - detailedAppearance: Text
+        - medicalHistory: Text
+        - education: Text
+        - profession: String
+        - legalSituation: String
+        - economicSituation: String
+        - importantPossessions: Text
+        - residenceType: String
+        - usualLocation: String
+        - pets: String
+        - familyStructure: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+}
+
+' Relationships
+Project "1" *-- "0..*" Character : contains >
+
+' Character Composition
+Character "1" *-- "1" CharacterInternalTrait : has >
+Character "1" *-- "1" CharacterExternalTrait : has >
+
+note top of Character
+    Automatically creates internal
+    and external traits upon creation.
+    Composition relationship ensures
+    traits lifecycle is bound to Character.
+
+    Names must be unique within a Project.
+end note
+
+note left of CharacterInternalTrait
+    **Internal Traits** define the character's
+    psychological and behavioral aspects:
+
+    - Motivations and values
+    - Beliefs and ethics
+    - Skills and talents
+    - Personal habits and peculiarities
+    - Relationship patterns
+
+    This comprehensive model enables
+    deep character development.
+end note
+
+note right of CharacterExternalTrait
+    **External Traits** define the character's
+    observable and physical aspects:
+
+    - Physical appearance
+    - Socioeconomic status
+    - Educational background
+    - Professional life
+    - Living situation
+
+    These traits shape how the character
+    interacts with the world.
+end note
+
+note as N1
+    **Character Composition Pattern**
+
+    Each Character has exactly one instance
+    of Internal and External traits (1:1 composition).
+
+    This ensures:
+    - Automatic trait creation
+    - Lifecycle management
+    - Data integrity
+    - Organized character development
+end note
+
+@enduml

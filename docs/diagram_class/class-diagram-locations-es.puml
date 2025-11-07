@@ -1,0 +1,107 @@
+@startuml Dreamink Gestión de Locaciones
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Dominio de Gestión de Locaciones (Detallado)
+
+' Proyecto Central (Referencia simplificada)
+class Project {
+    - id: Long
+    - userId: Long
+    - title: String
+}
+
+' Escena de Estructura Dramática (Referencia simplificada)
+class Scene {
+    - id: Long
+    - sequenceId: Long
+    - projectId: Long
+    - title: String
+    - position: Integer
+}
+
+' Gestión de Locaciones
+package "Gestión de Locaciones" {
+    class Location {
+        - id: Long
+        - projectId: Long
+        - name: String
+        - description: Text
+        - locationType: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + isInterior(): Boolean
+        + isExterior(): Boolean
+        + validateType(): Boolean
+    }
+
+    class SceneLocation {
+        - id: Long
+        - sceneId: Long
+        - locationId: Long
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + validateUniqueness(): Boolean
+    }
+}
+
+' Relaciones
+Project "1" *-- "0..*" Location : contiene >
+
+' Relación Muchos a Muchos entre Escena y Locación
+Scene "0..*" -- "0..*" Location : usa >
+(Scene, Location) .. SceneLocation
+
+note top of Location
+    **Tipos de Locación:**
+    - Interior (INT)
+    - Exterior (EXT)
+
+    Las locaciones pueden reutilizarse
+    en múltiples escenas de un proyecto.
+
+    Métodos auxiliares validan y
+    verifican el tipo de locación.
+end note
+
+note bottom of SceneLocation
+    **Clase de Asociación** que permite
+    la relación muchos a muchos
+    entre Escenas y Locaciones.
+
+    Características clave:
+    - Rastrea qué escenas usan qué locaciones
+    - Previene pares escena-locación duplicados
+    - Permite consultas eficientes:
+      * Todas las locaciones usadas en una escena
+      * Todas las escenas filmadas en una locación
+end note
+
+note as N1
+    **Patrón Muchos a Muchos**
+
+    Una Escena puede usar múltiples Locaciones (ej. escena de persecución)
+    Una Locación puede aparecer en múltiples Escenas
+
+    Beneficios de la tabla de unión SceneLocation:
+    - Composición flexible de escenas
+    - Reutilización eficiente de locaciones
+    - Modelo de datos claro
+    - Soporta requisitos complejos de guion
+end note
+
+note as N2
+    **Ejemplos de Uso:**
+
+    Escena: "Persecución en Auto"
+    → Locaciones: Autopista, Calle de la Ciudad, Estacionamiento
+
+    Locación: "Cafetería"
+    → Escenas: Escena de Apertura, Confrontación, Final
+end note
+
+@enduml

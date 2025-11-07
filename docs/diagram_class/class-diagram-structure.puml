@@ -1,0 +1,114 @@
+@startuml Dreamink Dramatic Structure
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Dramatic Structure Domain (Detailed)
+
+' Core Project (Simplified reference)
+class Project {
+    - id: Long
+    - userId: Long
+    - title: String
+    --
+    + getActsSummary(): String
+    + getSequencesSummary(): String
+}
+
+' Dramatic Structure
+package "Dramatic Structure" {
+    class Act {
+        - id: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + setPosition(): void
+        + validatePosition(): Boolean
+    }
+
+    class Sequence {
+        - id: Long
+        - actId: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + moveToAct(newAct: Act, newPosition: Integer): Boolean
+        + setPosition(): void
+        + syncProjectReference(): void
+    }
+
+    class Scene {
+        - id: Long
+        - sequenceId: Long
+        - actId: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - color: String
+        - timeOfDay: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + moveToSequence(newSequence: Sequence, newPosition: Integer): Boolean
+        + setPosition(): void
+        + setDefaultColor(): void
+        + syncReferences(): void
+    }
+}
+
+' Relationships - Project to Structure
+Project "1" *-- "0..*" Act : contains >
+Project "1" -- "0..*" Sequence : has >
+Project "1" -- "0..*" Scene : has >
+
+' Relationships - Dramatic Structure Hierarchy
+Act "1" *-- "0..*" Sequence : contains >
+Sequence "1" *-- "0..*" Scene : contains >
+
+note top of Act
+    Represents a major division
+    in dramatic structure.
+    Ordered by position within Project.
+    Each Act contains Sequences.
+end note
+
+note top of Sequence
+    Mid-level structural unit.
+    Belongs to an Act and contains Scenes.
+    Can be moved between Acts while
+    maintaining position integrity.
+end note
+
+note bottom of Scene
+    Fundamental unit of screenplay.
+    Supports color coding and
+    time of day specifications.
+    Can be moved between Sequences
+    while maintaining position integrity.
+    Maintains references to Act and Project
+    for efficient querying.
+end note
+
+note as N1
+    **Hierarchy**: Project > Act > Sequence > Scene
+
+    Each level maintains referential integrity:
+    - Scenes reference Sequence, Act, and Project
+    - Sequences reference Act and Project
+    - Acts reference only Project
+
+    This denormalization enables efficient
+    queries at any structural level.
+end note
+
+@enduml

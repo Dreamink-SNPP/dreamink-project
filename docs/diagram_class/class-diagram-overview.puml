@@ -1,0 +1,135 @@
+@startuml Dreamink Class Diagram Overview
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Class Diagram Overview (High-Level)
+
+' Authentication & User Management
+package "Authentication" {
+    class User {
+        - id: Long
+        - emailAddress: String
+        - passwordDigest: String
+        --
+        + authenticate(): Boolean
+    }
+
+    class Session {
+        - id: Long
+        - userId: Long
+        - ipAddress: String
+    }
+}
+
+' Project Management
+package "Project Management" {
+    class Project {
+        - id: Long
+        - userId: Long
+        - title: String
+        - genre: String
+        - logline: String
+        --
+        + getActsSummary(): String
+    }
+
+    class Idea {
+        - id: Long
+        - projectId: Long
+        - title: String
+        - tags: String
+    }
+}
+
+' Dramatic Structure
+package "Dramatic Structure" <<Rectangle>> {
+    class Act {
+        - id: Long
+        - title: String
+        - position: Integer
+    }
+
+    class Sequence {
+        - id: Long
+        - title: String
+        - position: Integer
+    }
+
+    class Scene {
+        - id: Long
+        - title: String
+        - position: Integer
+    }
+}
+
+' Character Management
+package "Character Management" <<Rectangle>> {
+    class Character {
+        - id: Long
+        - name: String
+    }
+
+    class CharacterInternalTrait {
+        - id: Long
+        - skills: Text
+        - mainMotivation: Text
+    }
+
+    class CharacterExternalTrait {
+        - id: Long
+        - generalAppearance: Text
+        - profession: String
+    }
+}
+
+' Location Management
+package "Location Management" <<Rectangle>> {
+    class Location {
+        - id: Long
+        - name: String
+        - locationType: String
+    }
+
+    class SceneLocation {
+        - id: Long
+        - sceneId: Long
+        - locationId: Long
+    }
+}
+
+' High-Level Relationships
+User "1" -- "0..*" Session
+User "1" -- "0..*" Project
+
+Project "1" *-- "0..*" Act
+Project "1" *-- "0..*" Character
+Project "1" *-- "0..*" Location
+Project "1" *-- "0..*" Idea
+
+Act "1" *-- "0..*" Sequence
+Sequence "1" *-- "0..*" Scene
+
+Character "1" *-- "1" CharacterInternalTrait
+Character "1" *-- "1" CharacterExternalTrait
+
+Scene "0..*" -- "0..*" Location
+(Scene, Location) .. SceneLocation
+
+note right of "Dramatic Structure"
+    Detailed diagram available at:
+    class-diagram-structure.puml
+end note
+
+note right of "Character Management"
+    Detailed diagram available at:
+    class-diagram-characters.puml
+end note
+
+note right of "Location Management"
+    Detailed diagram available at:
+    class-diagram-locations.puml
+end note
+
+@enduml
