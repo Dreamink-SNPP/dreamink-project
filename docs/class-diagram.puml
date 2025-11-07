@@ -1,0 +1,278 @@
+@startuml Dreamink Class Diagram
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam linetype ortho
+
+title Dreamink - Class Diagram (UML 2.5)
+
+' Authentication & User Management
+package "Authentication" {
+    class User {
+        - id: Long
+        - emailAddress: String
+        - passwordDigest: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + authenticate(password: String): Boolean
+        + validateEmail(): Boolean
+    }
+
+    class Session {
+        - id: Long
+        - userId: Long
+        - ipAddress: String
+        - userAgent: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+}
+
+' Project Management
+package "Project Management" {
+    class Project {
+        - id: Long
+        - userId: Long
+        - title: String
+        - genre: String
+        - logline: String
+        - idea: Text
+        - themes: Text
+        - tone: Text
+        - world: Text
+        - storyline: Text
+        - shortSynopsis: Text
+        - longSynopsis: Text
+        - charactersSummary: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + getActsSummary(): String
+        + getSequencesSummary(): String
+    }
+
+    class Idea {
+        - id: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - tags: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + getTagList(): List<String>
+        + setTagList(tags: List<String>): void
+        + search(query: String): List<Idea>
+    }
+}
+
+' Dramatic Structure
+package "Dramatic Structure" {
+    class Act {
+        - id: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + setPosition(): void
+        + validatePosition(): Boolean
+    }
+
+    class Sequence {
+        - id: Long
+        - actId: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + moveToAct(newAct: Act, newPosition: Integer): Boolean
+        + setPosition(): void
+        + syncProjectReference(): void
+    }
+
+    class Scene {
+        - id: Long
+        - sequenceId: Long
+        - actId: Long
+        - projectId: Long
+        - title: String
+        - description: Text
+        - position: Integer
+        - color: String
+        - timeOfDay: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + moveToSequence(newSequence: Sequence, newPosition: Integer): Boolean
+        + setPosition(): void
+        + setDefaultColor(): void
+        + syncReferences(): void
+    }
+}
+
+' Character Management
+package "Character Management" {
+    class Character {
+        - id: Long
+        - projectId: Long
+        - name: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + createDefaultTraits(): void
+        + validateUniqueName(): Boolean
+    }
+
+    class CharacterInternalTrait {
+        - id: Long
+        - characterId: Long
+        - skills: Text
+        - religion: String
+        - spirituality: Text
+        - identity: Text
+        - mentalPrograms: Text
+        - ethics: Text
+        - sexuality: String
+        - mainMotivation: Text
+        - conversationFocus: Text
+        - selfAwarenessLevel: String
+        - timeManagement: String
+        - artisticInclinations: Text
+        - heroesModels: Text
+        - politicalIdeas: Text
+        - authorityRelationship: String
+        - vices: Text
+        - temporalLocation: String
+        - foodPreferences: String
+        - habits: Text
+        - peculiarities: Text
+        - hobbies: Text
+        - charitableActivities: String
+        - beliefs: Text
+        - friendshipRelations: Text
+        - valuesPriorities: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+
+    class CharacterExternalTrait {
+        - id: Long
+        - characterId: Long
+        - generalAppearance: Text
+        - detailedAppearance: Text
+        - medicalHistory: Text
+        - education: Text
+        - profession: String
+        - legalSituation: String
+        - economicSituation: String
+        - importantPossessions: Text
+        - residenceType: String
+        - usualLocation: String
+        - pets: String
+        - familyStructure: Text
+        - createdAt: DateTime
+        - updatedAt: DateTime
+    }
+}
+
+' Location Management
+package "Location Management" {
+    class Location {
+        - id: Long
+        - projectId: Long
+        - name: String
+        - description: Text
+        - locationType: String
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + isInterior(): Boolean
+        + isExterior(): Boolean
+        + validateType(): Boolean
+    }
+
+    class SceneLocation {
+        - id: Long
+        - sceneId: Long
+        - locationId: Long
+        - createdAt: DateTime
+        - updatedAt: DateTime
+        --
+        + validateUniqueness(): Boolean
+    }
+}
+
+' Relationships - Authentication
+User "1" -- "0..*" Session : has >
+User "1" -- "0..*" Project : owns >
+
+' Relationships - Project to Structure
+Project "1" *-- "0..*" Act : contains >
+Project "1" -- "0..*" Sequence : has >
+Project "1" -- "0..*" Scene : has >
+
+' Relationships - Dramatic Structure Hierarchy
+Act "1" *-- "0..*" Sequence : contains >
+Sequence "1" *-- "0..*" Scene : contains >
+
+' Relationships - Project to Resources
+Project "1" *-- "0..*" Character : contains >
+Project "1" *-- "0..*" Location : contains >
+Project "1" *-- "0..*" Idea : contains >
+
+' Relationships - Character Composition
+Character "1" *-- "1" CharacterInternalTrait : has >
+Character "1" *-- "1" CharacterExternalTrait : has >
+
+' Relationships - Scene-Location (Many-to-Many)
+Scene "0..*" -- "0..*" Location : uses >
+(Scene, Location) .. SceneLocation
+
+note top of User
+    Primary actor who creates
+    and manages screenplay projects.
+    Handles authentication and
+    owns all project data.
+end note
+
+note top of Project
+    Central entity that represents
+    a screenplay project. Contains
+    all narrative structure, characters,
+    locations, and ideas.
+end note
+
+note top of Act
+    Represents a major division
+    in dramatic structure.
+    Ordered by position within Project.
+end note
+
+note top of Character
+    Automatically creates internal
+    and external traits upon creation.
+    Composition relationship ensures
+    traits lifecycle is bound to Character.
+end note
+
+note bottom of Scene
+    Supports color coding and
+    time of day specifications.
+    Can be moved between sequences
+    while maintaining position integrity.
+end note
+
+note bottom of SceneLocation
+    Association class enabling
+    many-to-many relationship
+    between Scenes and Locations.
+end note
+
+@enduml
