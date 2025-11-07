@@ -1,0 +1,100 @@
+@startuml Dreamink Location Management
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Location Management (UML 2.5)
+
+actor "Screenwriter" as writer
+
+rectangle "Dreamink System" {
+    usecase "Create Location" as UC1
+    usecase "View Locations List" as UC2
+    usecase "Edit Location" as UC3
+    usecase "Delete Location" as UC4
+    usecase "View Scenes by Location" as UC5
+    usecase "Generate Location Report" as UC6
+    usecase "Generate All Locations Report" as UC7
+
+    usecase "Filter by Type" as UC_FILTER
+
+    ' Internal use cases
+    usecase "Validate Unique Name" as UC_VAL
+    usecase "Set Location Type" as UC_TYPE
+    usecase "Compile Location Data" as UC_COMP
+    usecase "Query Scene Associations" as UC_QUERY
+    usecase "Generate PDF" as UC_PDF
+}
+
+' Primary associations
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+writer --> UC7
+
+' Extend relationships
+UC2 <. UC_FILTER : <<extend>>
+
+' Include relationships
+UC1 .> UC_VAL : <<include>>
+UC1 .> UC_TYPE : <<include>>
+
+UC3 .> UC_VAL : <<include>>
+
+UC5 .> UC_QUERY : <<include>>
+
+UC6 .> UC_COMP : <<include>>
+UC6 .> UC_QUERY : <<include>>
+UC6 .> UC_PDF : <<include>>
+
+UC7 .> UC_COMP : <<include>>
+UC7 .> UC_PDF : <<include>>
+
+note right of UC_TYPE
+  Location Types:
+  - Interior (INT)
+  - Exterior (EXT)
+end note
+
+note bottom of UC_VAL
+  Location names must
+  be unique within the
+  project
+end note
+
+note right of UC5
+  Shows all scenes that
+  take place at this location,
+  organized by acts and
+  sequences
+end note
+
+note right of UC_FILTER
+  Filter locations by:
+  - Interior locations
+  - Exterior locations
+  - All locations
+end note
+
+note right of UC6
+  Generates PDF report
+  for a single location
+  including all associated
+  scenes
+end note
+
+note right of UC7
+  Generates comprehensive
+  PDF with all project
+  locations and their scenes
+end note
+
+note bottom of UC4
+  Deleting a location
+  removes scene associations
+  but not the scenes themselves
+end note
+
+@enduml

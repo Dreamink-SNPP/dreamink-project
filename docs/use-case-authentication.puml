@@ -1,0 +1,61 @@
+@startuml Dreamink Authentication and Account Management
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Authentication and Account Management (UML 2.5)
+
+actor "Screenwriter" as writer
+actor "Email System" as email
+
+rectangle "Dreamink System" {
+    usecase "Register Account" as UC1
+    usecase "Login" as UC2
+    usecase "Logout" as UC3
+    usecase "Reset Password" as UC4
+
+    usecase "Validate Credentials" as UC_VAL
+    usecase "Create Session" as UC_SESSION
+    usecase "Send Reset Email" as UC_EMAIL
+    usecase "Validate Email Format" as UC_EMAIL_VAL
+    usecase "Hash Password" as UC_HASH
+}
+
+' Primary associations
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+
+' Include relationships (mandatory)
+UC1 .> UC_EMAIL_VAL : <<include>>
+UC1 .> UC_HASH : <<include>>
+
+UC2 .> UC_VAL : <<include>>
+UC2 .> UC_SESSION : <<include>>
+
+UC4 .> UC_EMAIL : <<include>>
+UC4 .> UC_HASH : <<include>>
+
+' External actor
+UC_EMAIL --> email
+
+note right of UC1
+  New users create an account
+  with email and password
+end note
+
+note right of UC2
+  Existing users authenticate
+  and start a session
+end note
+
+note right of UC3
+  Users end their active session
+end note
+
+note right of UC4
+  Users can request password
+  reset via email link
+end note
+
+@enduml

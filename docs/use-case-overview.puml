@@ -1,0 +1,104 @@
+@startuml Dreamink Use Case Overview
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Use Case Overview (UML 2.5)
+
+left to right direction
+
+actor "Screenwriter" as writer
+
+rectangle "Dreamink System" {
+    package "Account Management" {
+        usecase "Register Account" as UC1
+        usecase "Login" as UC2
+        usecase "Logout" as UC3
+        usecase "Reset Password" as UC4
+    }
+
+    package "Project Management" {
+        usecase "Create Project" as UC5
+        usecase "View Projects" as UC6
+        usecase "Edit Treatment" as UC7
+        usecase "Delete Project" as UC8
+        usecase "Export to PDF" as UC9
+        usecase "Export to Fountain" as UC10
+    }
+
+    package "Dramatic Structure" {
+        usecase "Manage Acts" as UC11
+        usecase "Manage Sequences" as UC12
+        usecase "Manage Scenes" as UC13
+        usecase "View Structure Board" as UC14
+    }
+
+    package "Character Management" {
+        usecase "Create Character" as UC15
+        usecase "Edit Character Profile" as UC16
+        usecase "View Characters" as UC17
+        usecase "Delete Character" as UC18
+        usecase "Generate Character Report" as UC19
+    }
+
+    package "Location Management" {
+        usecase "Create Location" as UC20
+        usecase "Edit Location" as UC21
+        usecase "View Locations" as UC22
+        usecase "Delete Location" as UC23
+        usecase "Generate Location Report" as UC24
+    }
+
+    package "Ideas Management" {
+        usecase "Create Idea" as UC25
+        usecase "Edit Idea" as UC26
+        usecase "View Ideas" as UC27
+        usecase "Search Ideas" as UC28
+        usecase "Filter by Tag" as UC29
+        usecase "Generate Idea Report" as UC30
+    }
+}
+
+' Actor associations
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+
+writer --> UC5
+writer --> UC6
+writer --> UC7
+writer --> UC8
+writer --> UC9
+writer --> UC10
+
+writer --> UC11
+writer --> UC12
+writer --> UC13
+writer --> UC14
+
+writer --> UC15
+writer --> UC16
+writer --> UC17
+writer --> UC18
+writer --> UC19
+
+writer --> UC20
+writer --> UC21
+writer --> UC22
+writer --> UC23
+writer --> UC24
+
+writer --> UC25
+writer --> UC26
+writer --> UC27
+writer --> UC28
+writer --> UC29
+writer --> UC30
+
+note right of writer
+  Primary user who creates
+  and manages screenplay
+  projects
+end note
+
+@enduml
