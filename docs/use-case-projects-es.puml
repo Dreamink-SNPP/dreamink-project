@@ -4,6 +4,8 @@ skinparam packageStyle rectangle
 
 title Dreamink - Gestión de Proyectos (UML 2.5)
 
+left to right direction
+
 actor "Guionista" as writer
 
 rectangle "Sistema Dreamink" {
