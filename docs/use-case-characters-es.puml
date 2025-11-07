@@ -1,0 +1,96 @@
+@startuml Dreamink Gestión de Personajes
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Gestión de Personajes (UML 2.5)
+
+actor "Guionista" as writer
+
+rectangle "Sistema Dreamink" {
+    usecase "Crear Personaje" as UC1
+    usecase "Ver Lista de Personajes" as UC2
+    usecase "Editar Perfil de Personaje" as UC3
+    usecase "Eliminar Personaje" as UC4
+    usecase "Generar Reporte de Personaje" as UC5
+    usecase "Generar Reporte de Todos los Personajes" as UC6
+
+    usecase "Editar Rasgos Internos" as UC_INT
+    usecase "Editar Rasgos Externos" as UC_EXT
+
+    ' Casos de uso internos
+    usecase "Validar Nombre Único" as UC_VAL
+    usecase "Inicializar Registros de Rasgos" as UC_INIT
+    usecase "Compilar Datos de Personaje" as UC_COMP
+    usecase "Generar PDF" as UC_PDF
+}
+
+' Asociaciones primarias
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+
+' Especialización - Editar Personaje incluye ambos tipos de rasgos
+UC3 <|-- UC_INT
+UC3 <|-- UC_EXT
+
+' Relaciones de inclusión
+UC1 .> UC_VAL : <<include>>
+UC1 .> UC_INIT : <<include>>
+
+UC3 .> UC_VAL : <<include>>
+
+UC5 .> UC_COMP : <<include>>
+UC5 .> UC_PDF : <<include>>
+
+UC6 .> UC_COMP : <<include>>
+UC6 .> UC_PDF : <<include>>
+
+note right of UC_INT
+  Rasgos Internos:
+  - Habilidades, Religión, Espiritualidad
+  - Identidad, Creencias, Valores
+  - Programas Mentales, Ética
+  - Sexualidad, Motivaciones
+  - Relaciones, Aficiones
+  - Hábitos, Peculiaridades
+end note
+
+note right of UC_EXT
+  Rasgos Externos:
+  - Apariencia, Historia Médica
+  - Estructura Familiar
+  - Educación, Profesión
+  - Situación Económica
+  - Tipo de Residencia
+  - Posesiones, Mascotas
+end note
+
+note bottom of UC1
+  Crear un personaje
+  inicializa automáticamente
+  los registros de rasgos
+  internos y externos
+end note
+
+note bottom of UC_VAL
+  Los nombres de personajes
+  deben ser únicos dentro
+  del proyecto
+end note
+
+note right of UC5
+  Genera un reporte PDF
+  detallado para un solo
+  personaje con todos sus rasgos
+end note
+
+note right of UC6
+  Genera un PDF completo
+  con todos los personajes
+  del proyecto
+end note
+
+@enduml

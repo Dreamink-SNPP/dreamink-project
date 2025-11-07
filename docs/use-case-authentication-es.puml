@@ -1,0 +1,65 @@
+@startuml Dreamink Autenticación y Gestión de Cuenta
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Autenticación y Gestión de Cuenta (UML 2.5)
+
+actor "Guionista" as writer
+actor "Sistema de Email" as email
+
+rectangle "Sistema Dreamink" {
+    usecase "Registrar Cuenta" as UC1
+    usecase "Iniciar Sesión" as UC2
+    usecase "Cerrar Sesión" as UC3
+    usecase "Restablecer Contraseña" as UC4
+
+    usecase "Validar Credenciales" as UC_VAL
+    usecase "Crear Sesión" as UC_SESSION
+    usecase "Enviar Email de Restablecimiento" as UC_EMAIL
+    usecase "Validar Formato de Email" as UC_EMAIL_VAL
+    usecase "Cifrar Contraseña" as UC_HASH
+}
+
+' Asociaciones primarias
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+
+' Relaciones de inclusión (obligatorias)
+UC1 .> UC_EMAIL_VAL : <<include>>
+UC1 .> UC_HASH : <<include>>
+
+UC2 .> UC_VAL : <<include>>
+UC2 .> UC_SESSION : <<include>>
+
+UC4 .> UC_EMAIL : <<include>>
+UC4 .> UC_HASH : <<include>>
+
+' Actor externo
+UC_EMAIL --> email
+
+note right of UC1
+  Los nuevos usuarios crean
+  una cuenta con email y
+  contraseña
+end note
+
+note right of UC2
+  Los usuarios existentes
+  se autentican e inician
+  una sesión
+end note
+
+note right of UC3
+  Los usuarios finalizan
+  su sesión activa
+end note
+
+note right of UC4
+  Los usuarios pueden solicitar
+  restablecimiento de contraseña
+  mediante enlace por email
+end note
+
+@enduml
