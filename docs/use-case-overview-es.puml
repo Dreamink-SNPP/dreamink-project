@@ -1,0 +1,104 @@
+@startuml Dreamink Visión General de Casos de Uso
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Visión General de Casos de Uso (UML 2.5)
+
+left to right direction
+
+actor "Guionista" as writer
+
+rectangle "Sistema Dreamink" {
+    package "Gestión de Cuenta" {
+        usecase "Registrar Cuenta" as UC1
+        usecase "Iniciar Sesión" as UC2
+        usecase "Cerrar Sesión" as UC3
+        usecase "Restablecer Contraseña" as UC4
+    }
+
+    package "Gestión de Proyectos" {
+        usecase "Crear Proyecto" as UC5
+        usecase "Ver Proyectos" as UC6
+        usecase "Editar Tratamiento" as UC7
+        usecase "Eliminar Proyecto" as UC8
+        usecase "Exportar a PDF" as UC9
+        usecase "Exportar a Fountain" as UC10
+    }
+
+    package "Estructura Dramática" {
+        usecase "Gestionar Actos" as UC11
+        usecase "Gestionar Secuencias" as UC12
+        usecase "Gestionar Escenas" as UC13
+        usecase "Ver Tablero de Estructura" as UC14
+    }
+
+    package "Gestión de Personajes" {
+        usecase "Crear Personaje" as UC15
+        usecase "Editar Perfil de Personaje" as UC16
+        usecase "Ver Personajes" as UC17
+        usecase "Eliminar Personaje" as UC18
+        usecase "Generar Reporte de Personaje" as UC19
+    }
+
+    package "Gestión de Localizaciones" {
+        usecase "Crear Localización" as UC20
+        usecase "Editar Localización" as UC21
+        usecase "Ver Localizaciones" as UC22
+        usecase "Eliminar Localización" as UC23
+        usecase "Generar Reporte de Localización" as UC24
+    }
+
+    package "Gestión de Ideas" {
+        usecase "Crear Idea" as UC25
+        usecase "Editar Idea" as UC26
+        usecase "Ver Ideas" as UC27
+        usecase "Buscar Ideas" as UC28
+        usecase "Filtrar por Etiqueta" as UC29
+        usecase "Generar Reporte de Idea" as UC30
+    }
+}
+
+' Asociaciones del actor
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+
+writer --> UC5
+writer --> UC6
+writer --> UC7
+writer --> UC8
+writer --> UC9
+writer --> UC10
+
+writer --> UC11
+writer --> UC12
+writer --> UC13
+writer --> UC14
+
+writer --> UC15
+writer --> UC16
+writer --> UC17
+writer --> UC18
+writer --> UC19
+
+writer --> UC20
+writer --> UC21
+writer --> UC22
+writer --> UC23
+writer --> UC24
+
+writer --> UC25
+writer --> UC26
+writer --> UC27
+writer --> UC28
+writer --> UC29
+writer --> UC30
+
+note right of writer
+  Usuario principal que crea
+  y gestiona proyectos de
+  guiones audiovisuales
+end note
+
+@enduml

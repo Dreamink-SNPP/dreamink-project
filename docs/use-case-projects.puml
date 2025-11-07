@@ -1,0 +1,78 @@
+@startuml Dreamink Project Management
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Project Management (UML 2.5)
+
+actor "Screenwriter" as writer
+
+rectangle "Dreamink System" {
+    usecase "Create Project" as UC1
+    usecase "View Projects List" as UC2
+    usecase "Edit Treatment" as UC3
+    usecase "View Project Details" as UC4
+    usecase "Delete Project" as UC5
+    usecase "Export to PDF" as UC6
+    usecase "Export to Fountain" as UC7
+
+    ' Internal use cases
+    usecase "Validate Project Data" as UC_VAL
+    usecase "Generate PDF Report" as UC_PDF
+    usecase "Generate Fountain Format" as UC_FNT
+    usecase "Authorize Project Access" as UC_AUTH
+    usecase "Update Treatment Metadata" as UC_META
+}
+
+' Primary associations
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+writer --> UC7
+
+' Include relationships
+UC1 .> UC_VAL : <<include>>
+
+UC3 .> UC_AUTH : <<include>>
+UC3 .> UC_META : <<include>>
+
+UC4 .> UC_AUTH : <<include>>
+
+UC5 .> UC_AUTH : <<include>>
+
+UC6 .> UC_AUTH : <<include>>
+UC6 .> UC_PDF : <<include>>
+
+UC7 .> UC_AUTH : <<include>>
+UC7 .> UC_FNT : <<include>>
+
+note right of UC3
+  Treatment includes:
+  - Title, Genre, Idea
+  - Logline, Storyline
+  - Synopsis (short/long)
+  - Tone, Themes
+  - World description
+  - Character summary
+end note
+
+note right of UC6
+  Generates comprehensive
+  PDF with all treatment
+  information
+end note
+
+note right of UC7
+  Exports dramatic structure
+  in industry-standard
+  Fountain screenplay format
+end note
+
+note bottom of UC_AUTH
+  All project operations verify
+  user owns the project
+end note
+
+@enduml

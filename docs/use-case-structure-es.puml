@@ -1,0 +1,148 @@
+@startuml Dreamink Gestión de Estructura Dramática
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Gestión de Estructura Dramática (UML 2.5)
+
+left to right direction
+
+actor "Guionista" as writer
+
+rectangle "Sistema Dreamink" {
+    usecase "Ver Tablero de Estructura" as UC_BOARD
+
+    package "Gestión de Actos" {
+        usecase "Crear Acto" as UC_A1
+        usecase "Editar Acto" as UC_A2
+        usecase "Eliminar Acto" as UC_A3
+        usecase "Reordenar Actos" as UC_A4
+    }
+
+    package "Gestión de Secuencias" {
+        usecase "Crear Secuencia" as UC_S1
+        usecase "Editar Secuencia" as UC_S2
+        usecase "Eliminar Secuencia" as UC_S3
+        usecase "Mover Secuencia a Acto" as UC_S4
+        usecase "Reordenar Secuencias" as UC_S5
+    }
+
+    package "Gestión de Escenas" {
+        usecase "Crear Escena" as UC_SC1
+        usecase "Editar Escena" as UC_SC2
+        usecase "Eliminar Escena" as UC_SC3
+        usecase "Mover Escena a Secuencia" as UC_SC4
+        usecase "Reordenar Escenas" as UC_SC5
+        usecase "Asignar Localización a Escena" as UC_SC6
+        usecase "Establecer Momento del Día" as UC_SC7
+        usecase "Establecer Color de Escena" as UC_SC8
+        usecase "Filtrar Escenas por Localización" as UC_SC9
+    }
+
+    ' Casos de uso internos
+    usecase "Actualizar Posiciones" as UC_POS
+    usecase "Recalcular Estadísticas" as UC_STATS
+    usecase "Validar Jerarquía" as UC_VAL
+    usecase "Actualizar Referencias de Escena" as UC_REF
+}
+
+' Asociaciones primarias
+writer --> UC_BOARD
+
+writer --> UC_A1
+writer --> UC_A2
+writer --> UC_A3
+writer --> UC_A4
+
+writer --> UC_S1
+writer --> UC_S2
+writer --> UC_S3
+writer --> UC_S4
+writer --> UC_S5
+
+writer --> UC_SC1
+writer --> UC_SC2
+writer --> UC_SC3
+writer --> UC_SC4
+writer --> UC_SC5
+writer --> UC_SC6
+writer --> UC_SC7
+writer --> UC_SC8
+writer --> UC_SC9
+
+' Relaciones de inclusión
+UC_A1 .> UC_POS : <<include>>
+UC_A1 .> UC_STATS : <<include>>
+
+UC_A3 .> UC_STATS : <<include>>
+
+UC_A4 .> UC_POS : <<include>>
+
+UC_S1 .> UC_VAL : <<include>>
+UC_S1 .> UC_POS : <<include>>
+UC_S1 .> UC_STATS : <<include>>
+
+UC_S3 .> UC_STATS : <<include>>
+
+UC_S4 .> UC_VAL : <<include>>
+UC_S4 .> UC_POS : <<include>>
+UC_S4 .> UC_STATS : <<include>>
+UC_S4 .> UC_REF : <<include>>
+
+UC_S5 .> UC_POS : <<include>>
+
+UC_SC1 .> UC_VAL : <<include>>
+UC_SC1 .> UC_POS : <<include>>
+UC_SC1 .> UC_STATS : <<include>>
+
+UC_SC2 .> UC_VAL : <<include>>
+
+UC_SC3 .> UC_STATS : <<include>>
+
+UC_SC4 .> UC_VAL : <<include>>
+UC_SC4 .> UC_POS : <<include>>
+UC_SC4 .> UC_STATS : <<include>>
+UC_SC4 .> UC_REF : <<include>>
+
+UC_SC5 .> UC_POS : <<include>>
+
+' Relaciones de extensión
+UC_SC2 <. UC_SC6 : <<extend>>
+UC_SC2 <. UC_SC7 : <<extend>>
+UC_SC2 <. UC_SC8 : <<extend>>
+
+note right of UC_BOARD
+  Tablero estilo Kanban:
+  Actos (columnas) →
+  Secuencias (tarjetas) →
+  Escenas (elementos)
+
+  Con estadísticas para
+  cada nivel
+end note
+
+note bottom of UC_S4
+  Al mover una secuencia,
+  todas las escenas hijas
+  se actualizan con las
+  referencias del nuevo acto
+end note
+
+note bottom of UC_SC4
+  Mover escenas entre
+  secuencias también puede
+  cambiar el acto padre
+end note
+
+note left of UC_SC6
+  Las escenas pueden tener
+  múltiples localizaciones
+  asignadas
+end note
+
+note left of UC_SC7
+  Opciones de Momento del Día:
+  DÍA, NOCHE, MAÑANA,
+  TARDE, ATARDECER, etc.
+end note
+
+@enduml

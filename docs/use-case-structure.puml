@@ -1,0 +1,144 @@
+@startuml Dreamink Dramatic Structure Management
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Dramatic Structure Management (UML 2.5)
+
+actor "Screenwriter" as writer
+
+rectangle "Dreamink System" {
+    usecase "View Structure Board" as UC_BOARD
+
+    package "Act Management" {
+        usecase "Create Act" as UC_A1
+        usecase "Edit Act" as UC_A2
+        usecase "Delete Act" as UC_A3
+        usecase "Reorder Acts" as UC_A4
+    }
+
+    package "Sequence Management" {
+        usecase "Create Sequence" as UC_S1
+        usecase "Edit Sequence" as UC_S2
+        usecase "Delete Sequence" as UC_S3
+        usecase "Move Sequence to Act" as UC_S4
+        usecase "Reorder Sequences" as UC_S5
+    }
+
+    package "Scene Management" {
+        usecase "Create Scene" as UC_SC1
+        usecase "Edit Scene" as UC_SC2
+        usecase "Delete Scene" as UC_SC3
+        usecase "Move Scene to Sequence" as UC_SC4
+        usecase "Reorder Scenes" as UC_SC5
+        usecase "Assign Location to Scene" as UC_SC6
+        usecase "Set Time of Day" as UC_SC7
+        usecase "Set Scene Color" as UC_SC8
+        usecase "Filter Scenes by Location" as UC_SC9
+    }
+
+    ' Internal use cases
+    usecase "Update Positions" as UC_POS
+    usecase "Recalculate Statistics" as UC_STATS
+    usecase "Validate Hierarchy" as UC_VAL
+    usecase "Update Scene References" as UC_REF
+}
+
+' Primary associations
+writer --> UC_BOARD
+
+writer --> UC_A1
+writer --> UC_A2
+writer --> UC_A3
+writer --> UC_A4
+
+writer --> UC_S1
+writer --> UC_S2
+writer --> UC_S3
+writer --> UC_S4
+writer --> UC_S5
+
+writer --> UC_SC1
+writer --> UC_SC2
+writer --> UC_SC3
+writer --> UC_SC4
+writer --> UC_SC5
+writer --> UC_SC6
+writer --> UC_SC7
+writer --> UC_SC8
+writer --> UC_SC9
+
+' Include relationships
+UC_A1 .> UC_POS : <<include>>
+UC_A1 .> UC_STATS : <<include>>
+
+UC_A3 .> UC_STATS : <<include>>
+
+UC_A4 .> UC_POS : <<include>>
+
+UC_S1 .> UC_VAL : <<include>>
+UC_S1 .> UC_POS : <<include>>
+UC_S1 .> UC_STATS : <<include>>
+
+UC_S3 .> UC_STATS : <<include>>
+
+UC_S4 .> UC_VAL : <<include>>
+UC_S4 .> UC_POS : <<include>>
+UC_S4 .> UC_STATS : <<include>>
+UC_S4 .> UC_REF : <<include>>
+
+UC_S5 .> UC_POS : <<include>>
+
+UC_SC1 .> UC_VAL : <<include>>
+UC_SC1 .> UC_POS : <<include>>
+UC_SC1 .> UC_STATS : <<include>>
+
+UC_SC2 .> UC_VAL : <<include>>
+
+UC_SC3 .> UC_STATS : <<include>>
+
+UC_SC4 .> UC_VAL : <<include>>
+UC_SC4 .> UC_POS : <<include>>
+UC_SC4 .> UC_STATS : <<include>>
+UC_SC4 .> UC_REF : <<include>>
+
+UC_SC5 .> UC_POS : <<include>>
+
+' Extend relationships
+UC_SC2 <. UC_SC6 : <<extend>>
+UC_SC2 <. UC_SC7 : <<extend>>
+UC_SC2 <. UC_SC8 : <<extend>>
+
+note right of UC_BOARD
+  Kanban-style board showing:
+  Acts (columns) →
+  Sequences (cards) →
+  Scenes (items)
+
+  With statistics for each level
+end note
+
+note bottom of UC_S4
+  When moving a sequence,
+  all child scenes are
+  updated with new act
+  references
+end note
+
+note bottom of UC_SC4
+  Moving scenes between
+  sequences can also change
+  the parent act
+end note
+
+note left of UC_SC6
+  Scenes can have multiple
+  locations assigned
+end note
+
+note left of UC_SC7
+  Time of Day options:
+  DAY, NIGHT, MORNING,
+  AFTERNOON, EVENING, etc.
+end note
+
+@enduml

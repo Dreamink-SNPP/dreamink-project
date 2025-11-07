@@ -1,0 +1,108 @@
+@startuml Dreamink Ideas Management
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Ideas Management (UML 2.5)
+
+actor "Screenwriter" as writer
+
+rectangle "Dreamink System" {
+    usecase "Create Idea" as UC1
+    usecase "View Ideas List" as UC2
+    usecase "Edit Idea" as UC3
+    usecase "Delete Idea" as UC4
+    usecase "Search Ideas" as UC5
+    usecase "Filter by Tag" as UC6
+    usecase "Generate Idea Report" as UC7
+    usecase "Generate All Ideas Report" as UC8
+
+    usecase "Manage Tags" as UC_TAGS
+
+    ' Internal use cases
+    usecase "Validate Idea Data" as UC_VAL
+    usecase "Parse Tags" as UC_PARSE
+    usecase "Search Title and Description" as UC_SEARCH
+    usecase "Query by Tag" as UC_QUERY
+    usecase "Sort by Date" as UC_SORT
+    usecase "Compile Idea Data" as UC_COMP
+    usecase "Generate PDF" as UC_PDF
+}
+
+' Primary associations
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+writer --> UC7
+writer --> UC8
+
+' Include/Extend relationships
+UC1 .> UC_VAL : <<include>>
+UC1 .> UC_PARSE : <<include>>
+
+UC3 .> UC_VAL : <<include>>
+UC3 .> UC_PARSE : <<include>>
+
+UC1 <. UC_TAGS : <<extend>>
+UC3 <. UC_TAGS : <<extend>>
+
+UC2 .> UC_SORT : <<include>>
+
+UC5 .> UC_SEARCH : <<include>>
+
+UC6 .> UC_QUERY : <<include>>
+
+UC7 .> UC_COMP : <<include>>
+UC7 .> UC_PDF : <<include>>
+
+UC8 .> UC_COMP : <<include>>
+UC8 .> UC_PDF : <<include>>
+
+note right of UC1
+  Ideas include:
+  - Title (required)
+  - Description (required)
+  - Tags (optional, comma-separated)
+end note
+
+note right of UC2
+  Ideas are sorted by
+  most recent first
+end note
+
+note right of UC5
+  Search works across:
+  - Idea titles
+  - Idea descriptions
+
+  Provides keyword matching
+end note
+
+note right of UC6
+  Each tag acts as a filter
+  to organize and categorize
+  creative ideas
+end note
+
+note right of UC_TAGS
+  Tags are comma-separated
+  strings that can be:
+  - Added during creation
+  - Modified during editing
+  - Used for filtering
+end note
+
+note right of UC7
+  Generates PDF report
+  for a single idea
+end note
+
+note right of UC8
+  Generates comprehensive
+  PDF with all project ideas,
+  sorted by date
+end note
+
+@enduml

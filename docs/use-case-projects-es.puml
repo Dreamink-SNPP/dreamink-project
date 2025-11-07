@@ -1,0 +1,82 @@
+@startuml Dreamink Gestión de Proyectos
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Gestión de Proyectos (UML 2.5)
+
+left to right direction
+
+actor "Guionista" as writer
+
+rectangle "Sistema Dreamink" {
+    usecase "Crear Proyecto" as UC1
+    usecase "Ver Lista de Proyectos" as UC2
+    usecase "Editar Tratamiento" as UC3
+    usecase "Ver Detalles del Proyecto" as UC4
+    usecase "Eliminar Proyecto" as UC5
+    usecase "Exportar a PDF" as UC6
+    usecase "Exportar a Fountain" as UC7
+
+    ' Casos de uso internos
+    usecase "Validar Datos del Proyecto" as UC_VAL
+    usecase "Generar Reporte PDF" as UC_PDF
+    usecase "Generar Formato Fountain" as UC_FNT
+    usecase "Autorizar Acceso al Proyecto" as UC_AUTH
+    usecase "Actualizar Metadatos del Tratamiento" as UC_META
+}
+
+' Asociaciones primarias
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+writer --> UC7
+
+' Relaciones de inclusión
+UC1 .> UC_VAL : <<include>>
+
+UC3 .> UC_AUTH : <<include>>
+UC3 .> UC_META : <<include>>
+
+UC4 .> UC_AUTH : <<include>>
+
+UC5 .> UC_AUTH : <<include>>
+
+UC6 .> UC_AUTH : <<include>>
+UC6 .> UC_PDF : <<include>>
+
+UC7 .> UC_AUTH : <<include>>
+UC7 .> UC_FNT : <<include>>
+
+note right of UC3
+  El tratamiento incluye:
+  - Título, Género, Idea
+  - Logline, Storyline
+  - Sinopsis (corta/larga)
+  - Tono, Temas
+  - Descripción del mundo
+  - Resumen de personajes
+end note
+
+note right of UC6
+  Genera un PDF completo
+  con toda la información
+  del tratamiento
+end note
+
+note right of UC7
+  Exporta la estructura
+  dramática en formato
+  Fountain estándar de
+  la industria
+end note
+
+note bottom of UC_AUTH
+  Todas las operaciones
+  verifican que el usuario
+  sea dueño del proyecto
+end note
+
+@enduml

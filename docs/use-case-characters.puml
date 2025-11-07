@@ -1,0 +1,96 @@
+@startuml Dreamink Character Management
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Character Management (UML 2.5)
+
+actor "Screenwriter" as writer
+
+rectangle "Dreamink System" {
+    usecase "Create Character" as UC1
+    usecase "View Characters List" as UC2
+    usecase "Edit Character Profile" as UC3
+    usecase "Delete Character" as UC4
+    usecase "Generate Character Report" as UC5
+    usecase "Generate All Characters Report" as UC6
+
+    usecase "Edit Internal Traits" as UC_INT
+    usecase "Edit External Traits" as UC_EXT
+
+    ' Internal use cases
+    usecase "Validate Unique Name" as UC_VAL
+    usecase "Initialize Trait Records" as UC_INIT
+    usecase "Compile Character Data" as UC_COMP
+    usecase "Generate PDF" as UC_PDF
+}
+
+' Primary associations
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+
+' Specialization - Edit Character includes both trait types
+UC3 <|-- UC_INT
+UC3 <|-- UC_EXT
+
+' Include relationships
+UC1 .> UC_VAL : <<include>>
+UC1 .> UC_INIT : <<include>>
+
+UC3 .> UC_VAL : <<include>>
+
+UC5 .> UC_COMP : <<include>>
+UC5 .> UC_PDF : <<include>>
+
+UC6 .> UC_COMP : <<include>>
+UC6 .> UC_PDF : <<include>>
+
+note right of UC_INT
+  Internal Traits:
+  - Skills, Religion, Spirituality
+  - Identity, Beliefs, Values
+  - Mental Programs, Ethics
+  - Sexuality, Motivations
+  - Relationships, Hobbies
+  - Habits, Peculiarities
+end note
+
+note right of UC_EXT
+  External Traits:
+  - Appearance, Medical History
+  - Family Structure
+  - Education, Profession
+  - Economic Situation
+  - Residence Type
+  - Possessions, Pets
+end note
+
+note bottom of UC1
+  Creating a character
+  automatically initializes
+  both internal and external
+  trait records
+end note
+
+note bottom of UC_VAL
+  Character names must
+  be unique within the
+  project
+end note
+
+note right of UC5
+  Generates detailed PDF
+  report for a single
+  character with all traits
+end note
+
+note right of UC6
+  Generates comprehensive
+  PDF with all project
+  characters
+end note
+
+@enduml

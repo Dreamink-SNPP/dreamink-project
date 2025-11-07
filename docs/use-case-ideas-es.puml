@@ -1,0 +1,111 @@
+@startuml Dreamink Gestión de Ideas
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Gestión de Ideas (UML 2.5)
+
+left to right direction
+
+actor "Guionista" as writer
+
+rectangle "Sistema Dreamink" {
+    usecase "Crear Idea" as UC1
+    usecase "Ver Lista de Ideas" as UC2
+    usecase "Editar Idea" as UC3
+    usecase "Eliminar Idea" as UC4
+    usecase "Buscar Ideas" as UC5
+    usecase "Filtrar por Etiqueta" as UC6
+    usecase "Generar Reporte de Idea" as UC7
+    usecase "Generar Reporte de Todas las Ideas" as UC8
+
+    usecase "Gestionar Etiquetas" as UC_TAGS
+
+    ' Casos de uso internos
+    usecase "Validar Datos de Idea" as UC_VAL
+    usecase "Analizar Etiquetas" as UC_PARSE
+    usecase "Buscar en Título y Descripción" as UC_SEARCH
+    usecase "Consultar por Etiqueta" as UC_QUERY
+    usecase "Ordenar por Fecha" as UC_SORT
+    usecase "Compilar Datos de Idea" as UC_COMP
+    usecase "Generar PDF" as UC_PDF
+}
+
+' Asociaciones primarias
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+writer --> UC7
+writer --> UC8
+
+' Relaciones de inclusión/extensión
+UC1 .> UC_VAL : <<include>>
+UC1 .> UC_PARSE : <<include>>
+
+UC3 .> UC_VAL : <<include>>
+UC3 .> UC_PARSE : <<include>>
+
+UC1 <. UC_TAGS : <<extend>>
+UC3 <. UC_TAGS : <<extend>>
+
+UC2 .> UC_SORT : <<include>>
+
+UC5 .> UC_SEARCH : <<include>>
+
+UC6 .> UC_QUERY : <<include>>
+
+UC7 .> UC_COMP : <<include>>
+UC7 .> UC_PDF : <<include>>
+
+UC8 .> UC_COMP : <<include>>
+UC8 .> UC_PDF : <<include>>
+
+note right of UC1
+  Las ideas incluyen:
+  - Título (obligatorio)
+  - Descripción (obligatoria)
+  - Etiquetas (opcional, separadas por comas)
+end note
+
+note right of UC2
+  Las ideas se ordenan por
+  las más recientes primero
+end note
+
+note right of UC5
+  La búsqueda funciona en:
+  - Títulos de ideas
+  - Descripciones de ideas
+
+  Proporciona coincidencias
+  por palabra clave
+end note
+
+note right of UC6
+  Cada etiqueta actúa como
+  filtro para organizar y
+  categorizar ideas creativas
+end note
+
+note right of UC_TAGS
+  Las etiquetas son cadenas
+  separadas por comas que:
+  - Se añaden al crear
+  - Se modifican al editar
+  - Se usan para filtrar
+end note
+
+note right of UC7
+  Genera un reporte PDF
+  para una sola idea
+end note
+
+note right of UC8
+  Genera un PDF completo
+  con todas las ideas del
+  proyecto, ordenadas por fecha
+end note
+
+@enduml

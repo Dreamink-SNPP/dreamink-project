@@ -1,0 +1,103 @@
+@startuml Dreamink Gestión de Localizaciones
+!theme plain
+skinparam packageStyle rectangle
+
+title Dreamink - Gestión de Localizaciones (UML 2.5)
+
+left to right direction
+
+actor "Guionista" as writer
+
+rectangle "Sistema Dreamink" {
+    usecase "Crear Localización" as UC1
+    usecase "Ver Lista de Localizaciones" as UC2
+    usecase "Editar Localización" as UC3
+    usecase "Eliminar Localización" as UC4
+    usecase "Ver Escenas por Localización" as UC5
+    usecase "Generar Reporte de Localización" as UC6
+    usecase "Generar Reporte de Todas las Localizaciones" as UC7
+
+    usecase "Filtrar por Tipo" as UC_FILTER
+
+    ' Casos de uso internos
+    usecase "Validar Nombre Único" as UC_VAL
+    usecase "Establecer Tipo de Localización" as UC_TYPE
+    usecase "Compilar Datos de Localización" as UC_COMP
+    usecase "Consultar Asociaciones de Escenas" as UC_QUERY
+    usecase "Generar PDF" as UC_PDF
+}
+
+' Asociaciones primarias
+writer --> UC1
+writer --> UC2
+writer --> UC3
+writer --> UC4
+writer --> UC5
+writer --> UC6
+writer --> UC7
+
+' Relaciones de extensión
+UC2 <. UC_FILTER : <<extend>>
+
+' Relaciones de inclusión
+UC1 .> UC_VAL : <<include>>
+UC1 .> UC_TYPE : <<include>>
+
+UC3 .> UC_VAL : <<include>>
+
+UC5 .> UC_QUERY : <<include>>
+
+UC6 .> UC_COMP : <<include>>
+UC6 .> UC_QUERY : <<include>>
+UC6 .> UC_PDF : <<include>>
+
+UC7 .> UC_COMP : <<include>>
+UC7 .> UC_PDF : <<include>>
+
+note right of UC_TYPE
+  Tipos de Localización:
+  - Interior (INT)
+  - Exterior (EXT)
+end note
+
+note bottom of UC_VAL
+  Los nombres de localizaciones
+  deben ser únicos dentro
+  del proyecto
+end note
+
+note right of UC5
+  Muestra todas las escenas
+  que ocurren en esta
+  localización, organizadas
+  por actos y secuencias
+end note
+
+note right of UC_FILTER
+  Filtrar localizaciones por:
+  - Localizaciones interiores
+  - Localizaciones exteriores
+  - Todas las localizaciones
+end note
+
+note right of UC6
+  Genera un reporte PDF
+  para una sola localización
+  incluyendo todas las
+  escenas asociadas
+end note
+
+note right of UC7
+  Genera un PDF completo
+  con todas las localizaciones
+  del proyecto y sus escenas
+end note
+
+note bottom of UC4
+  Eliminar una localización
+  remueve las asociaciones
+  con escenas pero no las
+  escenas mismas
+end note
+
+@enduml
