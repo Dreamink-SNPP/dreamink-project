@@ -19,27 +19,112 @@
       </div>
 
       <!-- Acciones de la secuencia -->
-      <div class="flex space-x-0.5 md:space-x-1 shrink-0">
+      <!-- Mobile: Compact menu -->
+      <div class="flex space-x-1 shrink-0 md:hidden">
+        <!-- Add Scene Button (always visible) -->
+        <button type="button"
+                data-action="click->structure#openNewSceneModal"
+                data-sequence-id="<%= sequence.id %>"
+                class="text-gray-400 hover:text-green-600 p-1"
+                title="Agregar escena">
+          <%= heroicon "plus", size: "4" %>
+        </button>
+
+        <!-- More actions menu -->
+        <div class="relative" data-controller="dropdown">
+          <button type="button"
+                  data-action="click->dropdown#toggle"
+                  class="text-gray-400 hover:text-primary p-1"
+                  title="Más acciones">
+            <%= heroicon "ellipsis-vertical", size: "4" %>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div data-dropdown-target="menu"
+               class="hidden absolute right-0 mt-1 w-56 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+            <div class="py-1">
+              <!-- Move Up/Down -->
+              <% unless sequence.position == 1 %>
+                <%= button_to move_left_project_sequence_path(project, sequence),
+                              method: :patch,
+                              class: "w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary flex items-center gap-2",
+                              data: { turbo: true } do %>
+                  <%= heroicon "chevron-up", size: "4" %>
+                  Mover arriba
+                <% end %>
+              <% end %>
+
+              <% unless sequence.position == sequence.act.sequences.count %>
+                <%= button_to move_right_project_sequence_path(project, sequence),
+                              method: :patch,
+                              class: "w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary flex items-center gap-2",
+                              data: { turbo: true } do %>
+                  <%= heroicon "chevron-down", size: "4" %>
+                  Mover abajo
+                <% end %>
+              <% end %>
+
+              <!-- Move to Act submenu -->
+              <% if project.acts.where.not(id: sequence.act_id).any? %>
+                <div class="border-t border-gray-200 my-1"></div>
+                <div class="px-4 py-2 text-xs font-semibold text-gray-500">
+                  Mover a Acto
+                </div>
+                <% project.acts.where.not(id: sequence.act_id).each do |act| %>
+                  <%= button_to move_to_act_project_sequence_path(project, sequence),
+                                method: :patch,
+                                params: { target_act_id: act.id, target_position: 1 },
+                                class: "w-full text-left px-6 py-2 text-sm text-gray-600 hover:bg-primary-50 hover:text-primary",
+                                data: { turbo: true } do %>
+                    <%= act.title.truncate(30) %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <!-- Edit and Delete -->
+              <div class="border-t border-gray-200 my-1"></div>
+              <button type="button"
+                      data-action="click->structure#openEditSequenceModal"
+                      data-sequence-id="<%= sequence.id %>"
+                      class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary flex items-center gap-2">
+                <%= heroicon "pencil", size: "4" %>
+                Editar secuencia
+              </button>
+
+              <%= button_to project_sequence_path(project, sequence),
+                            method: :delete,
+                            data: { turbo_confirm: "¿Eliminar esta secuencia y sus escenas?" },
+                            class: "w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2" do %>
+                <%= heroicon "trash", size: "4" %>
+                Eliminar secuencia
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tablet/Desktop: Full button bar -->
+      <div class="hidden md:flex space-x-1 shrink-0">
         <!-- Botones de navegación (mover arriba/izquierda) -->
         <% unless sequence.position == 1 %>
           <%= button_to move_left_project_sequence_path(project, sequence),
                         method: :patch,
-                        class: "text-gray-400 hover:text-primary p-0.5 md:p-1",
+                        class: "text-gray-400 hover:text-primary p-1",
                         title: "Mover",
                         form: { class: "inline-block" } do %>
-            <span class="xl:hidden"><%= heroicon "chevron-up", size: "3.5", class: "md:w-4 md:h-4" %></span>
-            <span class="hidden xl:inline"><%= heroicon "chevron-left", size: "3.5", class: "md:w-4 md:h-4" %></span>
+            <span class="xl:hidden"><%= heroicon "chevron-up", size: "4" %></span>
+            <span class="hidden xl:inline"><%= heroicon "chevron-left", size: "4" %></span>
           <% end %>
         <% end %>
 
         <% unless sequence.position == sequence.act.sequences.count %>
           <%= button_to move_right_project_sequence_path(project, sequence),
                         method: :patch,
-                        class: "text-gray-400 hover:text-primary p-0.5 md:p-1",
+                        class: "text-gray-400 hover:text-primary p-1",
                         title: "Mover",
                         form: { class: "inline-block" } do %>
-            <span class="xl:hidden"><%= heroicon "chevron-down", size: "3.5", class: "md:w-4 md:h-4" %></span>
-            <span class="hidden xl:inline"><%= heroicon "chevron-right", size: "3.5", class: "md:w-4 md:h-4" %></span>
+            <span class="xl:hidden"><%= heroicon "chevron-down", size: "4" %></span>
+            <span class="hidden xl:inline"><%= heroicon "chevron-right", size: "4" %></span>
           <% end %>
         <% end %>
 
@@ -47,18 +132,18 @@
         <button type="button"
                 data-action="click->structure#openNewSceneModal"
                 data-sequence-id="<%= sequence.id %>"
-                class="text-gray-400 hover:text-green-600 p-0.5 md:p-1"
+                class="text-gray-400 hover:text-green-600 p-1"
                 title="Agregar escena">
-          <%= heroicon "plus", size: "3.5", class: "md:w-4 md:h-4" %>
+          <%= heroicon "plus", size: "4" %>
         </button>
 
         <!-- Move to Act Dropdown -->
         <div class="relative" data-controller="dropdown">
           <button type="button"
                   data-action="click->dropdown#toggle"
-                  class="text-gray-400 hover:text-primary p-0.5 md:p-1"
+                  class="text-gray-400 hover:text-primary p-1"
                   title="Mover a otro acto">
-            <%= heroicon "arrows-right-left", size: "3.5", class: "md:w-4 md:h-4" %>
+            <%= heroicon "arrows-right-left", size: "4" %>
           </button>
 
           <!-- Dropdown Menu -->
@@ -84,17 +169,17 @@
         <button type="button"
                 data-action="click->structure#openEditSequenceModal"
                 data-sequence-id="<%= sequence.id %>"
-                class="text-gray-400 hover:text-primary p-0.5 md:p-1"
+                class="text-gray-400 hover:text-primary p-1"
                 title="Editar secuencia">
-          <%= heroicon "pencil", size: "3.5", class: "md:w-4 md:h-4" %>
+          <%= heroicon "pencil", size: "4" %>
         </button>
 
         <%= button_to project_sequence_path(project, sequence),
                       method: :delete,
                       data: { turbo_confirm: "¿Eliminar esta secuencia y sus escenas?" },
-                      class: "text-gray-400 hover:text-red-600 p-0.5 md:p-1",
+                      class="text-gray-400 hover:text-red-600 p-1",
                       title: "Eliminar secuencia" do %>
-          <%= heroicon "trash", size: "3.5", class: "md:w-4 md:h-4" %>
+          <%= heroicon "trash", size: "4" %>
         <% end %>
       </div>
     </div>
