@@ -20,14 +20,15 @@
 
       <!-- Acciones de la secuencia -->
       <div class="ml-2 flex space-x-1">
-        <!-- Botones de navegación (mover arriba/abajo) -->
+        <!-- Botones de navegación (mover arriba/izquierda) -->
         <% unless sequence.position == 1 %>
           <%= button_to move_left_project_sequence_path(project, sequence),
                         method: :patch,
                         class: "text-gray-400 hover:text-primary p-1",
-                        title: "Mover arriba",
+                        title: "Mover",
                         form: { class: "inline-block" } do %>
-            <%= heroicon "chevron-up", size: "4" %>
+            <span class="lg:hidden"><%= heroicon "chevron-up", size: "4" %></span>
+            <span class="hidden lg:inline"><%= heroicon "chevron-left", size: "4" %></span>
           <% end %>
         <% end %>
 
@@ -35,9 +36,10 @@
           <%= button_to move_right_project_sequence_path(project, sequence),
                         method: :patch,
                         class: "text-gray-400 hover:text-primary p-1",
-                        title: "Mover abajo",
+                        title: "Mover",
                         form: { class: "inline-block" } do %>
-            <%= heroicon "chevron-down", size: "4" %>
+            <span class="lg:hidden"><%= heroicon "chevron-down", size: "4" %></span>
+            <span class="hidden lg:inline"><%= heroicon "chevron-right", size: "4" %></span>
           <% end %>
         <% end %>
 
