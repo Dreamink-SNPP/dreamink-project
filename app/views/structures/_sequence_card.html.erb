@@ -20,6 +20,27 @@
 
       <!-- Acciones de la secuencia -->
       <div class="ml-2 flex space-x-1">
+        <!-- Botones de navegación (mover arriba/abajo) -->
+        <% unless sequence.position == 1 %>
+          <%= button_to move_left_project_sequence_path(project, sequence),
+                        method: :patch,
+                        class: "text-gray-400 hover:text-primary p-1",
+                        title: "Mover arriba",
+                        form: { class: "inline-block" } do %>
+            <%= heroicon "chevron-up", size: "4" %>
+          <% end %>
+        <% end %>
+
+        <% unless sequence.position == sequence.act.sequences.count %>
+          <%= button_to move_right_project_sequence_path(project, sequence),
+                        method: :patch,
+                        class: "text-gray-400 hover:text-primary p-1",
+                        title: "Mover abajo",
+                        form: { class: "inline-block" } do %>
+            <%= heroicon "chevron-down", size: "4" %>
+          <% end %>
+        <% end %>
+
         <!-- Add Scene Button -->
         <button type="button"
                 data-action="click->structure#openNewSceneModal"

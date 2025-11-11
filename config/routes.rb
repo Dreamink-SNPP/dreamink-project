@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       member do
         get :edit_modal
         patch :move_to_act
+        patch :move_left
+        patch :move_right
       end
       get "scenes/new_modal", to: "scenes#new_modal", as: :new_scene_modal
     end

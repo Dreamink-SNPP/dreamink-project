@@ -1,7 +1,7 @@
 class SequencesController < ApplicationController
   include ProjectAuthorization
 
-  before_action :set_sequence, only: [ :edit, :edit_modal, :update, :destroy, :move_to_act ]
+  before_action :set_sequence, only: [ :edit, :edit_modal, :update, :destroy, :move_to_act, :move_left, :move_right ]
   before_action :set_act, only: [ :new, :create, :new_modal ]
 
   def index
@@ -188,6 +188,76 @@ class SequencesController < ApplicationController
     end
   end
 
+  # Mover secuencia hacia arriba (decrementar posición)
+  def move_left
+    act = @sequence.act
+    target_sequence = act.sequences.find_by(position: @sequence.position - 1)
+
+    respond_to do |format|
+      if target_sequence
+        swap_positions(@sequence, target_sequence)
+        format.turbo_stream do
+          render turbo_stream: [
+            # Reemplazar la lista de secuencias del acto para reflejar el nuevo orden
+            turbo_stream.update("act_#{act.id}_sequences",
+                                partial: "structures/sequences_list",
+                                locals: { act: act, project: @project }
+            ),
+            # Mensaje flash
+            turbo_stream.prepend("flash_messages",
+                                 partial: "shared/flash_notice",
+                                 locals: { message: "Secuencia movida correctamente" }
+            )
+          ]
+        end
+        format.html { redirect_to project_structure_path(@project), notice: "Secuencia movida correctamente" }
+      else
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("flash_messages",
+                                                    partial: "shared/flash_alert",
+                                                    locals: { message: "La secuencia ya está en la primera posición" }
+          )
+        end
+        format.html { redirect_to project_structure_path(@project), alert: "La secuencia ya está en la primera posición" }
+      end
+    end
+  end
+
+  # Mover secuencia hacia abajo (incrementar posición)
+  def move_right
+    act = @sequence.act
+    target_sequence = act.sequences.find_by(position: @sequence.position + 1)
+
+    respond_to do |format|
+      if target_sequence
+        swap_positions(@sequence, target_sequence)
+        format.turbo_stream do
+          render turbo_stream: [
+            # Reemplazar la lista de secuencias del acto para reflejar el nuevo orden
+            turbo_stream.update("act_#{act.id}_sequences",
+                                partial: "structures/sequences_list",
+                                locals: { act: act, project: @project }
+            ),
+            # Mensaje flash
+            turbo_stream.prepend("flash_messages",
+                                 partial: "shared/flash_notice",
+                                 locals: { message: "Secuencia movida correctamente" }
+            )
+          ]
+        end
+        format.html { redirect_to project_structure_path(@project), notice: "Secuencia movida correctamente" }
+      else
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("flash_messages",
+                                                    partial: "shared/flash_alert",
+                                                    locals: { message: "La secuencia ya está en la última posición" }
+          )
+        end
+        format.html { redirect_to project_structure_path(@project), alert: "La secuencia ya está en la última posición" }
+      end
+    end
+  end
+
   private
 
   def set_sequence
@@ -205,5 +275,24 @@ class SequencesController < ApplicationController
 
   def set_project
     @project = Project.find(params[:project_id])
+  end
+
+  # Intercambiar posiciones de dos secuencias evitando el unique constraint
+  def swap_positions(sequence1, sequence2)
+    # Guardar posiciones originales
+    pos1 = sequence1.position
+    pos2 = sequence2.position
+
+    ActiveRecord::Base.transaction do
+      # Paso 1: Mover a posiciones temporales negativas
+      sequence1.update_column(:position, -1000)
+      sequence2.update_column(:position, -1001)
+
+      # Paso 2: Asignar las posiciones intercambiadas
+      sequence1.update_column(:position, pos2)
+      sequence2.update_column(:position, pos1)
+    end
+
+    Rails.logger.info "Swapped sequences #{sequence1.id} and #{sequence2.id}"
   end
 end
