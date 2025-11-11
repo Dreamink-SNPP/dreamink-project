@@ -81,8 +81,8 @@
       <% end %>
 
       <% if act.sequences.empty? %>
-        <div id="act_<%= act.id %>_empty_state" class="text-center py-8 text-gray-400 text-sm pointer-events-none">
-          <%= heroicon "document-text", size: "8", class: "mx-auto mb-2 text-gray-300" %>
+        <div id="act_<%= act.id %>_empty_state" class="flex flex-col items-center justify-center py-8 text-gray-400 text-sm pointer-events-none w-full">
+          <%= heroicon "document-text", size: "8", class: "mb-2 text-gray-300" %>
           <p>Sin secuencias</p>
         </div>
       <% end %>
