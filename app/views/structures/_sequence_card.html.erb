@@ -177,7 +177,7 @@
         <%= button_to project_sequence_path(project, sequence),
                       method: :delete,
                       data: { turbo_confirm: "¿Eliminar esta secuencia y sus escenas?" },
-                      class="text-gray-400 hover:text-red-600 p-1",
+                      class: "text-gray-400 hover:text-red-600 p-1",
                       title: "Eliminar secuencia" do %>
           <%= heroicon "trash", size: "4" %>
         <% end %>
