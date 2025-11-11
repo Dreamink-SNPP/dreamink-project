@@ -75,6 +75,52 @@ class SequencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal other_act.id, @sequence.act_id
   end
 
+  test "should move sequence left (up)" do
+    # Get the second sequence from fixtures (at position 2)
+    sequence_two = fixture_to_model(sequences(:two), Sequence)
+
+    # Store original positions
+    original_pos = sequence_two.position
+
+    # Move sequence_two left (up) to swap with @sequence
+    patch move_left_project_sequence_path(@project, sequence_two)
+    assert_redirected_to project_structure_path(@project)
+
+    # Verify it moved up
+    sequence_two.reload
+    assert_equal original_pos - 1, sequence_two.position
+  end
+
+  test "should move sequence right (down)" do
+    # Get the second sequence from fixtures (at position 2)
+    sequence_two = fixture_to_model(sequences(:two), Sequence)
+
+    # Store original positions
+    original_pos = @sequence.position
+
+    # Move @sequence right (down) to swap with sequence_two
+    patch move_right_project_sequence_path(@project, @sequence)
+    assert_redirected_to project_structure_path(@project)
+
+    # Verify it moved down
+    @sequence.reload
+    assert_equal original_pos + 1, @sequence.position
+  end
+
+  test "should not move first sequence left" do
+    # Ensure @sequence is at position 1
+    @sequence.update(position: 1)
+
+    patch move_left_project_sequence_path(@project, @sequence), as: :html
+    assert_redirected_to project_structure_path(@project)
+  end
+
+  test "should not move last sequence right" do
+    # @sequence is the only sequence, so moving right should fail
+    patch move_right_project_sequence_path(@project, @sequence), as: :html
+    assert_redirected_to project_structure_path(@project)
+  end
+
   test "should not access other user's project sequences" do
     other_project = projects(:two)
 
