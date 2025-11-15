@@ -86,3 +86,29 @@ La arquitectura del sistema se compone de tres capas principales que operan de f
 El sistema no mantiene interfaces directas con APIs externas ni sistemas de terceros para su funcionamiento operativo. Las exportaciones de documentos en formato PDF y Fountain se generan internamente mediante librerías especializadas integradas en el servidor de aplicaciones. Esta arquitectura autónoma simplifica el despliegue y reduce dependencias externas, aunque limita las posibilidades de sincronización o colaboración con otras plataformas.
 
 DreamInk se posiciona como primer escalón en el proceso de desarrollo de guiones audiovisuales, ocupando específicamente la fase de preproducción y planificación estructural. El flujo típico de trabajo contempla que los usuarios desarrollen la estructura dramática completa en DreamInk y posteriormente exporten el resultado para continuar la escritura del guión literario en herramientas especializadas. Esta separación de responsabilidades permite optimizar cada herramienta para su propósito específico sin sobrecargar ningún sistema individual.
+
+### Funciones del producto
+
+El sistema permite gestionar proyectos audiovisuales con atributos narrativos como género, logline, sinopsis y temas. Proporciona una interfaz visual tipo Kanban para organizar la estructura dramática jerárquica mediante actos, secuencias y escenas con capacidades de reordenamiento mediante arrastrar y soltar. Incluye formularios estructurados para desarrollar perfiles completos de personajes con rasgos internos y externos.
+
+La aplicación administra locaciones clasificadas por tipo y permite vincularlas con escenas específicas. Ofrece un banco de ideas con funcionalidades de búsqueda y categorización mediante etiquetas. Genera documentos de tratamiento, fichas de personajes, reportes de locaciones y listados de ideas en formato PDF.
+
+Exporta la estructura dramática completa al formato Fountain para compatibilidad con editores profesionales de guiones. Implementa un sistema de autenticación que garantiza la privacidad de los datos, permitiendo que cada usuario acceda únicamente a sus propios proyectos.
+
+### Características de los usuarios
+
+Los usuarios principales son guionistas profesionales y estudiantes de guionismo que desarrollan proyectos para cine, televisión o medios digitales. Se espera que posean conocimientos sólidos sobre narrativa audiovisual, estructura dramática y terminología del dominio cinematográfico. No requieren experiencia técnica avanzada en informática, aunque deben manejar navegadores web y conceptos básicos de aplicaciones en línea.
+
+Los usuarios trabajan de forma individual en sus proyectos sin necesidad de colaboración simultánea con otros guionistas. Acceden al sistema desde computadoras de escritorio, portátiles o dispositivos móviles según sus necesidades de movilidad. Se asume familiaridad con interfaces visuales de arrastrar y soltar similares a las utilizadas en herramientas de gestión de proyectos contemporáneas.
+
+### Restricciones
+
+El sistema debe ejecutarse en navegadores web modernos compatibles con estándares HTML5, CSS3 y JavaScript ES6. La base de datos PostgreSQL versión 16 o superior es obligatoria para garantizar compatibilidad con las extensiones y características empleadas. El servidor de aplicaciones requiere Ruby versión 3.4 o superior para aprovechar las funcionalidades del framework Rails 8.
+
+La interfaz de usuario debe presentarse exclusivamente en idioma español para el público objetivo paraguayo y latinoamericano. Los documentos exportados deben cumplir con las especificaciones del formato Fountain versión 1.1 para asegurar interoperabilidad. El sistema debe operar bajo licencia MIT manteniendo su carácter de software libre y código abierto.
+
+### Factores que se asumen y futuros requisitos
+
+Se asume que los usuarios disponen de conexión estable a internet para acceder a la aplicación web. Se presupone que los navegadores de los usuarios tienen JavaScript habilitado y aceptan cookies para el funcionamiento de las sesiones. Se considera que los usuarios realizarán respaldos periódicos de sus proyectos mediante las funcionalidades de exportación disponibles.
+
+Entre los futuros requisitos se contempla la posibilidad de colaboración en tiempo real entre múltiples guionistas en un mismo proyecto. Se prevé la incorporación de funcionalidades de importación desde formato Fountain para permitir el flujo bidireccional de datos. Adicionalmente se proyecta desarrollar capacidades de versionado que permitan rastrear la evolución histórica de la estructura dramática a lo largo del proceso creativo.
