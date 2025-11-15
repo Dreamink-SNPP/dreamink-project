@@ -24,3 +24,51 @@ DreamInk **no** es un editor de guiones literarios ni un procesador de texto esp
 Los beneficios que se alcanzan con DreamInk incluyen la organización sistemática de ideas narrativas mediante una interfaz visual tipo Kanban, la posibilidad de reordenar elementos estructurales mediante arrastrar y soltar, y la generación automática de documentos de tratamiento completos. El sistema facilita el desarrollo profundo de personajes a través de formularios estructurados que cubren aspectos psicológicos y observables, permitiendo exportar fichas individuales o colectivas. La exportación a formato Fountain garantiza compatibilidad con software profesional de guionismo utilizado en la industria audiovisual.
 
 Este documento mantiene consistencia con la especificación de arquitectura del sistema documentada en el diagrama de entidad-relación (ERD.md) y los casos de uso (USE_CASE_DIAGRAMS.md). Estos documentos de nivel superior definen la estructura de datos y los flujos de interacción que sustentan los requisitos aquí especificados. Adicionalmente, se mantiene coherencia con las guías de estilo de desarrollo (STYLE_GUIDE.md) que norman la implementación técnica del sistema.
+
+### Definiciones, acrónimos y abreviaturas
+
+**Acto:** División narrativa de alto nivel que estructura la obra audiovisual en segmentos principales. Tradicionalmente las obras cinematográficas se organizan en tres actos, aunque pueden emplearse otras configuraciones según la propuesta narrativa.
+
+**Secuencia:** Agrupación de escenas relacionadas temática o temporalmente que conforman una unidad narrativa dentro de un acto. Las secuencias permiten organizar el desarrollo dramático en bloques coherentes que facilitan la planificación de la producción.
+
+**Escena:** Unidad narrativa mínima que ocurre en un tiempo y espacio continuos. Cada escena se caracteriza por su locación, momento del día y descripción de la acción dramática que se desarrolla en ella.
+
+**Tratamiento:** Documento de preproducción que describe detalladamente la historia, personajes, locaciones y estructura dramática de una obra audiovisual antes de escribir el guión literario. El tratamiento sirve como base para la planificación narrativa y productiva del proyecto.
+
+**Locación:** Espacio físico donde se desarrolla una escena. Las locaciones se clasifican en interiores o exteriores y pueden aparecer en múltiples escenas a lo largo de la obra.
+
+**Fountain:** Lenguaje de marcado de texto plano diseñado específicamente para escribir guiones cinematográficos. Permite crear guiones con formato profesional utilizando sintaxis simple y es compatible con múltiples aplicaciones de guionismo de la industria.
+
+**Logline:** Resumen extremadamente conciso de la premisa de una obra audiovisual, típicamente expresado en una o dos oraciones. El logline captura la esencia del conflicto central y los protagonistas principales.
+
+**Storyline:** Línea argumental que describe la progresión narrativa de la obra de manera más extensa que el logline pero más concisa que la sinopsis. Presenta los acontecimientos principales y el arco dramático general.
+
+**ERS:** Especificación de Requisitos de Software. Documento que detalla de manera formal y completa los requisitos funcionales y no funcionales de un sistema de software.
+
+**PDF:** Formato de Documento Portátil. Formato de archivo desarrollado por Adobe que preserva la apariencia visual de documentos independientemente del software o hardware utilizado para visualizarlos.
+
+**API:** Interfaz de Programación de Aplicaciones. Conjunto de definiciones y protocolos que permite la comunicación entre diferentes componentes de software.
+
+**CRUD:** Acrónimo de Crear, Leer, Actualizar y Eliminar. Representa las cuatro operaciones básicas de gestión de datos en sistemas de información.
+
+### Referencias
+
+**ERD.md** - Diagrama de Entidad-Relación del sistema DreamInk. Ubicación: /docs/diagram_er/ERD.md. Este documento especifica la arquitectura de datos, entidades del dominio, atributos y relaciones entre las entidades que conforman el modelo de información del sistema.
+
+**USE_CASE_DIAGRAMS.md** - Diagramas de Casos de Uso del sistema DreamInk. Ubicación: /docs/diagram_use_cases/USE_CASE_DIAGRAMS.md. Describe los actores del sistema y los casos de uso disponibles para cada módulo funcional, incluyendo relaciones de inclusión y extensión.
+
+**STYLE_GUIDE.md** - Guía de Estilos de Desarrollo. Ubicación: /docs/STYLE_GUIDE.md. Establece las convenciones de código, patrones de diseño y mejores prácticas que deben seguirse durante la implementación del sistema.
+
+**README.md** - Documento principal del proyecto. Ubicación: /README.md. Proporciona información general sobre el proyecto, instrucciones de instalación, configuración del entorno de desarrollo y guías de contribución.
+
+**IEEE Std 830-1998** - IEEE Recommended Practice for Software Requirements Specifications. Estándar que define la estructura y contenido recomendado para documentos de especificación de requisitos de software.
+
+### Visión general del documento
+
+Este documento se organiza siguiendo la estructura recomendada por el estándar IEEE 830 para especificaciones de requisitos de software. La sección de Introducción que se presenta aquí establece el contexto general del sistema, define su alcance y proporciona la terminología necesaria para comprender el resto del documento.
+
+La siguiente sección principal será la Descripción General del sistema, que caracteriza los factores que afectan al producto y sus requisitos. Esta sección incluye la perspectiva del producto dentro del contexto de sistemas relacionados, las funciones principales del producto, las características de los usuarios, las restricciones generales y los supuestos y dependencias que condicionan el desarrollo.
+
+Posteriormente se presenta la sección de Requisitos Específicos, que constituye el núcleo técnico del documento. Esta sección detalla exhaustivamente los requisitos funcionales organizados por módulos del sistema, los requisitos de interfaces externas que especifican las interacciones con usuarios y otros sistemas, los requisitos de rendimiento que definen parámetros de desempeño, y las restricciones de diseño que limitan las opciones de implementación. También se incluyen los atributos del sistema relacionados con seguridad, mantenibilidad y portabilidad.
+
+Cada requisito especificado en el documento es identificado de manera única, permitiendo su trazabilidad durante todo el ciclo de desarrollo. Los requisitos se redactan de forma verificable, empleando criterios objetivos que permiten validar su cumplimiento mediante pruebas de aceptación. Esta organización facilita tanto la implementación técnica como la posterior verificación de que el sistema construido satisface las especificaciones establecidas.
