@@ -112,3 +112,51 @@ La interfaz de usuario debe presentarse exclusivamente en idioma español para e
 Se asume que los usuarios disponen de conexión estable a internet para acceder a la aplicación web. Se presupone que los navegadores de los usuarios tienen JavaScript habilitado y aceptan cookies para el funcionamiento de las sesiones. Se considera que los usuarios realizarán respaldos periódicos de sus proyectos mediante las funcionalidades de exportación disponibles.
 
 Entre los futuros requisitos se contempla la posibilidad de colaboración en tiempo real entre múltiples guionistas en un mismo proyecto. Se prevé la incorporación de funcionalidades de importación desde formato Fountain para permitir el flujo bidireccional de datos. Adicionalmente se proyecta desarrollar capacidades de versionado que permitan rastrear la evolución histórica de la estructura dramática a lo largo del proceso creativo.
+
+## Requisitos Específicos
+
+### Requisitos funcionales
+
+**Autenticación y gestión de usuarios:** El sistema debe permitir el registro de nuevos usuarios mediante correo electrónico y contraseña. Debe proporcionar funcionalidades de inicio y cierre de sesión, así como recuperación de contraseña. Cada usuario debe acceder únicamente a sus propios proyectos garantizando la privacidad de la información.
+
+**Gestión de proyectos:** El sistema debe permitir crear, editar, visualizar y eliminar proyectos audiovisuales. Cada proyecto debe almacenar título, género, logline, idea, temas, tono, mundo narrativo, storyline, sinopsis corta y larga, y resumen de personajes. Debe generar documentos de tratamiento completo en formato PDF.
+
+**Estructura dramática:** El sistema debe gestionar actos, secuencias y escenas en jerarquía de tres niveles. Debe permitir crear, editar, eliminar y reordenar elementos mediante interfaz Kanban con arrastrar y soltar. Las escenas deben incluir título, descripción, color, momento del día y vinculación con locaciones.
+
+**Gestión de personajes:** El sistema debe permitir crear perfiles de personajes con rasgos internos y externos. Los rasgos internos incluyen aspectos psicológicos, valores, motivaciones y creencias. Los rasgos externos incluyen apariencia, historial médico, educación, profesión y situación económica. Debe generar fichas individuales y colectivas en PDF.
+
+**Gestión de locaciones:** El sistema debe administrar locaciones clasificadas como interiores o exteriores. Debe permitir vincular múltiples locaciones a cada escena y filtrar escenas por locación. Debe generar reportes individuales y colectivos de locaciones en formato PDF.
+
+**Banco de ideas:** El sistema debe proporcionar almacenamiento de ideas con título, descripción y etiquetas. Debe permitir búsqueda por palabra clave y filtrado por etiquetas. Debe generar reportes individuales y colectivos en PDF.
+
+**Exportaciones:** El sistema debe exportar la estructura dramática completa al formato Fountain incluyendo actos, secuencias, escenas, personajes y locaciones. Los archivos generados deben ser compatibles con editores profesionales de guiones.
+
+### Requisitos de interfaces externas
+
+**Interfaz de usuario:** La interfaz debe ser responsive adaptándose a dispositivos de escritorio, tabletas y móviles. Debe presentar navegación intuitiva mediante menús desplegables y botones de acción claramente identificados. Los formularios deben incluir validaciones en tiempo real con mensajes de error descriptivos.
+
+**Interfaz de hardware:** El sistema requiere dispositivos con capacidad de ejecutar navegadores web modernos y conexión a internet. Para funcionalidad completa de arrastrar y soltar se recomienda dispositivos con puntero de precisión, aunque debe ser operable mediante interfaces táctiles.
+
+**Interfaz de software:** El sistema debe ser compatible con navegadores Chrome, Firefox, Safari y Edge en sus versiones actuales y las dos anteriores. Debe interactuar con el sistema de archivos del navegador para descargas de documentos PDF y Fountain.
+
+**Interfaz de comunicación:** El sistema utiliza protocolo HTTPS para todas las comunicaciones entre cliente y servidor. Las peticiones emplean arquitectura REST mediante métodos HTTP estándar. Las actualizaciones en tiempo real utilizan tecnología Turbo Streams sobre conexiones persistentes.
+
+### Requisitos de rendimiento
+
+El sistema debe cargar la página principal en menos de dos segundos bajo condiciones normales de red. Las operaciones de creación, edición y eliminación de elementos deben completarse en menos de un segundo. La interfaz de arrastrar y soltar debe responder de forma fluida sin latencia perceptible durante el reordenamiento.
+
+La generación de documentos PDF debe completarse en menos de cinco segundos para proyectos de tamaño moderado con hasta cincuenta escenas. La exportación a formato Fountain debe ejecutarse en menos de tres segundos. El sistema debe soportar al menos cincuenta usuarios concurrentes sin degradación significativa del rendimiento.
+
+### Restricciones de diseño
+
+El sistema debe implementarse utilizando el framework Ruby on Rails versión 8.1 o superior siguiendo el patrón arquitectónico MVC. La capa de presentación debe emplear Hotwire con Turbo y Stimulus evitando frameworks JavaScript pesados. Los estilos deben gestionarse mediante Tailwind CSS manteniendo consistencia visual en toda la aplicación.
+
+La base de datos debe ser PostgreSQL versión 16 empleando migraciones de ActiveRecord para control de versiones del esquema. El código debe seguir las convenciones de estilo Ruby idiomáticas verificadas mediante RuboCop. La autenticación debe implementarse sin dependencias externas utilizando has_secure_password de Rails.
+
+### Atributos del sistema
+
+**Seguridad:** El sistema debe encriptar contraseñas mediante bcrypt con factor de trabajo apropiado. Debe implementar protección contra ataques CSRF y XSS. Las sesiones deben expirar después de período de inactividad razonable. Los datos de cada usuario deben estar aislados mediante scopes a nivel de base de datos.
+
+**Mantenibilidad:** El código debe mantener cobertura de pruebas automatizadas para facilitar refactorizaciones futuras. La arquitectura debe separar responsabilidades en modelos, controladores, vistas y servicios. La documentación técnica debe incluir diagramas de entidad-relación y casos de uso actualizados.
+
+**Portabilidad:** El sistema debe ser desplegable mediante contenedores Docker en cualquier plataforma que soporte dicha tecnología. La configuración debe externalizarse mediante variables de entorno. El código debe evitar dependencias específicas de sistemas operativos particulares.
