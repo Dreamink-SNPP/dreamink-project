@@ -306,7 +306,6 @@ export default class extends Controller {
     })
 
     // Close button handler
-    const closeButton = toast.querySelector('.close-toast')
     const closeToast = () => {
       toast.classList.remove('translate-x-0', 'opacity-100')
       toast.classList.add('translate-x-full', 'opacity-0')
