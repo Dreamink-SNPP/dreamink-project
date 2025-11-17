@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_01_231155) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_17_184638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -163,10 +163,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_01_231155) do
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "expires_at"
     t.string "ip_address"
     t.datetime "updated_at", null: false
     t.string "user_agent"
     t.bigint "user_id", null: false
+    t.index ["created_at"], name: "index_sessions_on_created_at", comment: "For session analytics and cleanup queries"
+    t.index ["expires_at"], name: "index_sessions_on_expires_at", comment: "For efficient session cleanup queries"
+    t.index ["ip_address"], name: "index_sessions_on_ip_address", comment: "For security auditing and filtering by IP"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
