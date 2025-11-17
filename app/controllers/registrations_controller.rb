@@ -1,5 +1,6 @@
 class RegistrationsController < ApplicationController
   allow_unauthenticated_access
+  rate_limit to: 5, within: 1.hour, only: :create, with: -> { redirect_to register_url, alert: "Demasiados intentos de registro. Por favor, intenta más tarde." }
 
   def new
     @user = User.new
