@@ -262,22 +262,38 @@ export default class extends Controller {
     const { borderColor, icon } = config[type] || config.info
     toast.classList.add('border-l-4', borderColor)
 
-    toast.innerHTML = `
-      <div class="flex items-start">
-        <div class="flex-shrink-0">
-          ${icon}
-        </div>
-        <div class="ml-3 flex-1">
-          <p class="text-sm font-medium text-gray-900">${message}</p>
-        </div>
-        <button type="button" class="ml-3 inline-flex text-gray-400 hover:text-gray-600 transition close-toast">
-          <span class="sr-only">Cerrar</span>
-          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-      </div>
+    // Create toast structure safely to prevent XSS
+    const container = document.createElement('div')
+    container.className = 'flex items-start'
+
+    // Icon container
+    const iconDiv = document.createElement('div')
+    iconDiv.className = 'flex-shrink-0'
+    iconDiv.innerHTML = icon
+
+    // Message container
+    const messageDiv = document.createElement('div')
+    messageDiv.className = 'ml-3 flex-1'
+    const messagePara = document.createElement('p')
+    messagePara.className = 'text-sm font-medium text-gray-900'
+    messagePara.textContent = message  // Use textContent to prevent XSS
+    messageDiv.appendChild(messagePara)
+
+    // Close button
+    const closeButton = document.createElement('button')
+    closeButton.type = 'button'
+    closeButton.className = 'ml-3 inline-flex text-gray-400 hover:text-gray-600 transition close-toast'
+    closeButton.innerHTML = `
+      <span class="sr-only">Cerrar</span>
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+      </svg>
     `
+
+    container.appendChild(iconDiv)
+    container.appendChild(messageDiv)
+    container.appendChild(closeButton)
+    toast.appendChild(container)
 
     flashContainer.appendChild(toast)
 
