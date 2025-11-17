@@ -22,8 +22,8 @@ class ScenesController < ApplicationController
     respond_to do |format|
       if @scene.save
         # Actualizar locaciones si fueron seleccionadas
-        if params[:scene][:location_ids].present?
-          @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
+        if scene_params[:location_ids].present?
+          @scene.location_ids = scene_params[:location_ids].reject(&:blank?)
         end
 
         format.turbo_stream do
@@ -97,8 +97,8 @@ class ScenesController < ApplicationController
     respond_to do |format|
       if @scene.update(scene_params)
         # Actualizar locaciones
-        if params[:scene][:location_ids].present?
-          @scene.location_ids = params[:scene][:location_ids].reject(&:blank?)
+        if scene_params[:location_ids].present?
+          @scene.location_ids = scene_params[:location_ids].reject(&:blank?)
         end
 
         format.turbo_stream do
@@ -309,6 +309,6 @@ class ScenesController < ApplicationController
   end
 
   def scene_params
-    params.require(:scene).permit(:title, :description, :color, :position, :sequence_id)
+    params.require(:scene).permit(:title, :description, :color, :position, :sequence_id, location_ids: [])
   end
 end
