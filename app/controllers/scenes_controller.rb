@@ -309,6 +309,6 @@ class ScenesController < ApplicationController
   end
 
   def scene_params
-    params.require(:scene).permit(:title, :description, :color, :position, :sequence_id, location_ids: [])
+    params.require(:scene).permit(:title, :description, :color, :position, :sequence_id, :time_of_day, location_ids: [])
   end
 end
