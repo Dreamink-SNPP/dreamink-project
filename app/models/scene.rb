@@ -44,6 +44,7 @@ class Scene < ApplicationRecord
                                .order(position: :desc)
 
         # First move to negative temp positions
+        # Using update_columns to bypass validations and callbacks for performance
         scenes_to_shift.each_with_index do |sc, index|
           sc.update_columns(position: -(target_position + index + 1000))
         end
@@ -55,6 +56,7 @@ class Scene < ApplicationRecord
       end
 
       temp_position = 999999
+      # Using update_columns to avoid callbacks and unique constraint violations
       update_columns(
         sequence_id: new_sequence.id,
         act_id: new_sequence.act_id,

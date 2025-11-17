@@ -281,6 +281,8 @@ class SequencesController < ApplicationController
 
     ActiveRecord::Base.transaction do
       # Paso 1: Mover a posiciones temporales negativas
+      # Using update_column to bypass validations and callbacks for performance
+      # and to avoid triggering unique constraint violations during swap
       sequence1.update_column(:position, -1000)
       sequence2.update_column(:position, -1001)
 

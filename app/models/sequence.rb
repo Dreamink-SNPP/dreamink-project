@@ -28,6 +28,7 @@ class Sequence < ApplicationRecord
 
       # Move this sequence to a temporary position first to avoid conflicts
       temp_position = 999999
+      # Using update_columns to bypass validations and callbacks for performance
       update_columns(
         act_id: new_act.id,
         project_id: new_act.project_id,
@@ -42,6 +43,7 @@ class Sequence < ApplicationRecord
                                           .order(:position)
 
         # First shift to temporary negative positions
+        # Using update_columns to bypass validations and callbacks for performance
         sequences_to_shift_down.each_with_index do |seq, index|
           seq.update_columns(position: -(target_position + index + 1000))
         end
