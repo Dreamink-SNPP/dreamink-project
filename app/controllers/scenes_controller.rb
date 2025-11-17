@@ -224,10 +224,11 @@ class ScenesController < ApplicationController
 
             # Add empty state to old sequence if it's now empty
             if old_sequence.scenes.count == 0
-              streams << turbo_stream.append("sequence_#{old_sequence.id}_scenes",
-                                             html: "<div id=\"sequence_#{old_sequence.id}_empty_state\" class=\"text-center py-4 text-gray-400 text-xs pointer-events-none\">
-                                                      <p>Sin escenas</p>
-                                                    </div>".html_safe)
+              empty_state_html = tag.div(id: "sequence_#{old_sequence.id}_empty_state",
+                                         class: "text-center py-4 text-gray-400 text-xs pointer-events-none") do
+                tag.p("Sin escenas")
+              end
+              streams << turbo_stream.append("sequence_#{old_sequence.id}_scenes", html: empty_state_html)
             end
 
             # Add scene to new sequence at correct position
