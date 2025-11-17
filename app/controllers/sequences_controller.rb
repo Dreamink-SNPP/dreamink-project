@@ -273,10 +273,6 @@ class SequencesController < ApplicationController
     params.require(:sequence).permit(:title, :description, :position, :act_id)
   end
 
-  def set_project
-    @project = Project.find(params[:project_id])
-  end
-
   # Intercambiar posiciones de dos secuencias evitando el unique constraint
   def swap_positions(sequence1, sequence2)
     # Guardar posiciones originales
