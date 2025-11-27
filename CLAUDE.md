@@ -67,7 +67,36 @@ This uses Foreman to run three processes simultaneously (defined in `Procfile.de
 - `DATABASE_HOST` - Database host (default: localhost)
 - `DATABASE_PORT` - Database port (default: 5432)
 
-#### Option 1: Using Podman
+#### Option 1: Using Docker Compose (Recommended)
+
+The easiest way to manage PostgreSQL is with Docker Compose:
+
+```bash
+# Start PostgreSQL in the background
+docker compose up -d
+
+# Check status
+docker compose ps
+
+# View logs
+docker compose logs postgres
+
+# Stop the database
+docker compose down
+
+# Stop and remove data (clean slate)
+docker compose down -v
+```
+
+After starting with Docker Compose, create and migrate the databases:
+```bash
+rails db:create
+rails db:migrate
+```
+
+The `docker-compose.yml` file uses your `.env` variables automatically.
+
+#### Option 2: Using Podman
 ```bash
 # Start PostgreSQL 16 container
 podman run -d \
@@ -90,7 +119,7 @@ rails db:create
 rails db:migrate
 ```
 
-#### Option 2: Using Docker
+#### Option 3: Using Docker (Manual)
 ```bash
 # Start PostgreSQL 16 container
 docker run -d \
@@ -115,8 +144,27 @@ rails db:migrate
 
 #### Managing the Database Container
 
+**With Docker Compose:**
 ```bash
-# Stop container (Podman or Docker)
+# Start services
+docker compose up -d
+
+# Stop services (keeps data)
+docker compose down
+
+# Restart services
+docker compose restart
+
+# View logs
+docker compose logs -f postgres
+
+# Remove everything including volumes (⚠️ deletes data)
+docker compose down -v
+```
+
+**With Podman or Docker (manual):**
+```bash
+# Stop container
 podman stop dreamink_postgres  # or: docker stop dreamink_postgres
 
 # Start existing container
