@@ -8,6 +8,15 @@ Dreamink is a web application for screenwriters to organize and structure audiov
 
 **Stack**: Ruby on Rails 8.1.1, Ruby 3.4+, PostgreSQL 16, Node.js 22+, Tailwind CSS, Hotwire (Turbo + Stimulus), ESbuild
 
+**Key Dependencies**:
+- `acts_as_list` - Position-based ordering for Acts, Sequences, Scenes
+- `bcrypt` - Password hashing for authentication
+- `prawn` & `prawn-table` - PDF generation
+- `solid_cache`, `solid_queue`, `solid_cable` - Rails 8 database-backed adapters
+- `kamal` & `thruster` - Deployment and HTTP optimization
+- `sortablejs` - Drag-and-drop functionality (frontend)
+- `dotenv-rails` - Environment variable management
+
 ## Prerequisites
 
 - **Ruby**: 3.4+ (project uses 3.4.6)
@@ -179,27 +188,51 @@ podman logs dreamink_postgres  # or: docker logs dreamink_postgres
 
 ### Testing
 ```bash
-# Run all tests
+# Run all tests (runs in parallel by default)
 rails test
 
 # Run specific test file
 rails test test/controllers/scenes_controller_test.rb
 
-# Run system tests
+# Run system tests (uses Capybara + Selenium + Chrome)
 rails test:system
+
+# Run all tests including system tests (like CI does)
+bin/rails db:test:prepare test test:system
+
+# Run a single test by line number
+rails test test/controllers/scenes_controller_test.rb:42
 ```
+
+**Important**: Tests use parallel execution by default. Fixtures return Hashes in parallel mode, so use `fixture_to_model(fixture, ModelClass)` helper to convert them to model instances. For authentication in controller tests, use `sign_in_as(user)` helper (sets `session[:session_id]`).
 
 ### Code Quality
 ```bash
 # Run RuboCop linter (uses rubocop-rails-omakase)
 rubocop
+# Or via bin wrapper:
+bin/rubocop
 
 # Run Brakeman security scanner
 brakeman
+# Or via bin wrapper:
+bin/brakeman
 
-# Build JavaScript assets
+# Build JavaScript assets (production build)
 npm run build
+
+# Watch mode for JavaScript (already included in bin/dev)
+npm run build -- --watch
 ```
+
+### CI Pipeline
+
+GitHub Actions workflow (`.github/workflows/ci.yml`) runs on PRs and pushes to main:
+- **scan_ruby**: Runs Brakeman security scan
+- **lint**: Runs RuboCop style checks
+- **test**: Runs full test suite with PostgreSQL service container
+
+CI uses `bin/rails db:test:prepare test test:system` to run both unit and system tests.
 
 ## Architecture
 
@@ -286,10 +319,21 @@ resources :projects do
 
   get "structure", to: "structures#show"    # Kanban board
   get :fountain_export                      # Export to Fountain format
+  get :report                               # PDF report
 end
 ```
 
-Modal endpoints use `_modal` suffix (e.g., `edit_modal`, `new_modal`) to return Turbo Frame responses.
+**Key routing conventions**:
+- All resources nested under `/projects/:project_id`
+- Modal endpoints use `_modal` suffix (e.g., `edit_modal`, `new_modal`) to return Turbo Frame responses
+- Reordering actions: `move_left`, `move_right`, `move_to_act`, `move_to_sequence`
+- Report actions: `report` (single resource), `collection_report` (all resources)
+- Scenes support filtering: `by_location` action
+
+**Authentication routes**:
+- `GET /login`, `POST /login`, `DELETE /logout`
+- `GET /register`, `POST /register`
+- `GET /forgot-password`, `POST /forgot-password`, `GET /reset-password/:token`, `PATCH /reset-password/:token`
 
 ### Internationalization
 
@@ -303,9 +347,10 @@ The app supports Spanish (default) and English:
 ### Testing Patterns
 
 Tests use fixtures in `test/fixtures/` with helper methods in `test/test_helper.rb`:
-- Controller tests verify authentication and authorization
-- System tests use Capybara + Selenium WebDriver
-- Test sessions by setting `session[:session_id]` (see `Authentication` concern test mode)
+- **Parallel execution**: Tests run in parallel by default. Use `fixture_to_model(fixture, ModelClass)` to handle Hash fixtures
+- **Controller tests**: Verify authentication and authorization. Use `sign_in_as(user)` to authenticate
+- **System tests**: Use Capybara + Selenium WebDriver with Chrome
+- **Authentication**: Set `session[:session_id]` directly in integration tests (see `Authentication` concern)
 
 ### Database Migrations
 
@@ -320,16 +365,24 @@ Tests use fixtures in `test/fixtures/` with helper methods in `test/test_helper.
 2. Run migration: `rails db:migrate`
 3. Add to strong parameters in controller
 4. Update form views
+5. Add tests for new attribute
 
 **Adding a new Stimulus controller**:
 1. Create in `app/javascript/controllers/name_controller.js`
 2. Export in `app/javascript/controllers/index.js`
 3. Use in view: `data-controller="name"`
+4. Available targets: connect(), disconnect(), targets, values, classes
 
 **Working with Turbo Frames**:
 - Modal forms use `turbo_frame_tag` with matching IDs
 - Controllers respond with `turbo_stream` format for dynamic updates
 - Lazy-loaded frames use `src` attribute
+- Modal endpoints use `_modal` suffix (e.g., `edit_modal_project_scene_path`)
+
+**Debugging**:
+- `bin/dev` enables Ruby debug mode via `RUBY_DEBUG_OPEN=true`
+- Insert `debugger` in code to trigger breakpoint
+- System test screenshots saved to `tmp/screenshots/` on failure
 
 ### Deployment
 
