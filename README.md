@@ -1,77 +1,252 @@
-# 🎬 Dreamink
+# Dreamink
 
-> Sistema web de código abierto para gestión de estructura dramática en obras audiovisuales
+> Open-source web application for dramatic structure management in audiovisual works
 
-Dreamink es una aplicación web diseñada para ayudar a guionistas a organizar y estructurar sus obras audiovisuales antes de escribir el guión literario. Incluye gestión de tratamiento, estructura dramática (actos, secuencias, escenas), personajes, locaciones e ideas.
+Dreamink is a web application designed to help screenwriters organize and structure their audiovisual works before writing the literary script. It provides comprehensive tools for managing dramatic structure using a three-tier hierarchy (Acts, Sequences, Scenes) with a Kanban-style interface, along with character profiles, locations, and idea management.
 
-## ✨ Características
+## Features
 
-- 📝 Gestión completa del tratamiento (título, género, logline, sinopsis, etc.)
-- 🎭 Estructura dramática con tablero Kanban (actos → secuencias → escenas)
-- 👥 Fichas detalladas de personajes (características internas y externas)
-- 📍 Gestión de locaciones
-- 💡 Banco de ideas con etiquetas
-- 📄 Exportación a formato Fountain
-- 🔒 Sistema de autenticación simple y privado
+- Complete treatment management (title, genre, logline, synopsis, etc.)
+- Dramatic structure board with Kanban interface (Acts → Sequences → Scenes)
+- Detailed character profiles with internal and external traits
+- Location management (interior/exterior settings)
+- Ideas repository with tagging system
+- Export to Fountain screenplay format
+- PDF report generation
+- Multi-tenant authentication system
+- Drag-and-drop reordering with position-based organization
 
-## 🛠️ Tecnologías
+## Technology Stack
 
-- Ruby on Rails 8.0.3
+- **Backend**: Ruby on Rails 8.1.1, Ruby 3.4.6
+- **Database**: PostgreSQL 16
+- **Frontend**: Hotwire (Turbo + Stimulus), Tailwind CSS, ESbuild
+- **Key Libraries**: acts_as_list, Prawn (PDF), SortableJS (drag-and-drop)
+- **Deployment**: Kamal, Thruster, Docker
+- **Testing**: Minitest, Capybara, Selenium WebDriver
+
+## Quick Start
+
+### Prerequisites
+
+- Ruby 3.4+
+- Rails 8.1.1
 - PostgreSQL 16
-- Tailwind CSS
-- ESbuild
-- Hotwire (Turbo + Stimulus)
+- Node.js 22+
+- Docker or Podman (for PostgreSQL)
 
-## 🚀 Instalación
+### Installation
 
-### Requisitos previos
-
-- Ruby 3.x
-- Rails 8.0.3
-- PostgreSQL 16 (via Docker/Podman)
-- Node.js y Yarn
-
-### Configuración
-
-1. Clonar el repositorio:
+1. Clone the repository:
 
 ```bash
-git clone git@github.com:Dreamink-SNPP/dreamink-project.git
+git clone https://github.com/Dreamink-SNPP/dreamink-project.git
 cd dreamink-project
 ```
 
-2. Instalar dependencias:
+2. Install dependencies:
 
 ```bash
 bundle install
-yarn install
+npm install
 ```
 
-3. Configurar la base de datos:
+3. Set up the database:
+
+**Option A: Using Docker Compose (Recommended)**
 
 ```bash
-# Iniciar PostgreSQL con Podman
+# Create .env file with your database credentials
+cp .env.example .env  # Or create manually
+
+# Start PostgreSQL
+docker compose up -d
+
+# Create and migrate databases
+rails db:create
+rails db:migrate
+```
+
+**Option B: Using Podman/Docker manually**
+
+```bash
+# Start PostgreSQL 16 container
 podman run -d \
   --name dreamink_postgres \
-  -e POSTGRES_USER=dreamink_user \
-  -e POSTGRES_PASSWORD=dreamink_pass_2024 \
+  -e POSTGRES_USER=your_username \
+  -e POSTGRES_PASSWORD=your_password \
   -e POSTGRES_DB=dreamink_development \
   -p 5432:5432 \
   -v dreamink_postgres_data:/var/lib/postgresql/data \
   docker.io/postgres:16
 
-# Crear las bases de datos
+# Update .env file with credentials
+# DATABASE_USERNAME=your_username
+# DATABASE_PASSWORD=your_password
+# DATABASE_HOST=localhost
+# DATABASE_PORT=5432
+
+# Create and migrate databases
 rails db:create
-rails db:migrate  
+rails db:migrate
 ```
 
->[!WARNING]
-> Debes cambiar las variables de entorno de `POSTGRES_USER` y `POSTGRES_PASSWORD` a uno más adecuado a tu proyecto y necesidades.
-
-4. Iniciar el servidor:
+4. Start the development server:
 
 ```bash
 bin/dev
 ```
 
-5. Visitar: `http://localhost:3000`
+5. Visit http://localhost:3000
+
+## Development
+
+### Running Tests
+
+```bash
+# Run all tests
+rails test
+
+# Run specific test file
+rails test test/controllers/scenes_controller_test.rb
+
+# Run system tests
+rails test:system
+
+# Run full test suite (like CI)
+bin/rails db:test:prepare test test:system
+```
+
+### Code Quality
+
+```bash
+# Run RuboCop linter
+bin/rubocop
+
+# Run Brakeman security scanner
+bin/brakeman
+
+# Build JavaScript assets
+npm run build
+```
+
+### Common Commands
+
+```bash
+# Start development server (Rails + JS + CSS watchers)
+bin/dev
+
+# Database migrations
+rails db:migrate
+rails db:rollback
+
+# Rails console
+rails console
+
+# Database console
+rails dbconsole
+
+# Generate migration
+rails g migration AddFieldToModel field:type
+```
+
+## Architecture Overview
+
+### Data Model
+
+The application uses a strict three-tier hierarchy for dramatic structure:
+
+```
+Project (belongs to User)
+└── Acts (ordered by position)
+    └── Sequences (ordered by position within act)
+        └── Scenes (ordered by position within sequence)
+```
+
+Additional project resources:
+
+- **Characters**: Internal and external trait associations
+- **Locations**: Interior/exterior settings
+- **Ideas**: Tagged idea repository
+
+### Authentication
+
+Custom Rails 8-style authentication:
+
+- Session-based with signed cookies
+- Database-backed sessions with expiration
+- `Authentication` concern provides `current_user`, `require_authentication`
+- Multi-tenant isolation via `UserScoped` concern
+
+### Frontend
+
+- **Hotwire (Turbo + Stimulus)**: Modern SPA-like experience without complex JavaScript
+- **Tailwind CSS**: Utility-first styling with custom brand colors
+- **SortableJS**: Drag-and-drop functionality via Stimulus controllers
+- **Modal pattern**: Turbo Frame-based modals with `_modal` route suffix
+
+### Key Design Patterns
+
+- **Position-based ordering**: Uses `acts_as_list` gem for all hierarchical resources
+- **Denormalized references**: Scenes maintain `act_id` and `project_id` for performance
+- **UserScoped concern**: Ensures multi-tenant data isolation
+- **ProjectAuthorization**: Controller-level authorization enforcement
+
+## Contributing
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests (`rails test`)
+5. Run linter (`bin/rubocop`)
+6. Commit your changes (`git commit -m 'Add amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Open a Pull Request
+
+### Testing Guidelines
+
+- Write tests for all new features and bug fixes
+- Ensure all tests pass before submitting PR
+- Use fixtures with `fixture_to_model` helper for parallel tests
+- Controller tests must verify authentication and authorization
+- System tests should cover critical user workflows
+
+### Code Style
+
+- Follow RuboCop Rails Omakase style guide
+- Use `bin/rubocop -a` for auto-corrections
+- Security scanning with Brakeman must pass
+
+## Documentation
+
+- **CLAUDE.md**: Comprehensive guide for AI-assisted development
+- **docs/STYLE_GUIDE.md**: Visual design and component guidelines
+- **config/routes.rb**: Complete routing reference
+- **GitHub Actions**: CI/CD pipeline configuration in `.github/workflows/`
+
+## Deployment
+
+The application uses Kamal for deployment. Configuration is in `config/deploy.yml`.
+
+```bash
+# Deploy to production
+kamal deploy
+
+# View deployment status
+kamal app logs
+```
+
+## License
+
+This project is open source. See LICENSE file for details.
+
+## Support
+
+- Issues: https://github.com/Dreamink-SNPP/dreamink-project/issues
+- Discussions: https://github.com/Dreamink-SNPP/dreamink-project/discussions
+
+## Project Status
+
+Active development. See the [GitHub Projects](https://github.com/Dreamink-SNPP/dreamink-project/projects) for current roadmap and planned features.
