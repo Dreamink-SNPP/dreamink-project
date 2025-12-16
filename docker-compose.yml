@@ -1,4 +1,15 @@
+# Docker Compose for Dreamink Development Environment
+# Compatible with Docker Compose and Podman Compose
+# Works on Windows, Mac, and Linux
+#
+# Quick Start:
+#   docker compose up
+#   Visit http://localhost:3000
+#
+# For production/demo, use: docker compose -f docker-compose.prod.yml up
+
 services:
+  # PostgreSQL Database
   postgres:
     image: postgres:16
     container_name: dreamink_postgres
@@ -16,7 +27,90 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+    networks:
+      - dreamink
+
+  # Rails Web Server (with debugging enabled)
+  web:
+    image: ruby:3.4.6-slim
+    container_name: dreamink_web
+    working_dir: /rails
+    command: >
+      bash -c "
+        apt-get update -qq &&
+        apt-get install -y --no-install-recommends build-essential libpq-dev curl git nodejs npm postgresql-client &&
+        npm install -g npm@latest &&
+        gem install bundler &&
+        bundle check || bundle install &&
+        npm install &&
+        bin/rails db:prepare &&
+        env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
+      "
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-dreamink_user}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-dreamink_password}
+      DATABASE_PORT: 5432
+      RUBY_DEBUG_OPEN: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+      - node_modules:/rails/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    networks:
+      - dreamink
+
+  # JavaScript Build Watcher (esbuild)
+  js:
+    image: node:22-slim
+    container_name: dreamink_js
+    working_dir: /rails
+    command: npm run build -- --watch
+    volumes:
+      - .:/rails
+      - node_modules:/rails/node_modules
+    depends_on:
+      - web
+    restart: unless-stopped
+    networks:
+      - dreamink
+
+  # CSS Build Watcher (Tailwind)
+  css:
+    image: ruby:3.4.6-slim
+    container_name: dreamink_css
+    working_dir: /rails
+    command: >
+      bash -c "
+        gem install bundler &&
+        bundle check || bundle install &&
+        bin/rails tailwindcss:watch
+      "
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+    depends_on:
+      - web
+    restart: unless-stopped
+    networks:
+      - dreamink
+
+networks:
+  dreamink:
+    driver: bridge
 
 volumes:
   postgres_data:
+    driver: local
+  bundle_cache:
+    driver: local
+  node_modules:
     driver: local

@@ -1,0 +1,73 @@
+# Docker Compose for Dreamink Production/Demo Environment
+# Compatible with Docker Compose and Podman Compose
+# Works on Windows, Mac, and Linux
+#
+# Quick Start:
+#   docker compose -f docker-compose.prod.yml up --build
+#   Visit http://localhost:3000
+#
+# Note: This builds the production image from the Dockerfile
+#       For development with hot-reload, use: docker compose up
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16
+    container_name: dreamink_postgres_prod
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME:-dreamink_user}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-dreamink_password}
+      POSTGRES_DB: dreamink_production
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-dreamink_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - dreamink_prod
+
+  # Rails Application (Production Build)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RUBY_VERSION: 3.4.6
+        NODE_VERSION: 22.19.0
+    container_name: dreamink_web_prod
+    environment:
+      RAILS_ENV: production
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-dreamink_user}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-dreamink_password}
+      DATABASE_NAME: dreamink_production
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(openssl rand -hex 64)}
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "enabled"
+    ports:
+      - "3000:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - dreamink_prod
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  dreamink_prod:
+    driver: bridge
+
+volumes:
+  postgres_prod_data:
+    driver: local
