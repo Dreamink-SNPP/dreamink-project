@@ -20,11 +20,12 @@ Dreamink is a web application for screenwriters to organize and structure audiov
 ## Prerequisites
 
 - **Ruby**: 3.4+ (project uses 3.4.6)
+  - Recommended: Use `rbenv` for Ruby version management
 - **Rails**: 8.1.1
 - **Node.js**: 22+ (project uses 22.19.0)
 - **PostgreSQL**: 16
 - **Podman or Docker**: For running PostgreSQL container
-- **Bundler**: `gem install bundler`
+- **Bundler**: `gem install bundler` (or installed via `bundle install`)
 - **Foreman**: Installed automatically by `bin/dev`
 
 ## Initial Setup
@@ -34,24 +35,36 @@ Dreamink is a web application for screenwriters to organize and structure audiov
 git clone https://github.com/Dreamink-SNPP/dreamink-project.git
 cd dreamink-project
 
-# 2. Install dependencies
+# 2. Install Ruby (if using rbenv)
+# The project uses Ruby 3.4.6 (specified in .ruby-version)
+# If you don't have it installed:
+rbenv install 3.4.6
+rbenv rehash
+
+# Verify Ruby version
+ruby --version  # Should show: ruby 3.4.6
+
+# 3. Install dependencies
 bundle install
 npm install
 
-# 3. Set up database (see Database Setup section below)
+# Important: If using rbenv, rehash after installing gems with executables
+rbenv rehash
 
-# 4. Create .env file with database credentials
+# 4. Set up database (see Database Setup section below)
+
+# 5. Create .env file with database credentials
 # Copy .env.example if available, or create .env with:
 # DATABASE_USERNAME=your_username
 # DATABASE_PASSWORD=your_password
 # DATABASE_HOST=localhost
 # DATABASE_PORT=5432
 
-# 5. Create and migrate database
+# 6. Create and migrate database
 rails db:create
 rails db:migrate
 
-# 6. Start the development server
+# 7. Start the development server
 bin/dev
 ```
 
@@ -383,6 +396,11 @@ Tests use fixtures in `test/fixtures/` with helper methods in `test/test_helper.
 - `bin/dev` enables Ruby debug mode via `RUBY_DEBUG_OPEN=true`
 - Insert `debugger` in code to trigger breakpoint
 - System test screenshots saved to `tmp/screenshots/` on failure
+
+**Troubleshooting**:
+- **"command not found" for gem executables** (foreman, rubocop, etc.): Run `rbenv rehash` after installing new gems
+- **Ruby version mismatch**: Ensure `ruby --version` matches `.ruby-version` file (3.4.6)
+- **Database connection errors**: Verify PostgreSQL is running with `docker compose ps` and credentials in `.env` are correct
 
 ### Deployment
 
