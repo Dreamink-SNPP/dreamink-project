@@ -20,13 +20,73 @@ Dreamink is a web application for screenwriters to organize and structure audiov
 ## Prerequisites
 
 - **Ruby**: 3.4+ (project uses 3.4.6)
-  - Recommended: Use `rbenv` for Ruby version management
+  - Recommended: Use `rbenv` for Ruby version management (Linux/macOS)
 - **Rails**: 8.1.1
 - **Node.js**: 22+ (project uses 22.19.0)
 - **PostgreSQL**: 16
 - **Podman or Docker**: For running PostgreSQL container
 - **Bundler**: `gem install bundler` (or installed via `bundle install`)
 - **Foreman**: Installed automatically by `bin/dev`
+
+### Windows Users
+
+This project uses Unix-style tools and scripts. Windows users have two options:
+
+#### Option 1: WSL2 (Recommended)
+
+Use Windows Subsystem for Linux for the best compatibility:
+
+```powershell
+# In PowerShell (Administrator)
+wsl --install
+```
+
+After installation:
+1. Restart your computer
+2. Open Ubuntu (installed with WSL2)
+3. Install Docker Desktop for Windows with WSL2 backend enabled
+4. Follow all setup instructions in your WSL2 Ubuntu environment
+5. The `bin/dev` script and all Unix commands will work natively
+
+**Benefits**: Full compatibility, native Linux environment, all documentation applies directly.
+
+#### Option 2: Native Windows
+
+If you prefer native Windows without WSL2:
+
+**Ruby Installation**:
+- Use [RubyInstaller for Windows](https://rubyinstaller.org/) instead of `rbenv`
+- Download Ruby 3.4.6 installer (with DevKit)
+- Verify: `ruby --version` should show `ruby 3.4.6`
+
+**Node.js Installation**:
+- Download from [nodejs.org](https://nodejs.org/)
+- Verify: `node --version` should show `v22.x`
+
+**PostgreSQL**:
+- Use Docker Desktop for Windows (recommended)
+- Or install PostgreSQL 16 natively from [postgresql.org](https://www.postgresql.org/download/windows/)
+
+**Running the Development Server**:
+The `bin/dev` script is a Unix shell script. Use one of these alternatives:
+
+```powershell
+# Option A: Use the provided Windows batch script (CMD)
+bin\dev.bat
+
+# Option B: Use the provided PowerShell script
+bin\dev.ps1
+
+# Option C: Run foreman directly
+gem install foreman
+foreman start -f Procfile.dev
+```
+
+**Important Notes for Native Windows**:
+- Use backslashes `\` for paths: `bin\dev.bat` instead of `bin/dev`
+- Replace `export VAR=value` with `set VAR=value` (CMD) or `$env:VAR="value"` (PowerShell)
+- Multi-line commands with `\` won't work; combine into single lines or use `^` (CMD) or `` ` `` (PowerShell)
+- `rbenv rehash` is not needed (RubyInstaller doesn't use it)
 
 ## Initial Setup
 

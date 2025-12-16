@@ -35,6 +35,8 @@ Dreamink is a web application designed to help screenwriters organize and struct
 - Node.js 22+
 - Docker or Podman (for PostgreSQL)
 
+**Windows Users**: See the Windows-specific setup instructions in [CLAUDE.md](CLAUDE.md#windows-users). We recommend using WSL2 for the best experience.
+
 ### Installation
 
 1. Clone the repository:
