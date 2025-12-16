@@ -30,6 +30,9 @@ Dreamink is a web application for screenwriters to organize and structure audiov
 
 ### Windows Users
 
+> [!CAUTION]
+> The Windows setup instructions and scripts (`bin/dev.bat`, `bin/dev.ps1`) have not been tested on actual Windows systems yet. We welcome feedback and bug reports from Windows users to help improve this documentation.
+
 This project uses Unix-style tools and scripts. Windows users have two options:
 
 #### Option 1: WSL2 (Recommended)

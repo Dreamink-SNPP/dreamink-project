@@ -35,8 +35,6 @@ Dreamink is a web application designed to help screenwriters organize and struct
 - Node.js 22+
 - Docker or Podman (for PostgreSQL)
 
-**Windows Users**: See the Windows-specific setup instructions in [CLAUDE.md](CLAUDE.md#windows-users). We recommend using WSL2 for the best experience.
-
 ### Installation
 
 1. Clone the repository:
@@ -151,6 +149,74 @@ rails dbconsole
 # Generate migration
 rails g migration AddFieldToModel field:type
 ```
+
+## Windows Setup
+
+> [!CAUTION]
+> The Windows setup instructions and scripts have not been tested on actual Windows systems yet. We welcome feedback and bug reports from Windows users to help improve this documentation.
+
+This project is primarily developed on Unix-like systems (Linux/macOS). Windows users have two options for running Dreamink:
+
+### Option 1: WSL2 (Recommended)
+
+Windows Subsystem for Linux provides the best compatibility and experience:
+
+**Setup WSL2:**
+
+```powershell
+# In PowerShell (run as Administrator)
+wsl --install
+```
+
+**After installation:**
+1. Restart your computer
+2. Open Ubuntu from the Start menu
+3. Install Docker Desktop for Windows with WSL2 backend enabled
+4. Clone the repository inside WSL2 (in your Ubuntu home directory)
+5. Follow all standard Linux installation instructions above
+6. Access the app at `http://localhost:3000` from your Windows browser
+
+**Benefits**: Full compatibility, all Unix commands work natively, access to Linux tools, Docker integration.
+
+### Option 2: Native Windows
+
+If you prefer to run directly on Windows without WSL2:
+
+**Prerequisites for Windows:**
+
+1. **Ruby**: Install [RubyInstaller for Windows](https://rubyinstaller.org/) (version 3.4.6 with DevKit)
+2. **Node.js**: Install from [nodejs.org](https://nodejs.org/) (version 22+)
+3. **PostgreSQL**: Use Docker Desktop for Windows OR install [PostgreSQL 16 for Windows](https://www.postgresql.org/download/windows/)
+4. **Git**: Install [Git for Windows](https://git-scm.com/download/win)
+
+**Running the Development Server:**
+
+The standard `bin/dev` script is a Unix shell script. Use one of these Windows alternatives:
+
+```powershell
+# Command Prompt (CMD)
+bin\dev.bat
+
+# PowerShell
+.\bin\dev.ps1
+
+# Or run foreman directly
+gem install foreman
+foreman start -f Procfile.dev
+```
+
+**Important Windows Notes:**
+- Use backslashes `\` for paths: `bin\dev.bat` instead of `bin/dev`
+- Some Unix commands in the documentation may need Windows equivalents
+- The `rbenv rehash` command is not needed (RubyInstaller doesn't use rbenv)
+- For detailed Windows setup instructions, see [CLAUDE.md - Windows Users](CLAUDE.md#windows-users)
+
+**Known Limitations:**
+- System tests may require additional ChromeDriver setup for Windows
+- Some development tools may behave differently on Windows
+- File path case sensitivity differs (Windows is case-insensitive)
+
+**We Need Your Help**: If you're a Windows user, please test the setup and report any issues or improvements via [GitHub Issues](https://github.com/Dreamink-SNPP/dreamink-project/issues).
 
 ## Architecture Overview
 
