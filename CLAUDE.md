@@ -93,6 +93,25 @@ foreman start -f Procfile.dev
 
 ## Initial Setup
 
+### Quick Start with Docker Compose (Recommended)
+
+For the fastest setup with no manual configuration:
+
+```bash
+# Clone the repository
+git clone https://github.com/Dreamink-SNPP/dreamink-project.git
+cd dreamink-project
+
+# Start everything (production mode - one command!)
+docker compose -f docker-compose.prod.yml up --build -d
+
+# Visit http://localhost:3000
+```
+
+This automatically handles PostgreSQL, Ruby, Rails, Node.js, dependencies, migrations, and asset compilation. See [DOCKER.md](DOCKER.md) for complete documentation.
+
+### Manual Setup (For Local Development)
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Dreamink-SNPP/dreamink-project.git
@@ -419,6 +438,38 @@ end
 - `GET /register`, `POST /register`
 - `GET /forgot-password`, `POST /forgot-password`, `GET /reset-password/:token`, `PATCH /reset-password/:token`
 
+### Production Configuration
+
+**SSL/HTTPS Settings** (`config/environments/production.rb:28-32`):
+
+```ruby
+# SSL is configurable via environment variables
+config.assume_ssl = ENV.fetch("RAILS_ASSUME_SSL", "true") == "true"
+config.force_ssl = ENV.fetch("RAILS_FORCE_SSL", "true") == "true"
+```
+
+**Default behavior:**
+- **Kamal/public deployment:** SSL enabled by default (`RAILS_FORCE_SSL=true`)
+- **Docker Compose local/LAN:** SSL disabled (`RAILS_FORCE_SSL=false`) for ease of use
+
+**Database configuration** (`config/database.yml:89-106`):
+
+Production uses multi-database setup with Solid Suite:
+- `dreamink_production` - Primary database
+- `dreamink_production_cache` - Solid Cache
+- `dreamink_production_queue` - Solid Queue
+- `dreamink_production_cable` - Solid Cable
+
+**Important environment variables:**
+- `DREAMINK_DATABASE_PASSWORD` - Production database password (note: not `DATABASE_PASSWORD`)
+- `DATABASE_USERNAME` - Database username
+- `DATABASE_HOST` - Database host
+- `SECRET_KEY_BASE` - Rails secret key (required for production)
+- `RAILS_FORCE_SSL` - Enable/disable HTTPS enforcement (default: true)
+- `RAILS_ASSUME_SSL` - Assume SSL termination proxy (default: true)
+- `RAILS_SERVE_STATIC_FILES` - Serve static assets via Rails (needed for Docker)
+- `RAILS_LOG_TO_STDOUT` - Send logs to stdout (for Docker/Kamal)
+
 ### Internationalization
 
 The app supports Spanish (default) and English:
@@ -473,6 +524,72 @@ Tests use fixtures in `test/fixtures/` with helper methods in `test/test_helper.
 - **Ruby version mismatch**: Ensure `ruby --version` matches `.ruby-version` file (3.4.6)
 - **Database connection errors**: Verify PostgreSQL is running with `docker compose ps` and credentials in `.env` are correct
 
-### Deployment
+### Docker Compose Deployment
 
-Uses Kamal for deployment (config in `config/deploy.yml`). Dockerfile provided for containerization.
+The project includes two Docker Compose configurations for different use cases:
+
+#### Development Mode (`docker-compose.yml`)
+```bash
+# Start all services (Postgres + Rails + JS/CSS watchers)
+docker compose up
+
+# Access at http://localhost:3000
+```
+
+Features:
+- Live code reloading (volume-mounted source)
+- Asset watchers (JavaScript and Tailwind CSS)
+- Debugging enabled (`RUBY_DEBUG_OPEN=true`)
+- Cached dependencies for faster restarts
+
+#### Production/Demo Mode (`docker-compose.prod.yml`)
+```bash
+# Build and start production-optimized setup
+docker compose -f docker-compose.prod.yml up --build -d
+
+# Access at http://localhost:3000
+```
+
+Features:
+- Multi-stage Docker build (optimized image size)
+- Precompiled assets
+- Production Puma server with Thruster HTTP proxy
+- Auto-creates databases and runs migrations
+- **Configured for HTTP by default** (suitable for local/LAN deployment)
+
+**Important Environment Variables (Production):**
+- `RAILS_ENV=production` - Rails environment
+- `RAILS_FORCE_SSL=false` - Disable HTTPS redirect (default for local/LAN use)
+- `RAILS_ASSUME_SSL=false` - Don't assume SSL termination
+- `DREAMINK_DATABASE_PASSWORD` - Database password (note: different from `DATABASE_PASSWORD`)
+- `SECRET_KEY_BASE` - Rails secret key (auto-generated if not provided)
+
+> [!NOTE]
+> The production Docker Compose setup uses HTTP (not HTTPS) by default. This is intentional for ease of use on local computers and LANs. For public internet deployment with SSL, use Kamal or configure SSL certificates manually.
+
+**Known Issues Fixed:**
+1. Dockerfile updated to use npm (was: yarn) - matches project's package manager
+2. Database password environment variable aligned (`DREAMINK_DATABASE_PASSWORD`)
+3. SSL force redirect made configurable via environment variables
+
+For complete Docker documentation, see [DOCKER.md](DOCKER.md).
+
+### Kamal Deployment
+
+Uses Kamal for production deployment to public internet (config in `config/deploy.yml`).
+
+**For public deployment with SSL:**
+1. Configure domain name in `config/deploy.yml`
+2. Kamal handles Let's Encrypt SSL certificates automatically
+3. Set `RAILS_FORCE_SSL=true` in production environment
+4. Thruster provides HTTP/2 and caching
+
+```bash
+# Deploy to production
+kamal deploy
+
+# View deployment status
+kamal app logs
+```
+
+Dockerfile provided for containerization with multi-stage builds optimized for production.

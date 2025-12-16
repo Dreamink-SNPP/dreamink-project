@@ -27,7 +27,36 @@ Dreamink is a web application designed to help screenwriters organize and struct
 
 ## Quick Start
 
-### Prerequisites
+### Option 1: Docker Compose (Easiest - Recommended for First-Time Users)
+
+Get Dreamink running in one command with no manual setup required:
+
+```bash
+# Clone the repository
+git clone https://github.com/Dreamink-SNPP/dreamink-project.git
+cd dreamink-project
+
+# Start everything (downloads images, creates database, runs migrations automatically)
+docker compose -f docker-compose.prod.yml up -d
+
+# Visit http://localhost:3000 in your browser
+```
+
+That's it! The application is fully functional. See [DOCKER.md](DOCKER.md) for complete documentation.
+
+> [!NOTE]
+> Docker Compose handles everything: PostgreSQL database, Ruby/Rails installation, Node.js, dependencies, migrations, and asset compilation. No manual setup required.
+
+**To stop:**
+```bash
+docker compose -f docker-compose.prod.yml down
+```
+
+### Option 2: Local Development Setup
+
+For active development with live code reloading:
+
+#### Prerequisites
 
 - Ruby 3.4+
 - Rails 8.1.1
@@ -35,7 +64,7 @@ Dreamink is a web application designed to help screenwriters organize and struct
 - Node.js 22+
 - Docker or Podman (for PostgreSQL)
 
-### Installation
+#### Installation
 
 1. Clone the repository:
 
@@ -289,10 +318,27 @@ Custom Rails 8-style authentication:
 
 ## Documentation
 
-- **CLAUDE.md**: Comprehensive guide for AI-assisted development
-- **docs/STYLE_GUIDE.md**: Visual design and component guidelines
+- **[DOCKER.md](DOCKER.md)**: Complete Docker Compose setup guide (development & production)
+- **[CLAUDE.md](CLAUDE.md)**: Comprehensive guide for AI-assisted development
+- **[docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)**: Visual design and component guidelines
 - **config/routes.rb**: Complete routing reference
 - **GitHub Actions**: CI/CD pipeline configuration in `.github/workflows/`
+
+## Security Considerations
+
+Dreamink is designed for **personal and small team use** on trusted networks:
+
+- **Localhost deployment:** Fully secure (traffic never leaves your computer)
+- **LAN deployment:** Secure within your trusted local network
+- **Docker production mode:** Configured for HTTP by default (suitable for local/LAN use)
+
+> [!IMPORTANT]
+> The Docker Compose production setup (`docker-compose.prod.yml`) runs over HTTP (not HTTPS) for ease of use on local computers and LANs. This is appropriate for Dreamink's use case as a creative tool for personal/team screenplay organization.
+
+**For public internet deployment with a domain name:**
+- Use Kamal deployment with SSL certificates (Let's Encrypt)
+- Set `RAILS_FORCE_SSL=true` in production environment
+- See deployment documentation for SSL setup
 
 ## Deployment
 

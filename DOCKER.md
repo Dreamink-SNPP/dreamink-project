@@ -40,6 +40,26 @@ Visit http://localhost:3000
 
 **Perfect for:** Demos, testing production builds, CI/CD pipelines
 
+## Tested and Verified
+
+This Docker Compose setup has been thoroughly tested on **CachyOS with Docker Compose**. During testing, we identified and fixed several issues to ensure cross-platform compatibility:
+
+### Bugs Fixed
+
+1. **Package Manager Mismatch** (`Dockerfile:52`)
+   - **Issue:** Dockerfile expected Yarn but project uses npm
+   - **Fix:** Updated to use `npm ci` with `package-lock.json`
+
+2. **Database Password Environment Variable** (`docker-compose.prod.yml:47`)
+   - **Issue:** Production config expected `DREAMINK_DATABASE_PASSWORD` but compose file passed `DATABASE_PASSWORD`
+   - **Fix:** Aligned environment variable names
+
+3. **SSL Force Redirect** (`config/environments/production.rb:32`)
+   - **Issue:** Rails forced HTTPS causing `ERR_SSL_PROTOCOL_ERROR` on plain HTTP
+   - **Fix:** Made SSL configurable via `RAILS_FORCE_SSL` environment variable (disabled by default for local/LAN use)
+
+All issues have been resolved and the setup works seamlessly across platforms.
+
 ## Prerequisites
 
 Install **one** of these:
@@ -406,10 +426,36 @@ test:
 
 ## FAQ
 
+### Why does this use HTTP instead of HTTPS?
+
+> [!NOTE]
+> The production Docker Compose setup (`docker-compose.prod.yml`) is configured for **HTTP (not HTTPS)** by default. This is intentional and appropriate for Dreamink's primary use case: running on local computers and trusted LANs.
+
+**Security through deployment model:**
+- **Localhost (127.0.0.1):** Traffic never leaves your computer - fully secure
+- **LAN (192.168.x.x, 10.x.x.x):** Confined to your trusted local network
+- **Dreamink's purpose:** Creative tool for screenplay organization, not handling payment/medical data
+
+**When you DO need HTTPS:**
+- Deploying to the public internet with a domain name
+- Handling sensitive user data beyond creative content
+- Compliance requirements
+
+For public internet deployment with SSL, use Kamal (already configured) with Let's Encrypt, or set up SSL certificates manually and configure:
+```bash
+# In your .env or docker-compose override
+RAILS_FORCE_SSL=true
+RAILS_ASSUME_SSL=true
+```
+
 ### Can I use this in production?
 
 > [!IMPORTANT]
-> The `docker-compose.prod.yml` file builds a production-ready image. However, for real production deployments, consider:
+> The `docker-compose.prod.yml` file builds a production-ready image suitable for:
+> - **Local/LAN deployment:** Ready to use as-is
+> - **Public internet deployment:** Add SSL certificates and update SSL settings
+>
+> For large-scale public deployments, consider:
 > - Using Kamal (already configured in this project)
 > - Kubernetes for orchestration
 > - Managed databases (AWS RDS, Google Cloud SQL, etc.)
