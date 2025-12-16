@@ -44,7 +44,7 @@ services:
       RAILS_ENV: production
       DATABASE_HOST: postgres
       DATABASE_USERNAME: ${DATABASE_USERNAME:-dreamink_user}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-dreamink_password}
+      DREAMINK_DATABASE_PASSWORD: ${DATABASE_PASSWORD:-dreamink_password}
       DATABASE_NAME: dreamink_production
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(openssl rand -hex 64)}
       RAILS_SERVE_STATIC_FILES: "true"
