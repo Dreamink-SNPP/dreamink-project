@@ -310,6 +310,14 @@ Frontend uses `sortable_controller.js` (Stimulus) with SortableJS library.
 - Use `bg-primary`, `text-primary`, `hover:bg-secondary-dark`
 - Custom shades: `primary-50` through `primary-900`
 
+**Assets and Branding**:
+- **Logo**: `app/assets/images/dreamink-logo.svg` - Main Dreamink logo used throughout the application
+- **Favicon**: `public/icon.svg` and `public/icon.png` - Browser tab icons
+- Logo appears in:
+  - Navbar (`app/views/shared/_navbar.html.erb`) - 32px height
+  - Authentication pages (login, registration, forgot password) - 64px height
+- Use `<%= image_tag "dreamink-logo.svg", alt: "Dreamink", class: "h-8 w-auto" %>` pattern for displaying the logo
+
 **Build Process**: ESbuild bundles JavaScript from `app/javascript/` to `app/assets/builds/`
 
 ### Service Objects
