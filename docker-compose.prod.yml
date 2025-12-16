@@ -49,6 +49,8 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-$(openssl rand -hex 64)}
       RAILS_SERVE_STATIC_FILES: "true"
       RAILS_LOG_TO_STDOUT: "enabled"
+      RAILS_FORCE_SSL: "false"
+      RAILS_ASSUME_SSL: "false"
     ports:
       - "3000:80"
     depends_on:
