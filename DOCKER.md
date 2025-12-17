@@ -79,22 +79,32 @@ Install **one** of these:
    cd dreamink-project
    ```
 
-2. **(Optional) Configure environment variables:**
+2. **Create environment file (IMPORTANT for Production Mode):**
 
-   Create a `.env` file or use the defaults:
+   > [!IMPORTANT]
+   > For production mode (`docker-compose.prod.yml`), you should create a `.env` file to ensure consistent database configuration.
+
    ```bash
-   # Defaults work out of the box!
+   # Copy the example file
+   cp .env.docker.example .env
+
+   # Or create .env manually with these values:
    DATABASE_USERNAME=dreamink_user
    DATABASE_PASSWORD=dreamink_password
    DATABASE_PORT=5432
+   RAILS_FORCE_SSL=false
+   RAILS_ASSUME_SSL=false
    ```
+
+   > [!NOTE]
+   > Development mode (`docker-compose.yml`) works without a `.env` file, but production mode requires it to prevent database connection issues.
 
 3. **Start the application:**
    ```bash
-   # Development mode
+   # Development mode (no .env required)
    docker compose up
 
-   # Or production mode
+   # Production mode (requires .env file)
    docker compose -f docker-compose.prod.yml up --build
    ```
 
@@ -176,6 +186,34 @@ docker compose -f docker-compose.prod.yml exec web bin/rails console
 
 > [!NOTE]
 > Docker/Podman handles Windows paths automatically. Use forward slashes in commands: `docker compose -f docker-compose.prod.yml up`
+
+**Windows-Specific Setup Steps:**
+
+```powershell
+# 1. Ensure Docker Desktop is running (check system tray for green icon)
+
+# 2. Navigate to project directory
+cd C:\Users\YourUsername\Downloads\dreamink-project
+
+# 3. Create .env file (IMPORTANT - prevents database errors)
+# PowerShell:
+Copy-Item .env.docker.example .env
+
+# Or create manually with these contents:
+# DATABASE_USERNAME=dreamink_user
+# DATABASE_PASSWORD=dreamink_password
+# DATABASE_PORT=5432
+# RAILS_FORCE_SSL=false
+# RAILS_ASSUME_SSL=false
+
+# 4. Start Docker Compose
+docker compose -f docker-compose.prod.yml up --build
+
+# 5. Access at http://localhost:3000
+```
+
+> [!WARNING]
+> If you see `FATAL: database "dreamink_user" does not exist` in the logs, you forgot to create the `.env` file. Stop the containers with `Ctrl+C`, create the `.env` file, then run `docker compose -f docker-compose.prod.yml down -v` and start again.
 
 #### macOS
 
@@ -300,6 +338,37 @@ docker compose logs postgres
 
 # Ensure DATABASE_HOST=postgres in container (not localhost)
 ```
+
+### Database Does Not Exist (Production Mode)
+
+**Error:** `FATAL: database "dreamink_user" does not exist` (in PostgreSQL logs)
+
+**Cause:** Missing or misconfigured `.env` file for production mode.
+
+**Solution:**
+
+> [!IMPORTANT]
+> This error occurs when running production mode without a `.env` file. The database credentials must be consistent between the PostgreSQL and Rails containers.
+
+```bash
+# 1. Stop all containers
+docker compose -f docker-compose.prod.yml down -v
+
+# 2. Create .env file from example
+cp .env.docker.example .env
+
+# 3. Verify .env contents (should have these variables)
+cat .env
+# DATABASE_USERNAME=dreamink_user
+# DATABASE_PASSWORD=dreamink_password
+# RAILS_FORCE_SSL=false
+# RAILS_ASSUME_SSL=false
+
+# 4. Start fresh (the -v flag removed old database volumes)
+docker compose -f docker-compose.prod.yml up --build
+```
+
+**Why this happens:** Without a `.env` file, environment variable defaults may not be properly shared between services, causing database name mismatches.
 
 ### Slow Startup (First Time)
 

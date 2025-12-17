@@ -36,6 +36,9 @@ Get Dreamink running in one command with no manual setup required:
 git clone https://github.com/Dreamink-SNPP/dreamink-project.git
 cd dreamink-project
 
+# Create environment file (prevents database connection issues)
+cp .env.docker.example .env
+
 # Start everything (downloads images, creates database, runs migrations automatically)
 docker compose -f docker-compose.prod.yml up -d
 

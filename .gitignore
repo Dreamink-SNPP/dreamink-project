@@ -9,6 +9,8 @@
 
 # Ignore all environment files.
 /.env*
+# But keep the example template for Docker users
+!/.env.docker.example
 
 # Ignore all logfiles and tempfiles.
 /log/*
